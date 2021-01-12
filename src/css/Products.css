@@ -1,0 +1,22 @@
+.jumbotron {
+  background-color: #f0f0e9 !important;
+}
+
+#jumbo-row {
+  margin-left: 3rem;
+}
+
+#image-hero {
+  top: 90px;
+  height: 500px;
+  width: 380px;
+}
+#image-hero2 {
+  top: 90px;
+  height: 500px;
+  width: 380px;
+}
+
+#jumbo-text {
+  padding-top: 7rem;
+}
