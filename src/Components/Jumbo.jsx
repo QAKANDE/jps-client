@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import "../css/Products.css"
+import "../css/Jumbo.css"
 import { Carousel , Container , Jumbotron , Button , Row , Col} from "react-bootstrap"
 import hero1 from "../assets/hero1.png"
 import hero2 from "../assets/hero2.png"

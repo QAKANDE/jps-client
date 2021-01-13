@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import NavSocialMedia from "./NavSocialMedia"
 import Jumbo from "./Jumbo"
+import Products from "./Products"
 
 class Home extends Component {
     state = {  }
     render() { 
         return ( 
             <div>
-                <NavSocialMedia />
-                <Jumbo/>
+               
+                {/* <Jumbo /> */}
+                <Products/>
             </div>
          );
     }

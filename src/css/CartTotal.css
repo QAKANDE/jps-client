@@ -1,0 +1,16 @@
+.cart-total {
+  border: 1px solid #f7f7f5;
+  overflow: hidden;
+  margin-bottom: 30px;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+
+.total-items {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+#subtotal {
+  background-color: black;
+}
