@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "../css/Products.css"
 import { Row, Col, Container , CardDeck , Card , Accordion , Button} from "react-bootstrap"
 import hero2 from "../assets/hero2.png"
+import BottomProducts from "../Components/BottomProducts"
 
 class Products extends Component {
     state = { 
@@ -32,9 +33,9 @@ class Products extends Component {
                     productId: id,
                     quantity : this.state.quantity,
                     name: productName,
-                    price: parseInt(productPrice)
+                    price: parseInt(productPrice),
+                    userId : localStorage["guestToken"]
                 }
-                console.log(productDetails)
                 let response = await fetch(`http://localhost:3001/cart/check-out-as-guest`,
                     {
                         method: "POST",
@@ -130,7 +131,8 @@ class Products extends Component {
 								</div>
 							</div>
                             })}
-                            </CardDeck>
+                        </CardDeck>
+                        <BottomProducts/>
                     </Col>
                 </Row>
             </Container>

@@ -16,8 +16,8 @@ class NavSocialMedia extends Component {
 					<div className="col-sm-6">
 						<div className="contactinfo">
 							<ul className="nav nav-pills">
-								<li><a href="#"><i className="fa fa-phone"></i> +2 95 01 88 821</a></li>
-								<li><a href="#"><i className="fa fa-envelope"></i> info@domain.com</a></li>
+								<li><a href="#"><i className="fa fa-phone"></i> +44 75 01 88 821</a></li>
+								<li><a href="#"><i className="fa fa-envelope"></i> info@johnpaulstephen.com</a></li>
 							</ul>
 						</div>
 					</div>
@@ -51,6 +51,7 @@ class NavSocialMedia extends Component {
 								<li><a href="checkout.html"><i className="fa fa-crosshairs"></i> Checkout</a></li>
 										<li>
 											<Link to={"/cart"}><i className="fa fa-shopping-cart"></i> Cart</Link></li>
+										 <span className='badge badge-warning' id='lblCartCount'> 0 </span>
 								<li><a href="login.html"><i className="fa fa-lock"></i> Login</a></li> 
                                     </ul>
                                  </div>

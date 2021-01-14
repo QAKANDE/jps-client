@@ -3,6 +3,13 @@ import "../css/CartTotal.css"
 
 class CartTotal extends Component {
     state = { 
+        checkOut : false
+    }
+
+    displayCheckOut = () => {
+        this.setState({
+            checkOut : true
+        })
     }
     
     render() { 
@@ -24,7 +31,10 @@ class CartTotal extends Component {
                     <div className="d-flex justify-content-between total-items">
                         <p>Total</p>
                         <p>£ {this.props.finalTotal}</p>
-                   </div>
+                    </div>
+                    <button onClick = {this.props.action}>
+                        CheckOut
+                    </button>
                 </div>
                 
             </>

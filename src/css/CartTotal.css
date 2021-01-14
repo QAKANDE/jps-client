@@ -4,11 +4,12 @@
   margin-bottom: 30px;
   padding-bottom: 2rem;
   padding-top: 2rem;
+  margin-top: 8rem;
 }
 
 .total-items {
-  padding-left: 4rem;
-  padding-right: 4rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 #subtotal {

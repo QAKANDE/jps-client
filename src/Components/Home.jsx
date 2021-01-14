@@ -3,12 +3,29 @@ import Jumbo from "./Jumbo"
 import Products from "./Products"
 
 class Home extends Component {
-    state = {  }
+    state = {
+        guestToken : ""
+    }
+    
+    componentDidMount = async () => {
+        if (!localStorage["userId"]) {
+            const guestResponse = await fetch("http://localhost:3001/cart/guest/guest-token", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            const guestToken = await guestResponse.json()
+            this.setState({
+                guestToken
+            })
+        }
+       localStorage["guestToken" ] = this.state.guestToken
+    }
     render() { 
         return ( 
-            <div>
-               
-                {/* <Jumbo /> */}
+            <div>             
+                <Jumbo />
                 <Products/>
             </div>
          );
