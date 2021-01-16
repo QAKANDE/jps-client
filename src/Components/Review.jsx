@@ -150,6 +150,8 @@ class Reviews extends Component {
                 <BeautyStars
                   value={this.state.value}
                   onChange={(value) => this.setState({ value })}
+                  size={"20px"}
+                  activeColor={"#fe980f"}
                 />
                 <button onClick={(e) => this.postReview(e)}>
                   Submit Review

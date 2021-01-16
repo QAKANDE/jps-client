@@ -168,7 +168,7 @@ class Products extends Component {
                 );
               })}
             </CardDeck>
-            <BottomProducts />
+            {/* <BottomProducts /> */}
           </Col>
         </Row>
       </Container>

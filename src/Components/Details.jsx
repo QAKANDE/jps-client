@@ -9,6 +9,9 @@ class Details extends Component {
   state = {
     details: {},
     id: "",
+    quantity: 1,
+    alert: false,
+    errorAlert: false,
   };
 
   componentDidMount = async () => {
@@ -24,7 +27,60 @@ class Details extends Component {
       details,
       id: productId,
     });
-      this.getReviews()
+    this.getReviews();
+  };
+
+  addCart = async (id, productName, productPrice) => {
+    try {
+      if (!localStorage["userId"]) {
+        const productDetails = {
+          productId: id,
+          quantity: this.state.quantity,
+          name: productName,
+          price: parseInt(productPrice),
+          userId: localStorage["guestToken"],
+        };
+        let response = await fetch(
+          `http://localhost:3001/cart/check-out-as-guest`,
+          {
+            method: "POST",
+            body: JSON.stringify(productDetails),
+            headers: {
+              "Content-Type": "Application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          alert("success");
+          const response = await fetch(
+            `http://localhost:3001/cart/${localStorage["guestToken"]}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-type": "application/json",
+              },
+            }
+          );
+          const cart = await response.json();
+          this.props.secondAction(cart.totalItems);
+          // this.setState({ alert: true })
+          // setTimeout(() => {
+          //     this.setState({
+          //         alert: false
+          //     });
+          // }, 1200);
+        } else {
+          this.setState({ errorAlert: true });
+          setTimeout(() => {
+            this.setState({
+              errorAlert: false,
+            });
+          }, 1200);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   getReviews = async () => {
@@ -61,7 +117,18 @@ class Details extends Component {
               <img src="images/product-details/rating.png" alt="" />
               <span>
                 <span>£{this.state.details.price}</span>
-                <button type="button" className="btn btn-fefault cart">
+                <button
+                  type="button"
+                  className="btn btn-fefault"
+                  id="cart"
+                  onClick={() =>
+                    this.addCart(
+                      this.state.details.productId,
+                      this.state.details.name,
+                      this.state.details.price
+                    )
+                  }
+                >
                   <i className="fa fa-shopping-cart"></i>
                   Add to cart
                 </button>
