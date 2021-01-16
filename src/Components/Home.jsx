@@ -4,8 +4,16 @@ import Products from "./Products"
 
 class Home extends Component {
     state = {
-        guestToken : ""
+        guestToken: "",
+        itemsLength : ""
     }
+
+    getCartLength = (token) => {
+    this.setState({
+      itemsLength:token
+    })
+  }
+
     
     componentDidMount = async () => {
         if (!localStorage["userId"]) {
@@ -17,16 +25,17 @@ class Home extends Component {
             })
             const guestToken = await guestResponse.json()
             this.setState({
-                guestToken
+                guestToken,
             })
         }
-       localStorage["guestToken" ] = this.state.guestToken
+        localStorage["guestToken"] = this.state.guestToken
+        this.props.action(this.state.itemsLength) 
     }
     render() { 
         return ( 
             <div>             
                 <Jumbo />
-                <Products/>
+                <Products secondAction={this.getCartLength}/>
             </div>
          );
     }

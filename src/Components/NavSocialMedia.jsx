@@ -51,7 +51,7 @@ class NavSocialMedia extends Component {
 								<li><a href="checkout.html"><i className="fa fa-crosshairs"></i> Checkout</a></li>
 										<li>
 											<Link to={"/cart"}><i className="fa fa-shopping-cart"></i> Cart</Link></li>
-										 <span className='badge badge-warning' id='lblCartCount'> 0 </span>
+										 <span className='badge badge-warning' id='lblCartCount'> {this.props.itemsLength} </span>
 								<li><a href="login.html"><i className="fa fa-lock"></i> Login</a></li> 
                                     </ul>
                                  </div>

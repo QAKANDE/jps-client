@@ -3,27 +3,29 @@ import {BrowserRouter as Router , Route } from 'react-router-dom'
 import Home from "./Components/Home"
 import NavSocialMedia from "./Components/NavSocialMedia"
 import Cart from "./Components/Cart"
+import Details from "./Components/Details"
 
 
 class App extends Component {
    
   state = {
-    guestToken : ""
+    length : ""
   }
   
 
-  getGuestToken = (token) => {
+  getGuestToken = (cartLength) => {
     this.setState({
-      guestToken:token
+      length:cartLength
     })
   }
   render() {
     return (
       <div className="App">
         <Router>
-          <NavSocialMedia />
-          <Route path="/" exact component={Home}  />
+          <NavSocialMedia itemsLength={this.state.length}/>
+          <Route path="/" exact render={(props) => <Home {...props} action={this.getGuestToken} />}  />
           <Route path="/cart" exact component={Cart} />
+          <Route path="/details/:productId" exact component={Details}/>
         </Router>
       </div>
     );
