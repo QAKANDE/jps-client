@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import { loadStripe } from "@stripe/stripe-js";
+const stripeTestPromise = loadStripe(
+  "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"
+);
 
 class Checkoutasguest extends Component {
   state = {
@@ -49,10 +53,39 @@ class Checkoutasguest extends Component {
       checkBox: true,
     });
   };
+  checkOut = async (e) => {
+    e.preventDefault();
+
+    const stripe = await stripeTestPromise;
+    const res = await fetch(
+      "http://localhost:3001/payment/create-checkout-session",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          userId: localStorage["guestToken"],
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const session = await res.json();
+    const result = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (result.error) {
+      console.log(result.error.message);
+    } else {
+      alert("sucess");
+    }
+  };
+
   render() {
     return (
       <>
-        <h5>Billing address</h5>
+        <h5>Delivery address</h5>
         <Form>
           <Row>
             <Col>
@@ -367,7 +400,7 @@ class Checkoutasguest extends Component {
                   <option value="ZW">Zimbabwe</option>
                 </Form.Control>
               </Form.Group>
-
+              {/* 
               <Form.Group id="billAddressNotDelivery">
                 <Form.Check
                   type="checkbox"
@@ -376,7 +409,7 @@ class Checkoutasguest extends Component {
                   default={this.state.checkBox}
                   defaultValue={this.state.checkBox}
                 />
-              </Form.Group>
+              </Form.Group> */}
             </Col>
             <Col>
               <Form.Group>
@@ -419,12 +452,13 @@ class Checkoutasguest extends Component {
                   value={this.state.billTo.postCode}
                 />
               </Form.Group>
-                    </Col>
-                    {this.state.checkBox === true ?  <Col>
-              <div>QUA</div>
-            </Col> : <div>Qaudri</div>}
-           
+            </Col>
           </Row>
+          <div className="text-center">
+            <button onClick={(e) => this.checkOut(e)}>
+              Proceed to payment
+            </button>
+          </div>
         </Form>
       </>
     );

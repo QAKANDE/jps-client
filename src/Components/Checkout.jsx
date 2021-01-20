@@ -37,8 +37,8 @@ class Checkout extends Component {
   render() {
     return (
       <>
-        <Container>
-          <div>
+        <Container style={{ marginTop: "3rem" }}>
+          <div className="text-center">
             <h5
               style={{
                 color: this.state.backToSignUpText,

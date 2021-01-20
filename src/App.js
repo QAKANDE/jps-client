@@ -28,8 +28,7 @@ class App extends Component {
             exact render = {
                 (props) => < Home {...props }
                 action = { this.getGuestToken }
-                />} /
-                >
+                />} / >
                 <
                 Route path = "/cart"
                 exact component = { Cart }
@@ -38,8 +37,8 @@ class App extends Component {
                 exact component = { Details }
                 /> <
                 Footer / > { " " } <
-                /Router>{" "} <
-                /div>
+                /Router>{" "} < /
+                div >
             );
         }
     }

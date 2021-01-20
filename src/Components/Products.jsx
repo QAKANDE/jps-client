@@ -9,7 +9,7 @@ import {
   Accordion,
   Button,
 } from "react-bootstrap";
-import hero2 from "../assets/hero2.png";
+import hero2 from "../assets/product1.jpeg";
 import BottomProducts from "../Components/BottomProducts";
 import { Link } from "react-router-dom";
 
@@ -55,24 +55,25 @@ class Products extends Component {
           }
         );
         if (response.ok) {
-          alert("success");
-          const response = await fetch(
-            `http://localhost:3001/cart/${localStorage["guestToken"]}`,
+          const createPriceResponse = await fetch(
+            "http://localhost:3001/payment/create-product-price",
             {
-              method: "GET",
+              method: "POST",
+              body: JSON.stringify({
+                userId: localStorage["guestToken"],
+                productName: productName,
+                productPrice: parseInt(productPrice * 100),
+                productId: id,
+                quantity: this.state.quantity,
+              }),
               headers: {
-                "Content-type": "application/json",
+                "Content-Type": "application/json",
               },
             }
           );
-          const cart = await response.json();
-          this.props.secondAction(cart.totalItems);
-          // this.setState({ alert: true })
-          // setTimeout(() => {
-          //     this.setState({
-          //         alert: false
-          //     });
-          // }, 1200);
+          if (createPriceResponse.ok) {
+            alert("success");
+          }
         } else {
           this.setState({ errorAlert: true });
           setTimeout(() => {

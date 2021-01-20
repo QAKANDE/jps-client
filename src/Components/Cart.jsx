@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import "../css/Cart.css";
-import hero1 from "../assets/hero1.png";
+import hero1 from "../assets/product1.jpeg";
 import CartTotal from "./CartTotal";
 import Checkout from "./Checkout";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, Card } from "react-bootstrap";
+import { loadStripe } from "@stripe/stripe-js";
+const stripeTestPromise = loadStripe(
+  "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"
+);
 
 class Cart extends Component {
   state = {
@@ -16,6 +20,7 @@ class Cart extends Component {
     displayCheckOut: false,
     quantity: "",
     itemsLength: "",
+    userId: "",
   };
 
   componentDidMount = async () => {
@@ -50,6 +55,7 @@ class Cart extends Component {
       subTotal,
       finalTotal,
       itemsLength: cart.totalItems,
+      userId: cart.userId,
     });
   };
 
@@ -73,8 +79,6 @@ class Cart extends Component {
       price: parseInt(productPrice),
       userId: localStorage["guestToken"],
     };
-    console.log(productDetails);
-    console.log(previousQuantity);
     let response = await fetch(
       `http://localhost:3001/cart/check-out-as-guest`,
       {
@@ -86,6 +90,22 @@ class Cart extends Component {
       }
     );
     if (response.ok) {
+      const createPriceResponse = await fetch(
+        "http://localhost:3001/payment/create-product-price",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            userId: localStorage["guestToken"],
+            productName: productName,
+            productPrice: parseInt(productPrice * 100),
+            productId: id,
+            quantity: quantity,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       this.getCart();
     }
   };
@@ -118,6 +138,22 @@ class Cart extends Component {
         }
       );
       if (response.ok) {
+        const createPriceResponse = await fetch(
+          "http://localhost:3001/payment/create-product-price",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              userId: localStorage["guestToken"],
+              productName: productName,
+              productPrice: parseInt(productPrice * 100),
+              productId: id,
+              quantity: quantity,
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         this.getCart();
       }
     }
@@ -141,113 +177,119 @@ class Cart extends Component {
   };
   render() {
     return (
-      <Container>
+      <Container style={{ marginTop: "2rem", marginBottom: "2rem" }}>
         {this.state.cart.length === 0 ? (
           <div className="text-center" id="empty-cart-div">
             <h3>Your Cart Is Empty, Please Add Items To Cart</h3>
           </div>
         ) : (
-          <Row>
-            <Col md={9}>
-              <div id="cart_items">
-                <div className="container">
-                  <div className="breadcrumbs">
-                    <ol className="breadcrumb">
-                      <li>
-                        <a href="#">Home</a>
-                      </li>
-                      <li className="active">Shopping Cart</li>
-                    </ol>
-                  </div>
-
-                  <div className="table-responsive cart_info">
-                    <table className="table table-condensed">
-                      <thead>
-                        <tr className="cart_menu">
-                          <td></td>
-                          <td className="image">Item</td>
-                          <td className="price">Price</td>
-                          <td id="quantity">Quantity</td>
-                          <td className="total">Total</td>
-                          <td></td>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {this.state.cart.map((item) => {
-                          return (
-                            <tr>
-                              <td>
-                                <img src={hero1} id="cart-item-image" />
-                              </td>
-                              <td>{item.name}</td>
-                              <td>{item.price}</td>
-                              <td>
-                                <button
-                                  className="px-3"
-                                  id="quantity-increase"
-                                  onClick={() =>
-                                    this.increaseQuantity(
-                                      item.productId,
-                                      item.name,
-                                      item.price,
-                                      item.quantity
-                                    )
-                                  }
-                                >
-                                  +
-                                </button>
-
-                                {item.quantity}
-
-                                <button
-                                  className="px-3"
-                                  id="quantity-decrease"
-                                  onClick={() =>
-                                    this.decreaseQuantity(
-                                      item.productId,
-                                      item.name,
-                                      item.price,
-                                      item.quantity
-                                    )
-                                  }
-                                >
-                                  -
-                                </button>
-                              </td>
-                              <td>£ {item.total}</td>
-                              <td>
-                                <button
-                                  className="px-3"
-                                  onClick={() =>
-                                    this.deleteItem(
-                                      this.state.allCart.userId,
-                                      item._id
-                                    )
-                                  }
-                                >
-                                  X
-                                </button>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </Col>
-            <Col md={3}>
-              <CartTotal
-                subTotal={this.state.subTotal}
-                finalTotal={this.state.finalTotal}
-                tax={this.state.tax}
-                shippingCost={this.state.shippingCost}
-                action={this.displayCheckOut}
-              />
-            </Col>
+          <section>
+            <Row>
+              <Col lg={8}>
+                <Card>
+                  <Card.Body>
+                    <Card.Header>{this.state.itemsLength} items</Card.Header>
+                    {this.state.cart.map((item, key) => {
+                      return (
+                        <Row style={{ paddingTop: "2rem" }} key={item._id}>
+                          <Col md={5} lg={3} xl={3}>
+                            <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                              <img className="img-fluid w-100" src={hero1} />
+                            </div>
+                          </Col>
+                          <Col md={7} lg={9} xl={9}>
+                            <div>
+                              <div className="d-flex justify-content-between">
+                                <div>
+                                  <h5>{item.name}</h5>
+                                  <p class="mb-3 text-muted text-uppercase small">
+                                    Shirt - blue
+                                  </p>
+                                  <p class="mb-2 text-muted text-uppercase small">
+                                    Color: blue
+                                  </p>
+                                  <p class="mb-3 text-muted text-uppercase small">
+                                    Size: M
+                                  </p>
+                                </div>
+                                <div className="d-flex justify-content-between">
+                                  <button
+                                    style={{
+                                      width: "40px",
+                                      height: "40px",
+                                      marginRight: "1rem",
+                                    }}
+                                    onClick={() =>
+                                      this.increaseQuantity(
+                                        item.productId,
+                                        item.name,
+                                        item.price,
+                                        item.quantity
+                                      )
+                                    }
+                                  >
+                                    +
+                                  </button>
+                                  <h5>{item.quantity}</h5>
+                                  <button
+                                    style={{
+                                      width: "40px",
+                                      height: "40px",
+                                      marginLeft: "1rem",
+                                    }}
+                                    onClick={() =>
+                                      this.decreaseQuantity(
+                                        item.productId,
+                                        item.name,
+                                        item.price,
+                                        item.quantity
+                                      )
+                                    }
+                                  >
+                                    -
+                                  </button>
+                                </div>
+                              </div>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                  <p
+                                    onClick={() =>
+                                      this.deleteItem(
+                                        this.state.allCart.userId,
+                                        item._id
+                                      )
+                                    }
+                                  >
+                                    REMOVE ITEM <i class="fa fa-trash"></i>
+                                  </p>
+                                </div>
+                                <p class="mb-0">
+                                  <span>
+                                    <strong>£ {item.price}</strong>
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
+                      );
+                    })}
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col lg={4}>
+                <CartTotal
+                  subTotal={this.state.subTotal}
+                  finalTotal={this.state.finalTotal}
+                  tax={this.state.tax}
+                  shippingCost={this.state.shippingCost}
+                  action={this.displayCheckOut}
+                  userId={this.state.userId}
+                />
+              </Col>
+            </Row>
             {this.state.displayCheckOut === true ? <Checkout /> : <div></div>}
-          </Row>
+          </section>
         )}
       </Container>
     );
