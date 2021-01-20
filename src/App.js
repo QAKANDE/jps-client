@@ -7,6 +7,7 @@ import Details from "./Components/Details";
 import Footer from "./Components/Footer";
 import PaymentSuccess from "./Components/PaymentSuccess";
 
+
 class App extends Component {
     state = {
         length: "",
@@ -22,6 +23,9 @@ class App extends Component {
             div className = "App" >
             <
             Router >
+
+
+
             <
             NavSocialMedia itemsLength = { this.state.length }
             />{" "} <
@@ -29,8 +33,7 @@ class App extends Component {
             exact render = {
                 (props) => < Home {...props }
                 action = { this.getGuestToken }
-                />} /
-                >
+                />} / >
                 <
                 Route path = "/cart"
                 exact component = { Cart }
@@ -42,8 +45,8 @@ class App extends Component {
                 exact component = { PaymentSuccess }
                 />{" "} <
                 Footer / > { " " } <
-                /Router>{" "} <
-                /div>
+                /Router>{" "} < /
+                div >
             );
         }
     }

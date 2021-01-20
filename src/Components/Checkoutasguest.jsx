@@ -7,22 +7,12 @@ const stripeTestPromise = loadStripe(
 
 class Checkoutasguest extends Component {
   state = {
-    billTo: {
-      title: "",
-      firstName: "",
-      lastName: "",
-      addressLine1: "",
-      addressLine2: "",
-      postCode: "",
-      county: "",
-      country: "",
-    },
     deliverTo: {
       title: "",
       firstName: "",
       lastName: "",
       addressLine1: "",
-      addressLine2: "",
+
       postCode: "",
       county: "",
       country: "",
@@ -31,15 +21,7 @@ class Checkoutasguest extends Component {
     checkBox: false,
   };
 
-  updateBillTo = (event) => {
-    let billTo = this.state.billTo;
-    let id = event.currentTarget.id;
-    billTo[id] = event.currentTarget.value;
-    this.setState({
-      billTo,
-    });
-  };
-  deliverTo = (event) => {
+  updateDeliverTo = (event) => {
     let deliverTo = this.state.deliverTo;
     let id = event.currentTarget.id;
     deliverTo[id] = event.currentTarget.value;
@@ -53,9 +35,9 @@ class Checkoutasguest extends Component {
       checkBox: true,
     });
   };
-  checkOut = async (e) => {
-    e.preventDefault();
 
+  checkOut = async () => {
+    this.sendOrderDetails();
     const stripe = await stripeTestPromise;
     const res = await fetch(
       "http://localhost:3001/payment/create-checkout-session",
@@ -82,6 +64,36 @@ class Checkoutasguest extends Component {
     }
   };
 
+  sendOrderDetails = async (event) => {
+    event.preventDefault();
+    const res = await fetch("http://localhost:3001/orders/new-order", {
+      method: "POST",
+      body: JSON.stringify({
+        customerId: this.state.deliverTo.email,
+        customerName:
+          this.state.deliverTo.title +
+          " " +
+          this.state.deliverTo.firstName +
+          " " +
+          this.state.deliverTo.lastName,
+        addressLine1: this.state.deliverTo.addressLine1,
+        county: this.state.deliverTo.county,
+        country: this.state.deliverTo.country,
+        postCode: this.state.deliverTo.postCode,
+        subTotal: 234,
+        userId: localStorage["guestToken"],
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      this.checkOut();
+    } else {
+      alert("Something went wrong");
+    }
+  };
+
   render() {
     return (
       <>
@@ -95,8 +107,8 @@ class Checkoutasguest extends Component {
                   as="select"
                   id="title"
                   required
-                  onChange={(e) => this.updateBillTo(e)}
-                  value={this.state.billTo.title}
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.title}
                   defaultValue="Select Gender"
                 >
                   <option>Select title</option>
@@ -112,8 +124,8 @@ class Checkoutasguest extends Component {
                   type="text"
                   placeholder="Ex. John"
                   id="firstName"
-                  onChange={(e) => this.billTo(e)}
-                  value={this.state.billTo.firstName}
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.firstName}
                 />
               </Form.Group>
               <Form.Group>
@@ -122,8 +134,8 @@ class Checkoutasguest extends Component {
                   type="text"
                   placeholder="Ex. John"
                   id="lastName"
-                  onChange={(e) => this.billTo(e)}
-                  value={this.state.billTo.lastName}
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.lastName}
                 />
               </Form.Group>
               <Form.Group>
@@ -132,8 +144,8 @@ class Checkoutasguest extends Component {
                   as="select"
                   id="country"
                   required
-                  onChange={(e) => this.updateBillTo(e)}
-                  value={this.state.billTo.country}
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.country}
                   defaultValue="Choose Country"
                 >
                   <option>Select Country</option>
@@ -413,49 +425,49 @@ class Checkoutasguest extends Component {
             </Col>
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="addressline1">Address Line 1</Form.Label>
+                <Form.Label htmlFor="addressLine1">Address Line 1</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Adress Line 1"
-                  id="addressline1"
-                  onChange={(e) => this.billTo(e)}
-                  value={this.state.billTo.addressline1}
+                  id="addressLine1"
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.addressline1}
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="addressline2">Address Line 2</Form.Label>
+                <Form.Label htmlFor="email">Email</Form.Label>
                 <Form.Control
-                  type="text"
-                  placeholder="Address Line 2"
-                  id="addressline2"
-                  onChange={(e) => this.billTo(e)}
-                  value={this.state.billTo.addressline2}
+                  type="email"
+                  placeholder="Ex . john@john.com"
+                  id="email"
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.email}
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="County">County</Form.Label>
+                <Form.Label htmlFor="county">County</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="County"
-                  id="County"
-                  onChange={(e) => this.billTo(e)}
-                  value={this.state.billTo.County}
+                  id="county"
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.County}
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="County">Post Code</Form.Label>
+                <Form.Label htmlFor="postCode">Post Code</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Post Code"
                   id="postCode"
-                  onChange={(e) => this.billTo(e)}
-                  value={this.state.billTo.postCode}
+                  onChange={(e) => this.updateDeliverTo(e)}
+                  value={this.state.deliverTo.postCode}
                 />
               </Form.Group>
             </Col>
           </Row>
           <div className="text-center">
-            <button onClick={(e) => this.checkOut(e)}>
+            <button onClick={(e) => this.sendOrderDetails(e)}>
               Proceed to payment
             </button>
           </div>

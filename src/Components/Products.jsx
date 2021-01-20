@@ -8,6 +8,7 @@ import {
   Card,
   Accordion,
   Button,
+  Alert,
 } from "react-bootstrap";
 import hero2 from "../assets/product1.jpeg";
 import BottomProducts from "../Components/BottomProducts";
@@ -34,7 +35,14 @@ class Products extends Component {
     });
   };
 
-  addCart = async (id, productImage, productName,productSize , productColor, productPrice) => {
+  addCart = async (
+    id,
+    productImage,
+    productName,
+    productSize,
+    productColor,
+    productPrice
+  ) => {
     try {
       if (!localStorage["userId"]) {
         const productDetails = {
@@ -43,7 +51,7 @@ class Products extends Component {
           image: productImage,
           name: productName,
           size: productSize,
-          color : productColor,
+          color: productColor,
           price: parseInt(productPrice),
           userId: localStorage["guestToken"],
         };
@@ -75,7 +83,12 @@ class Products extends Component {
             }
           );
           if (createPriceResponse.ok) {
-            alert("success");
+            this.setState({ alert: true });
+            setTimeout(() => {
+              this.setState({
+                alert: false,
+              });
+            }, 1200);
           }
         } else {
           this.setState({ errorAlert: true });
@@ -93,6 +106,11 @@ class Products extends Component {
   render() {
     return (
       <Container>
+        {this.state.alert === true ? (
+          <Alert variant="success">Item added to cart</Alert>
+        ) : (
+          <div></div>
+        )}
         <Row>
           <Col md={3}>
             <div id="category-text">

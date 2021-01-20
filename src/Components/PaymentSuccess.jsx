@@ -22,30 +22,30 @@ class PaymentSuccess extends Component {
   render() {
     return (
       <>
-        <div className="bg">
-          <div className="card">
-            <span className="card__success">
-              <i className="ion-checkmark"></i>
+        <div id="bg">
+          <div id="card">
+            <span id="card__success">
+              <i id="ion-checkmark"></i>
             </span>
 
-            <h1 className="card__msg">Payment Complete</h1>
-            <h2 className="card__submsg">Thank you for your transfer</h2>
-            <div className="card_body">
+            <h1 id="card__msg">Payment Complete</h1>
+            <h2 id="card__submsg">Thank you for your transfer</h2>
+            <div id="card_body">
               <img
                 src="http://nathgreen.co.uk/assets/img/nath.jpg"
-                className="card__avatar"
+                id="card__avatar"
               />
-              <div className="card__recipient-info">
-                <p className="card__recipient">Nath Green</p>
-                <p className="card__email">hello@nathgreen.co.uk</p>
+              <div id="card__recipient-info">
+                <p id="card__recipient">Nath Green</p>
+                <p id="card__email">hello@nathgreen.co.uk</p>
               </div>
-              <h1 className="card__price">
+              <h1 id="card__price">
                 <span>£</span>20<span>.00</span>
               </h1>
             </div>
-            <div className="card__tags">
-              <span className="card__tag">completed</span>
-              <span className="card__tag">#123456789</span>
+            <div id="card__tags">
+              <span id="card__tag">completed</span>
+              <span id="card__tag">#123456789</span>
             </div>
           </div>
         </div>

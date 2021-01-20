@@ -11,7 +11,7 @@ class SignUp extends Component {
       gender: "",
       countryOfOrigin: "",
       password: "",
-      confirmPassword: "",
+      dateOfBirth: "",
     },
     displayCheckOut: false,
     signUpcompleted: false,
@@ -26,11 +26,32 @@ class SignUp extends Component {
     });
   };
 
-  SignUp = async () => {
-    this.setState({
-      displayCheckOut: true,
-      signUpcompleted: true,
+  signUp = async (e) => {
+    e.preventDefault();
+    const res = await fetch("http://localhost:3001/users/register", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName: this.state.details.firstName,
+        lastName: this.state.details.lastName,
+        email: this.state.details.email,
+        phoneNumber: this.state.details.phoneNumber,
+        gender: this.state.details.gender,
+        password: this.state.details.password,
+        dateOfBirth: this.state.details.dateOfBirth,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+    if (res.ok) {
+      alert("Success");
+      this.setState({
+        displayCheckOut: true,
+        signUpcompleted: true,
+      });
+    } else {
+      alert("Something went wrong");
+    }
   };
   render() {
     return (
@@ -387,20 +408,20 @@ class SignUp extends Component {
                   </Form.Control>
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label htmlFor="confirmPassword">
+                  <Form.Label htmlFor="dateOfBirth">
                     Confirm Password
                   </Form.Label>
                   <Form.Control
-                    id="confirmPassword"
-                    type="confirmPassword"
+                    id="dateOfBirth"
+                    type="Date"
                     onChange={(e) => this.updateDetails(e)}
-                    value={this.state.details.confirmPassword}
+                    value={this.state.details.dateOfBirth}
                   />
                 </Form.Group>
               </Col>
             </Row>
             <div className="text-center">
-              <button onClick={() => this.SignUp()}>
+              <button onClick={(e) => this.signUp(e)}>
                 Sign up and proceed to checkout
               </button>
             </div>

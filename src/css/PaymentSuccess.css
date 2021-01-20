@@ -1,4 +1,4 @@
-.bg {
+#bg {
     background-color: #f0f0e9;
     width: 480px;
     overflow: hidden;
@@ -9,7 +9,7 @@
     margin-top: 40px;
 }
 
-.card {
+#card {
     background-color: white;
     width: 100%;
     float: left;
@@ -22,7 +22,7 @@
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-.card__success {
+#card__success {
     position: absolute;
     top: -50px;
     left: 145px;
@@ -39,7 +39,7 @@ i {
     font-size: 45px;
 }
 
-.card_msg {
+#card_msg {
     text-transform: uppercase;
     color: #55585b;
     font-size: 18px;
@@ -47,14 +47,14 @@ i {
     margin-bottom: 5px;
 }
 
-.card_submsg {
+#card_submsg {
     color: #959a9e;
     font-size: 16px;
     font-weight: 400;
     margin-top: 0px;
 }
 
-.card_body {
+#card_body {
     background-color: #f8f6f6;
     border-radius: 4px;
     width: 100%;
@@ -64,7 +64,7 @@ i {
     padding: 30px;
 }
 
-.card_avatar {
+#card_avatar {
     width: 50px;
     height: 50px;
     border-radius: 100%;
@@ -74,24 +74,24 @@ i {
     top: 7px;
 }
 
-.card_recipient-info {
+#card_recipient-info {
     display: inline-block;
 }
 
-.card_recipient {
+#card_recipient {
     color: #232528;
     text-align: left;
     margin-bottom: 5px;
     font-weight: 600;
 }
 
-.card_email {
+#card_email {
     color: #838890;
     text-align: left;
     margin-top: 0px;
 }
 
-.card_price {
+#card_price {
     color: #232528;
     font-size: 70px;
     margin-top: 25px;
@@ -102,7 +102,7 @@ span {
     font-size: 60%;
 }
 
-.card_method {
+#card_method {
     color: #d3cece;
     text-transform: uppercase;
     text-align: left;
@@ -110,7 +110,7 @@ span {
     margin-bottom: 5px;
 }
 
-.card_payment {
+#card_payment {
     background-color: white;
     border-radius: 4px;
     width: 100%;
@@ -121,18 +121,18 @@ span {
     justify-content: center;
 }
 
-.card_credit-card {
+#card_credit-card {
     width: 50px;
     display: inline-block;
     margin-right: 15px;
 }
 
-.card_card-details {
+#card_card-details {
     display: inline-block;
     text-align: left;
 }
 
-.card_card-type {
+#card_card-type {
     text-transform: uppercase;
     color: #232528;
     font-weight: 600;
@@ -140,18 +140,18 @@ span {
     margin-bottom: 3px;
 }
 
-.card_card-number {
+#card_card-number {
     color: #838890;
     font-size: 12px;
     margin-top: 0px;
 }
 
-.card_tags {
+#card_tags {
     clear: both;
     padding-top: 15px;
 }
 
-.card_tag {
+#card_tag {
     text-transform: uppercase;
     background-color: #f8f6f6;
     box-sizing: border-box;
