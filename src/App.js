@@ -5,6 +5,7 @@ import NavSocialMedia from "./Components/NavSocialMedia";
 import Cart from "./Components/Cart";
 import Details from "./Components/Details";
 import Footer from "./Components/Footer";
+import PaymentSuccess from "./Components/PaymentSuccess";
 
 class App extends Component {
     state = {
@@ -28,17 +29,21 @@ class App extends Component {
             exact render = {
                 (props) => < Home {...props }
                 action = { this.getGuestToken }
-                />} / >
+                />} /
+                >
                 <
                 Route path = "/cart"
                 exact component = { Cart }
                 />{" "} <
                 Route path = "/details/:productId"
                 exact component = { Details }
-                /> <
+                />{" "} <
+                Route path = "/paymentsuccessful"
+                exact component = { PaymentSuccess }
+                />{" "} <
                 Footer / > { " " } <
-                /Router>{" "} < /
-                div >
+                /Router>{" "} <
+                /div>
             );
         }
     }

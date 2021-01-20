@@ -34,13 +34,16 @@ class Products extends Component {
     });
   };
 
-  addCart = async (id, productName, productPrice) => {
+  addCart = async (id, productImage, productName,productSize , productColor, productPrice) => {
     try {
       if (!localStorage["userId"]) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
+          image: productImage,
           name: productName,
+          size: productSize,
+          color : productColor,
           price: parseInt(productPrice),
           userId: localStorage["guestToken"],
         };
@@ -128,7 +131,7 @@ class Products extends Component {
                   <div className="product-image-wrapper col-sm-4">
                     <div className="single-products">
                       <div className="productinfo text-center">
-                        <img src={hero2} alt="" />
+                        <img src={prod.image} alt="" />
                         <h2>£ {prod.price}</h2>
                         <p>{prod.name}</p>
                         <a href="#" className="btn btn-default add-to-cart">
@@ -142,7 +145,14 @@ class Products extends Component {
                           <button
                             href="#"
                             onClick={() =>
-                              this.addCart(prod._id, prod.name, prod.price)
+                              this.addCart(
+                                prod._id,
+                                prod.image,
+                                prod.name,
+                                prod.size,
+                                prod.color,
+                                prod.price
+                              )
                             }
                             className="btn btn-default add-to-cart"
                           >

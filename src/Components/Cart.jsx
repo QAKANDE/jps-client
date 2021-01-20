@@ -57,6 +57,7 @@ class Cart extends Component {
       itemsLength: cart.totalItems,
       userId: cart.userId,
     });
+    console.log(this.state.allCart);
   };
 
   displayCheckOut = () => {
@@ -194,7 +195,10 @@ class Cart extends Component {
                         <Row style={{ paddingTop: "2rem" }} key={item._id}>
                           <Col md={5} lg={3} xl={3}>
                             <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                              <img className="img-fluid w-100" src={hero1} />
+                              <img
+                                className="img-fluid w-100"
+                                src={item.image}
+                              />
                             </div>
                           </Col>
                           <Col md={7} lg={9} xl={9}>
@@ -203,13 +207,13 @@ class Cart extends Component {
                                 <div>
                                   <h5>{item.name}</h5>
                                   <p class="mb-3 text-muted text-uppercase small">
-                                    Shirt - blue
+                                    Shirt -{item.color}
                                   </p>
                                   <p class="mb-2 text-muted text-uppercase small">
-                                    Color: blue
+                                    Color: {item.size}
                                   </p>
                                   <p class="mb-3 text-muted text-uppercase small">
-                                    Size: M
+                                    Size: {item.color}
                                   </p>
                                 </div>
                                 <div className="d-flex justify-content-between">

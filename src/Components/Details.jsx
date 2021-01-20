@@ -103,7 +103,7 @@ class Details extends Component {
         <Row>
           <Col md={4}>
             <div className="view-product">
-              <img src={hero2} />
+              <img src={this.state.details.image} />
             </div>
             <div>
               <h3 className="mt-5">Similar Products</h3>
@@ -136,12 +136,7 @@ class Details extends Component {
               <p>
                 <b>Availability:</b> In Stock
               </p>
-              <p>
-                <b>Condition:</b> New
-              </p>
-              <p>
-                <b>Brand:</b> John Paul Stephen
-              </p>
+
               <a href="">
                 <img
                   src="images/product-details/share.png"
