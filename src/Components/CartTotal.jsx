@@ -69,7 +69,7 @@ class CartTotal extends Component {
               </div>
               <hr></hr>
               <div className="text-center">
-                <button onClick={()=> this.props.action()}>Proceed to check out</button>
+                <button id="proceed-to-checkout"onClick={()=> this.props.action()}>Proceed to check out</button>
               </div>
             </div>
           </Card.Body>

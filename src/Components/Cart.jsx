@@ -218,6 +218,7 @@ class Cart extends Component {
                                 </div>
                                 <div className="d-flex justify-content-between">
                                   <button
+                                    id="quantity-increase"
                                     style={{
                                       width: "40px",
                                       height: "40px",
@@ -236,6 +237,7 @@ class Cart extends Component {
                                   </button>
                                   <h5>{item.quantity}</h5>
                                   <button
+                                    id="quantity-decrease"
                                     style={{
                                       width: "40px",
                                       height: "40px",
@@ -267,11 +269,7 @@ class Cart extends Component {
                                     REMOVE ITEM <i class="fa fa-trash"></i>
                                   </p>
                                 </div>
-                                <p class="mb-0">
-                                  <span>
-                                    <strong>£ {item.price}</strong>
-                                  </span>
-                                </p>
+                                <p class="mb-0">£ {item.price}</p>
                               </div>
                             </div>
                           </Col>

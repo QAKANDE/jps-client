@@ -54,22 +54,20 @@ class Reviews extends Component {
 
   postReview = async (event) => {
     event.preventDefault();
-    const productId = this.props.id;
-    let response = await fetch(
-      `http://localhost:3001/reviews/new-review/${productId}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          name: this.state.reviewDetails.name,
-          email: this.state.reviewDetails.email,
-          text: this.state.reviewDetails.reviewText,
-          ratings: this.state.value,
-        }),
-        headers: {
-          "Content-Type": "Application/json",
-        },
-      }
-    );
+    const id = this.props.id;
+    let response = await fetch(`http://localhost:3001/reviews/new-review/`, {
+      method: "POST",
+      body: JSON.stringify({
+        productId: id,
+        name: this.state.reviewDetails.name,
+        email: this.state.reviewDetails.email,
+        text: this.state.reviewDetails.reviewText,
+        ratings: this.state.value,
+      }),
+      headers: {
+        "Content-Type": "Application/json",
+      },
+    });
     if (response.ok) {
       alert("Review Added");
       this.setState({

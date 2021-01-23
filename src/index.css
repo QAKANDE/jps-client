@@ -1,5 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300&display=swap");
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: "Oswald", sans-serif;
     position: relative;
     font-weight: 400px;
 }
@@ -23,13 +24,18 @@ a {
     transition: 300ms;
 }
 
-h1,
+#root h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-    font-family: 'Roboto', sans-serif;
+h6,
+a,
+div,
+p,
+button,
+li {
+    font-family: "Oswald", sans-serif;
 }
 
 .btn:hover,
@@ -47,8 +53,8 @@ a#scrollUp {
     bottom: 0px;
     right: 10px;
     padding: 5px 10px;
-    background: #FE980F;
-    color: #FFF;
+    background: #fe980f;
+    color: #fff;
     -webkit-animation: bounce 2s ease infinite;
     animation: bounce 2s ease infinite;
 }

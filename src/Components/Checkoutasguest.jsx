@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Row, Col } from "react-bootstrap";
+import "../css/Signup.css";
 import { loadStripe } from "@stripe/stripe-js";
 const stripeTestPromise = loadStripe(
   "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"
@@ -12,7 +13,6 @@ class Checkoutasguest extends Component {
       firstName: "",
       lastName: "",
       addressLine1: "",
-
       postCode: "",
       county: "",
       country: "",
@@ -37,7 +37,6 @@ class Checkoutasguest extends Component {
   };
 
   checkOut = async () => {
-    this.sendOrderDetails();
     const stripe = await stripeTestPromise;
     const res = await fetch(
       "http://localhost:3001/payment/create-checkout-session",
@@ -66,6 +65,7 @@ class Checkoutasguest extends Component {
 
   sendOrderDetails = async (event) => {
     event.preventDefault();
+
     const res = await fetch("http://localhost:3001/orders/new-order", {
       method: "POST",
       body: JSON.stringify({
@@ -88,6 +88,19 @@ class Checkoutasguest extends Component {
       },
     });
     if (res.status === 200) {
+      this.setState({
+        deliverTo: {
+          title: "",
+          firstName: "",
+          lastName: "",
+          addressLine1: "",
+          postCode: "",
+          county: "",
+          country: "",
+          email: "",
+        },
+      });
+      alert("success");
       this.checkOut();
     } else {
       alert("Something went wrong");
@@ -467,7 +480,7 @@ class Checkoutasguest extends Component {
             </Col>
           </Row>
           <div className="text-center">
-            <button onClick={(e) => this.sendOrderDetails(e)}>
+            <button onClick={(e) => this.sendOrderDetails(e)} id="check-out">
               Proceed to payment
             </button>
           </div>

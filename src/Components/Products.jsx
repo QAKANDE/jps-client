@@ -161,7 +161,6 @@ class Products extends Component {
                           <h2>£ {prod.price}</h2>
                           <p>{prod.name}</p>
                           <button
-                            href="#"
                             onClick={() =>
                               this.addCart(
                                 prod._id,

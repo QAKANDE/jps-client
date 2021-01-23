@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
 import CheckoutasGuest from "../Components/Checkoutasguest";
+import "../css/Signup.css";
 class SignUp extends Component {
   state = {
     details: {
@@ -409,7 +410,7 @@ class SignUp extends Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label htmlFor="dateOfBirth">
-                    Confirm Password
+                  Date Of Birth
                   </Form.Label>
                   <Form.Control
                     id="dateOfBirth"
@@ -421,7 +422,7 @@ class SignUp extends Component {
               </Col>
             </Row>
             <div className="text-center">
-              <button onClick={(e) => this.signUp(e)}>
+              <button onClick={(e) => this.signUp(e)} id="sign-up">
                 Sign up and proceed to checkout
               </button>
             </div>
