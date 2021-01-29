@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&family=Poppins&display=swap");
 #category-text h2 {
     font-size: 18px;
     font-weight: 700;
@@ -94,7 +94,7 @@
 
 .category-products .panel-default .panel-heading .panel-title a {
     color: #696763;
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
     text-decoration: none;
     text-transform: uppercase;
@@ -125,7 +125,7 @@
 
 .panel-body ul li a {
     color: #696763;
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 12px;
     text-transform: uppercase;
 }
@@ -149,20 +149,20 @@
 
 .productinfo h2 {
     color: #fe980f;
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 24px;
     font-weight: 700;
 }
 
 .product-overlay h2 {
     color: #fff;
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 24px;
     font-weight: 700;
 }
 
 .productinfo p {
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #696763;
@@ -223,7 +223,7 @@
   border: 0 none;
   border-radius: 0;
   color: black;
-   font-family: "Oswald", sans-serif;
+   font-family: "Poppins", sans-serif;
   font-size: 15px;
   margin-bottom: 25px; */
 }
@@ -234,7 +234,7 @@
 }
 
 .product-overlay p {
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #fff;
@@ -245,7 +245,7 @@
     border: 0 none;
     border-radius: 0;
     color: #696763;
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 15px;
     margin-bottom: 25px;
 }
@@ -276,7 +276,7 @@
 
 .choose ul li a {
     color: #b3afa8;
-    font-family: "Oswald", sans-serif;
+    font-family: "Poppins", sans-serif;
     font-size: 13px;
     padding-left: 0;
     padding-right: 0;

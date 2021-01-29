@@ -6,49 +6,42 @@ import Cart from "./Components/Cart";
 import Details from "./Components/Details";
 import Footer from "./Components/Footer";
 import PaymentSuccess from "./Components/PaymentSuccess";
+import Login from "./Components/Login";
+import Account from "./Components/Account";
 
-
-class App extends Component {
-    state = {
-        length: "",
-    };
-
-    getGuestToken = (cartLength) => {
-        this.setState({
-            length: cartLength,
-        });
-    };
-    render() {
-        return ( <
-            div className = "App" >
+function App() {
+    return ( <
+        div className = "App" >
+        <
+        Router >
+        <
+        NavSocialMedia / >
+        <
+        Route path = "/"
+        exact render = {
+            (props) => < Home {...props }
+            />} / >
             <
-            Router >
-
-
-
+            Route path = "/cart"
+            exact component = { Cart }
+            /> <
+            Route path = "/details/:productId"
+            exact component = { Details }
+            /> <
+            Route path = "/paymentsuccessful"
+            exact component = { PaymentSuccess }
+            /> <
+            Route path = "/login"
+            exact component = { Login }
+            /> <
+            Route path = "/account"
+            exact component = { Account }
+            /> <
+            Footer / >
             <
-            NavSocialMedia itemsLength = { this.state.length }
-            />{" "} <
-            Route path = "/"
-            exact render = {
-                (props) => < Home {...props }
-                action = { this.getGuestToken }
-                />} / >
-                <
-                Route path = "/cart"
-                exact component = { Cart }
-                />{" "} <
-                Route path = "/details/:productId"
-                exact component = { Details }
-                />{" "} <
-                Route path = "/paymentsuccessful"
-                exact component = { PaymentSuccess }
-                />{" "} <
-                Footer / > { " " } <
-                /Router>{" "} < /
-                div >
-            );
-        }
+            /Router> <
+            /div>
+        );
     }
 
     export default App;

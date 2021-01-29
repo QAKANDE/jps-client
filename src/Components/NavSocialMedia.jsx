@@ -2,9 +2,16 @@ import React, { Component } from "react";
 import jpglogo from "../assets/logo2.png";
 import "../css/NavSocialMedia.css";
 import { Link } from "react-router-dom";
+import LittleCart from "./LittleCart";
 
 class NavSocialMedia extends Component {
-  state = {};
+  state = {
+    displayLittleCart: false,
+  };
+
+  displayCart = () => {
+    this.setState({ displayLittleCart: true });
+  };
   render() {
     return (
       <header id="header">
@@ -80,22 +87,18 @@ class NavSocialMedia extends Component {
                 <div className="d-flex flex-row shop-menu clearfix pull-right">
                   <ul>
                     <li>
-                      <a href="">
+                      <Link to="/account">
                         <i className="fa fa-user"></i> Account
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a href="">
-                        <i className="fa fa-star"></i> Wishlist
-                      </a>
+                      <i className="fa fa-star"></i> Wishlist
                     </li>
                     <li>
-                      <a href="checkout.html">
-                        <i className="fa fa-crosshairs"></i> Checkout
-                      </a>
+                      <i className="fa fa-crosshairs"></i> Checkout
                     </li>
                     <li>
-                      <Link to={"/cart"}>
+                      <Link to="/cart">
                         <i className="fa fa-shopping-cart"></i> Cart
                       </Link>
                     </li>
@@ -104,14 +107,21 @@ class NavSocialMedia extends Component {
                       {this.props.itemsLength}{" "}
                     </span>
                     <li>
-                      <a href="login.html">
+                      <Link to={"/login"}>
                         <i className="fa fa-lock"></i> Login
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
+            {this.state.displayLittleCart === true ? (
+              <div>
+                <LittleCart />
+              </div>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
       </header>

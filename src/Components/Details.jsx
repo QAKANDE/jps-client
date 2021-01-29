@@ -84,13 +84,15 @@ class Details extends Component {
   };
 
   getReviews = async () => {
-    const productId = this.state.id;
-    const response = await fetch(`http://localhost:3001/reviews/${productId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `http://localhost:3001/reviews/${this.props.match.params.productId}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const reviews = await response.json();
     this.setState({
       reviews,
@@ -114,7 +116,6 @@ class Details extends Component {
             <div className="product-information">
               <h2>{this.state.details.name}</h2>
               <h2>{this.state.details.description}</h2>
-              <img src="images/product-details/rating.png" alt="" />
               <span>
                 <span>£{this.state.details.price}</span>
                 <button
@@ -136,16 +137,8 @@ class Details extends Component {
               <p>
                 <b>Availability:</b> In Stock
               </p>
-
-              <a href="">
-                <img
-                  src="images/product-details/share.png"
-                  class="share img-responsive"
-                  alt=""
-                />
-              </a>
             </div>
-            <Review id={this.state.id} />
+            <Review id={this.props.match.params.productId} />
           </Col>
         </Row>
       </Container>

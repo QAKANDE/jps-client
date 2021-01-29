@@ -30,34 +30,65 @@ class Cart extends Component {
   getCart = async () => {
     const cartt = [];
     const total = [];
-    const response = await fetch(
-      `http://localhost:3001/cart/${localStorage["guestToken"]}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-        },
-      }
-    );
-    const cart = await response.json();
-    cart.products.map((product) => {
-      cartt.push(product);
-      total.push(product.total);
-    });
-    const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
-    const finalTotal = parseInt(
-      subTotal + this.state.tax + this.state.shippingCost
-    );
+    if (!localStorage["userId"]) {
+      const response = await fetch(
+        `http://localhost:3003/cart/${localStorage["guestToken"]}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const cart = await response.json();
+      cart.products.map((product) => {
+        cartt.push(product);
+        total.push(product.total);
+      });
+      const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
+      const finalTotal = parseInt(
+        subTotal + this.state.tax + this.state.shippingCost
+      );
 
-    this.setState({
-      allCart: cart,
-      cart: cartt,
-      subTotal,
-      finalTotal,
-      itemsLength: cart.totalItems,
-      userId: cart.userId,
-    });
-    console.log(this.state.allCart);
+      this.setState({
+        allCart: cart,
+        cart: cartt,
+        subTotal,
+        finalTotal,
+        itemsLength: cart.totalItems,
+        userId: cart.userId,
+      });
+      console.log(this.state.allCart);
+    } else if (localStorage["userId"]) {
+      const response = await fetch(
+        `http://localhost:3003/cart/${localStorage["userId"]}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+      const cart = await response.json();
+      cart.products.map((product) => {
+        cartt.push(product);
+        total.push(product.total);
+      });
+      const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
+      const finalTotal = parseInt(
+        subTotal + this.state.tax + this.state.shippingCost
+      );
+
+      this.setState({
+        allCart: cart,
+        cart: cartt,
+        subTotal,
+        finalTotal,
+        itemsLength: cart.totalItems,
+        userId: cart.userId,
+      });
+      console.log(this.state.allCart);
+    }
   };
 
   displayCheckOut = () => {
@@ -81,7 +112,7 @@ class Cart extends Component {
       userId: localStorage["guestToken"],
     };
     let response = await fetch(
-      `http://localhost:3001/cart/check-out-as-guest`,
+      `http://localhost:3003/cart/check-out-as-guest`,
       {
         method: "POST",
         body: JSON.stringify(productDetails),
@@ -92,7 +123,7 @@ class Cart extends Component {
     );
     if (response.ok) {
       const createPriceResponse = await fetch(
-        "http://localhost:3001/payment/create-product-price",
+        "http://localhost:3003/payment/create-product-price",
         {
           method: "POST",
           body: JSON.stringify({
@@ -129,7 +160,7 @@ class Cart extends Component {
         userId: localStorage["guestToken"],
       };
       let response = await fetch(
-        `http://localhost:3001/cart/check-out-as-guest`,
+        `http://localhost:3003/cart/check-out-as-guest`,
         {
           method: "POST",
           body: JSON.stringify(productDetails),
@@ -140,7 +171,7 @@ class Cart extends Component {
       );
       if (response.ok) {
         const createPriceResponse = await fetch(
-          "http://localhost:3001/payment/create-product-price",
+          "http://localhost:3003/payment/create-product-price",
           {
             method: "POST",
             body: JSON.stringify({
@@ -162,7 +193,7 @@ class Cart extends Component {
 
   deleteItem = async (user, id) => {
     let response = await fetch(
-      `http://localhost:3001/cart/delete-item/${user}/${id}`,
+      `http://localhost:3003/cart/delete-item/${user}/${id}`,
       {
         method: "DELETE",
         headers: {

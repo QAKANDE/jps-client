@@ -24,21 +24,23 @@ class Reviews extends Component {
   };
 
   componentDidMount = async () => {
-    const productId = this.props.id;
-    const response = await fetch(`http://localhost:3001/reviews/${productId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const reviews = await response.json();
-    this.setState({
-      reviews,
-    });
+    this.getReviews();
+    // const productId = this.props.id;
+    // const response = await fetch(`http://localhost:3001/reviews/${productId}`, {
+    //   method: "GET",
+    //   headers: {
+    //     "content-Type": "application/json",
+    //   },
+    // });
+    // const reviews = await response.json();
+    // this.setState({
+    //   reviews,
+    // });
   };
 
   getReviews = async () => {
     const productId = this.props.id;
+
     const response = await fetch(`http://localhost:3001/reviews/${productId}`, {
       method: "GET",
       headers: {
@@ -54,11 +56,11 @@ class Reviews extends Component {
 
   postReview = async (event) => {
     event.preventDefault();
-    const id = this.props.id;
+    const productId = this.props.id;
     let response = await fetch(`http://localhost:3001/reviews/new-review/`, {
       method: "POST",
       body: JSON.stringify({
-        productId: id,
+        productId: productId,
         name: this.state.reviewDetails.name,
         email: this.state.reviewDetails.email,
         text: this.state.reviewDetails.reviewText,
@@ -86,25 +88,36 @@ class Reviews extends Component {
       <div className="mt-5">
         <h3>Reviews</h3>
         <div id="product-information">
-          {this.state.reviews.map((review) => {
-            return (
-              <div>
-                <div className="d-flex justify-content-between">
-                  <h5>{review.name}</h5>
-                  <p>{review.time}</p>
-                  <p>{review.date}</p>
-                </div>
-                <div>
-                  <p>{review.text}</p>
-                </div>
-                <div>
-                  <p>Rating : {review.ratings}</p>
-                </div>
-                <hr></hr>
-              </div>
-            );
-          })}
-          <div className="mt-3">
+          {this.state.reviews.length === 0 ? (
+            <div className="text-center">
+              <h5 className="mt-5">
+                This product has no reviews.
+              </h5>
+            </div>
+          ) : (
+            <div>
+              {this.state.reviews.slice(0, 3).map((review) => {
+                return (
+                  <div>
+                    <div className="d-flex justify-content-between">
+                      <h5>{review.name}</h5>
+                      <p>{review.time}</p>
+                      <p>{review.date}</p>
+                    </div>
+                    <div>
+                      <p>{review.text}</p>
+                    </div>
+                    <div>
+                      <p>Rating : {review.ratings}</p>
+                    </div>
+                    <hr></hr>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          <div className="mt-5">
             <h5>Write Your Review</h5>
             <Form>
               <Form.Group style={{ marginTop: "1rem" }}>

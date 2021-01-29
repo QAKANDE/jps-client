@@ -1,44 +1,48 @@
-import React, { Component } from 'react';
-import Jumbo from "./Jumbo"
-import Products from "./Products"
+import React, { Component } from "react";
+import Jumbo from "./Jumbo";
+import Products from "./Products";
 
 class Home extends Component {
-    state = {
-        guestToken: "",
-        itemsLength : ""
-    }
+  state = {
+    guestToken: "",
+    itemsLength: "",
+  };
 
-    getCartLength = (token) => {
+  getCartLength = (token) => {
     this.setState({
-      itemsLength:token
-    })
-  }
+      itemsLength: token,
+    });
+  };
 
-    
-    componentDidMount = async () => {
-        if (!localStorage["userId"]) {
-            const guestResponse = await fetch("http://localhost:3001/cart/guest/guest-token", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            const guestToken = await guestResponse.json()
-            this.setState({
-                guestToken,
-            })
+  componentDidMount = async () => {
+    if (!localStorage["userId"]) {
+      const guestResponse = await fetch(
+        "http://localhost:3001/cart/guest/guest-token",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-        localStorage["guestToken"] = this.state.guestToken
-        this.props.action(this.state.itemsLength) 
+      );
+      const guestToken = await guestResponse.json();
+      this.setState({
+        guestToken,
+      });
+      localStorage["guestToken"] = this.state.guestToken;
+    } else if (localStorage["userId"]) {
+      localStorage.removeItem("guestToken");
     }
-    render() { 
-        return ( 
-            <div>             
-                <Jumbo />
-                <Products secondAction={this.getCartLength}/>
-            </div>
-         );
-    }
+    // this.props.action(this.state.itemsLength)
+  };
+  render() {
+    return (
+      <div>
+        <Jumbo />
+        <Products secondAction={this.getCartLength} />
+      </div>
+    );
+  }
 }
- 
+
 export default Home;

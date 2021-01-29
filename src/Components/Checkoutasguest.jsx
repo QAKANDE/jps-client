@@ -37,73 +37,155 @@ class Checkoutasguest extends Component {
   };
 
   checkOut = async () => {
-    const stripe = await stripeTestPromise;
-    const res = await fetch(
-      "http://localhost:3001/payment/create-checkout-session",
+    if (!localStorage["userId"]) {
+      const stripe = await stripeTestPromise;
+      const res = await fetch(
+        "http://localhost:3003/payment/create-checkout-session",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            userId: localStorage["guestToken"],
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const session = await res.json();
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      if (result.error) {
+        console.log(result.error.message);
+      } else {
+        alert("sucess");
+      }
+    } else if (localStorage["userId"]) {
+      const stripe = await stripeTestPromise;
+      const res = await fetch(
+        "http://localhost:3003/payment/create-checkout-session",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            userId: localStorage["userId"],
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const session = await res.json();
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+
+      if (result.error) {
+        console.log(result.error.message);
+      } else {
+        alert("sucess");
+      }
+    }
+  };
+  sendUserOrderDetails = async () => {
+    const response = await fetch(
+      `http://localhost:3003/users/user-order/${localStorage["userId"]}`,
       {
         method: "POST",
-        body: JSON.stringify({
-          userId: localStorage["guestToken"],
-        }),
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-
-    const session = await res.json();
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-
-    if (result.error) {
-      console.log(result.error.message);
-    } else {
-      alert("sucess");
-    }
+    console.log("re", response);
   };
 
-  sendOrderDetails = async (event) => {
-    event.preventDefault();
-
-    const res = await fetch("http://localhost:3001/orders/new-order", {
-      method: "POST",
-      body: JSON.stringify({
-        customerId: this.state.deliverTo.email,
-        customerName:
-          this.state.deliverTo.title +
-          " " +
-          this.state.deliverTo.firstName +
-          " " +
-          this.state.deliverTo.lastName,
-        addressLine1: this.state.deliverTo.addressLine1,
-        county: this.state.deliverTo.county,
-        country: this.state.deliverTo.country,
-        postCode: this.state.deliverTo.postCode,
-        subTotal: 234,
-        userId: localStorage["guestToken"],
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (res.status === 200) {
-      this.setState({
-        deliverTo: {
-          title: "",
-          firstName: "",
-          lastName: "",
-          addressLine1: "",
-          postCode: "",
-          county: "",
-          country: "",
-          email: "",
+  sendOrderDetails = async (e) => {
+    e.preventDefault();
+    if (!localStorage["userId"]) {
+      const res = await fetch("http://localhost:3003/orders/new-order", {
+        method: "POST",
+        body: JSON.stringify({
+          customerId: this.state.deliverTo.email,
+          customerName:
+            this.state.deliverTo.title +
+            " " +
+            this.state.deliverTo.firstName +
+            " " +
+            this.state.deliverTo.lastName,
+          addressLine1: this.state.deliverTo.addressLine1,
+          county: this.state.deliverTo.county,
+          country: this.state.deliverTo.country,
+          postCode: this.state.deliverTo.postCode,
+          subTotal: 234,
+          userId: localStorage["guestToken"],
+        }),
+        headers: {
+          "Content-Type": "application/json",
         },
       });
-      alert("success");
-      this.checkOut();
-    } else {
-      alert("Something went wrong");
+      if (res.status === 200) {
+        this.setState({
+          deliverTo: {
+            title: "",
+            firstName: "",
+            lastName: "",
+            addressLine1: "",
+            postCode: "",
+            county: "",
+            country: "",
+            email: "",
+          },
+        });
+        alert("success");
+        this.sendUserOrderDetails();
+        this.checkOut();
+      } else {
+        alert("Something went wrong");
+      }
+    } else if (localStorage["userId"]) {
+      const res = await fetch("http://localhost:3003/orders/new-order", {
+        method: "POST",
+        body: JSON.stringify({
+          customerId: this.state.deliverTo.email,
+          customerName:
+            this.state.deliverTo.title +
+            " " +
+            this.state.deliverTo.firstName +
+            " " +
+            this.state.deliverTo.lastName,
+          addressLine1: this.state.deliverTo.addressLine1,
+          county: this.state.deliverTo.county,
+          country: this.state.deliverTo.country,
+          postCode: this.state.deliverTo.postCode,
+          subTotal: 234,
+          userId: localStorage["userId"],
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 200) {
+        this.setState({
+          deliverTo: {
+            title: "",
+            firstName: "",
+            lastName: "",
+            addressLine1: "",
+            postCode: "",
+            county: "",
+            country: "",
+            email: "",
+          },
+        });
+        alert("success");
+        this.sendUserOrderDetails();
+        this.checkOut();
+      } else {
+        alert("Something went wrong");
+      }
     }
   };
 
