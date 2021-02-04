@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import jpglogo from "../assets/logo2.png";
-import "../css/NavSocialMedia.css";
+import jpglogo from "../../assets/logo2.png";
+import "../../css/NavSocialMedia.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faStar,
+  faCrosshairs,
+  faShoppingCart,
+  faLock,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import LittleCart from "./LittleCart";
+import LittleCart from "../LittleCart";
 
 class NavSocialMedia extends Component {
   state = {
@@ -88,27 +96,46 @@ class NavSocialMedia extends Component {
                   <ul>
                     <li>
                       <Link to="/account">
-                        <i className="fa fa-user"></i> Account
+                        <FontAwesomeIcon
+                          icon={faUser}
+                          className="navbar-icon"
+                        />{" "}
+                        Account
                       </Link>
                     </li>
                     <li>
-                      <i className="fa fa-star"></i> Wishlist
+                      <Link to="/wishlist">
+                        <FontAwesomeIcon
+                          icon={faStar}
+                          className="navbar-icon"
+                        />{" "}
+                        Wishlist
+                      </Link>
                     </li>
-                    <li>
-                      <i className="fa fa-crosshairs"></i> Checkout
-                    </li>
+                    {/* <li>
+                      <Link to="/checkout">
+                        <FontAwesomeIcon icon={faCrosshairs} /> Checkout
+                      </Link>
+                    </li> */}
                     <li>
                       <Link to="/cart">
-                        <i className="fa fa-shopping-cart"></i> Cart
+                        <FontAwesomeIcon
+                          icon={faShoppingCart}
+                          className="navbar-icon"
+                        />{" "}
+                        Cart
                       </Link>
                     </li>
                     <span className="badge badge-warning" id="lblCartCount">
-                      {" "}
                       {this.props.itemsLength}{" "}
                     </span>
                     <li>
                       <Link to={"/login"}>
-                        <i className="fa fa-lock"></i> Login
+                        <FontAwesomeIcon
+                          icon={faLock}
+                          className="navbar-icon"
+                        />{" "}
+                        Login
                       </Link>
                     </li>
                   </ul>

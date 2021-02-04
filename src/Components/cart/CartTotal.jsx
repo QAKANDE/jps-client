@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
-import "../css/CartTotal.css";
+import "../../css/CartTotal.css";
 import { loadStripe } from "@stripe/stripe-js";
 const stripeTestPromise = loadStripe(
   "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"
@@ -69,7 +69,12 @@ class CartTotal extends Component {
               </div>
               <hr></hr>
               <div className="text-center">
-                <button id="proceed-to-checkout"onClick={()=> this.props.action()}>Proceed to check out</button>
+                <button
+                  id="proceed-to-checkout"
+                  onClick={() => this.props.action()}
+                >
+                  Proceed to check out
+                </button>
               </div>
             </div>
           </Card.Body>

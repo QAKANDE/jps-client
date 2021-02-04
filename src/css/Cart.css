@@ -136,3 +136,19 @@
     margin-top: 8rem;
     margin-bottom: 8rem;
 }
+
+#delete-item-div {
+    margin-right: 1.5rem;
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 60px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
+    padding-bottom: 0.4rem;
+    padding-top: 0.4rem;
+    cursor: pointer;
+}

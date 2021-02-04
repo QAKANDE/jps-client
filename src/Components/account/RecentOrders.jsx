@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Card, Alert } from "react-bootstrap";
+import "../../css/RecentOrders.css";
 
 class RecentOrders extends Component {
   state = {
@@ -94,13 +95,7 @@ class RecentOrders extends Component {
       <>
         <Container className="pt-5">
           <h5 className="text-center pb-3">Your recent orders</h5>
-          {this.state.alert === true ? (
-            <Alert variant="success">
-              Item added to cart, please check your cart.
-            </Alert>
-          ) : (
-            <div></div>
-          )}
+
           {this.state.recentOrders.length === 0 ? (
             <div>
               <h3>No Recent Orders To Display</h3>
@@ -133,13 +128,7 @@ class RecentOrders extends Component {
                               <h5>{product.name}</h5>
                             </Col>
                           </Row>
-
-                          <Row style={{ marginTop: "1rem" }}>
-                            <Col sm={3}>
-                              <h6 class="mb-0">Quantity</h6>
-                            </Col>
-                            <Col sm={9}>{product.quantity}</Col>
-                          </Row>
+                          <hr></hr>
 
                           <Row style={{ marginTop: "1rem" }}>
                             <Col sm={3}>
@@ -159,19 +148,7 @@ class RecentOrders extends Component {
                             </Col>
                             <Col sm={9}>{product.color}</Col>
                           </Row>
-
-                          <Row style={{ marginTop: "1rem" }}>
-                            <Col sm={3}>
-                              <h6 class="mb-0">Date</h6>
-                            </Col>
-                            <Col sm={9}>{product.date}</Col>
-                          </Row>
-                          <Row style={{ marginTop: "1rem" }}>
-                            <Col sm={3}>
-                              <h6 class="mb-0">Time</h6>
-                            </Col>
-                            <Col sm={9}>{product.time}</Col>
-                          </Row>
+                          <hr></hr>
                         </Card.Body>
                         <div
                           className="text-center"
@@ -182,6 +159,7 @@ class RecentOrders extends Component {
                           }}
                         >
                           <button
+                            id="reorder-button"
                             onClick={() =>
                               this.reOrderItem(
                                 product._id,
@@ -202,6 +180,13 @@ class RecentOrders extends Component {
                 );
               })}
             </div>
+          )}
+          {this.state.alert === true ? (
+            <Alert id="alert">
+              <h5 className="text-center">Item Added To Cart</h5>
+            </Alert>
+          ) : (
+            <div></div>
           )}
         </Container>
       </>

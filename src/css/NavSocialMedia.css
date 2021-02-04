@@ -116,7 +116,6 @@
 .shop-menu ul li a {
     background: #ffffff;
     color: #696763;
-    font-family: "Poppins", sans-serif;
     font-size: 14px;
     font-weight: 300;
     padding: 0;
@@ -129,6 +128,14 @@
 }
 
 .shop-menu ul li a:hover {
+    color: #fe980f;
+    background: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.shop-menu ul li:hover {
     color: #fe980f;
     background: #fff;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Row, Col } from "react-bootstrap";
-import "../css/Signup.css";
+import "../../css/Signup.css";
 import { loadStripe } from "@stripe/stripe-js";
 const stripeTestPromise = loadStripe(
   "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"

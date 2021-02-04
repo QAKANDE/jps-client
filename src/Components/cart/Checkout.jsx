@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Container, Row, Col } from "react-bootstrap";
-import SignUp from "../Components/SignUp";
-import CheckoutasGuest from "../Components/Checkoutasguest";
+import SignUp from "./SignUp";
+import CheckoutasGuest from "../Components/../cart/Checkoutasguest";
 
 class Checkout extends Component {
   state = {

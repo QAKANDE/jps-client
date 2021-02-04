@@ -15,7 +15,17 @@
     outline: medium none;
 }
 
-
-/* #reviews {
-    margin-left: 0;
-} */
+#review-button {
+    margin-right: 1.5rem;
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}

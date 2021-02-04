@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
-import placeholder from "../assets/profile_pic_placeholder.jpg";
+
 import RecentOrders from "./RecentOrders";
 import Addaddress from "./Addaddress";
 import { Link } from "react-router-dom";
-import "../css/Account.css";
+import "../../css/Account.css";
 
 class Account extends Component {
   state = {
@@ -55,11 +55,13 @@ class Account extends Component {
           {JSON.stringify(this.state.userDetails) === "{}" ? (
             <div
               className="text-center"
-              style={{ marginTop: "5rem", marginBottom: "5rem" }}
+              style={{ marginTop: "9rem", marginBottom: "9rem" }}
             >
               <h3>
                 You Are Not Logged In, Please Login Or Signup{" "}
-                <Link to="/login">here</Link>
+                <Link to="/login" id="login-link">
+                  here
+                </Link>
               </h3>
             </div>
           ) : (

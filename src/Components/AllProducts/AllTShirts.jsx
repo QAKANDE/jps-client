@@ -1,40 +1,60 @@
 import React, { Component } from "react";
-import "../css/Products.css";
 import {
+  Container,
   Row,
   Col,
-  Container,
-  CardDeck,
   Card,
-  Accordion,
-  Button,
+  CardDeck,
+  Carousel,
   Alert,
 } from "react-bootstrap";
-import hero2 from "../assets/product1.jpeg";
-import BottomProducts from "../Components/BottomProducts";
+import "../../css/Products.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import "../../css/AllProducts.css";
 
-class Products extends Component {
+class AllTShirts extends Component {
   state = {
-    products: [],
+    accessories: [],
+    tShirts: [],
     quantity: 1,
     alert: false,
     errorAlert: false,
+    wishListAlert: false,
+    wishListErrorAlert: false,
+    tShirt: false,
   };
 
   componentDidMount = async () => {
-    const response = await fetch("http://localhost:3001/product/", {
+    this.getTshirts();
+    this.getAccessories();
+  };
+
+  getTshirts = async () => {
+    const response = await fetch("http://localhost:3003/product/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const products = await response.json();
+    const tShirts = await response.json();
     this.setState({
-      products,
+      tShirts,
     });
   };
-
+  getAccessories = async () => {
+    const response = await fetch("http://localhost:3003/accessories/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const accessories = await response.json();
+    this.setState({
+      accessories,
+    });
+  };
   addCart = async (
     id,
     productImage,
@@ -44,7 +64,7 @@ class Products extends Component {
     productPrice
   ) => {
     try {
-      if (!localStorage["userId"]) {
+      if (localStorage["guestToken"]) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
@@ -157,48 +177,64 @@ class Products extends Component {
       console.log(err);
     }
   };
+  addToWishList = async (
+    id,
+    productImage,
+    productName,
+    productSize,
+    productColor,
+    productPrice
+  ) => {
+    const productDetails = {
+      productId: id,
+      image: productImage,
+      name: productName,
+      size: productSize,
+      color: productColor,
+      price: parseInt(productPrice),
+    };
+    if (localStorage["userId"]) {
+      let response = await fetch(
+        `http://localhost:3003/wishlist/${localStorage["userId"]}`,
+        {
+          method: "POST",
+          body: JSON.stringify(productDetails),
+          headers: {
+            "Content-Type": "Application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        this.setState({ wishListAlert: true });
+        setTimeout(() => {
+          this.setState({
+            wishListAlert: false,
+          });
+        }, 1200);
+      } else {
+        this.setState({ wishListErrorAlert: true });
+        setTimeout(() => {
+          this.setState({
+            wishListErrorAlert: false,
+          });
+        }, 1200);
+      }
+    } else if (localStorage["guestToken"]) {
+      this.setState({ wishListErrorAlert: true });
+      setTimeout(() => {
+        this.setState({
+          wishListErrorAlert: false,
+        });
+      }, 1200);
+    }
+  };
   render() {
     return (
-      <Container>
-        {this.state.alert === true ? (
-          <Alert variant="success">Item added to cart</Alert>
-        ) : (
-          <div></div>
-        )}
-        <Row>
-          <Col md={3}>
-            <div id="category-text">
-              <h2>Category</h2>
-            </div>
-            <div>
-              <div id="category">
-                <ul>
-                  <li className="category-anchor">
-                    <a>MEN</a>
-                  </li>
-                  <li className="category-anchor">
-                    <a>WOMEN</a>
-                  </li>
-                  <li className="category-anchor">
-                    <a>KIDS</a>
-                  </li>
-                  <li className="category-anchor">
-                    <a>SPORTSWEAR</a>
-                  </li>
-                  <li className="category-anchor">
-                    <a>MEN</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </Col>
-          <Col md={9}>
-            <div id="featured-text">
-              <h2>Featured Items</h2>
-            </div>
-
+      <>
+        <Row className="gutters-sm">
+          <Col md={7} className="mb-3">
             <CardDeck>
-              {this.state.products.map((prod) => {
+              {this.state.tShirts.map((prod) => {
                 return (
                   <div className="product-image-wrapper col-sm-4">
                     <div className="single-products">
@@ -232,16 +268,40 @@ class Products extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className="choose">
-                      <ul className="nav nav-pills nav-justified">
-                        <li>
-                          <a href="#">
-                            <i className="fa fa-plus-square"></i>Add to wishlist
-                          </a>
+                    <div>
+                      <ul>
+                        <li
+                          onClick={() =>
+                            this.addToWishList(
+                              prod._id,
+                              prod.image,
+                              prod.name,
+                              prod.size,
+                              prod.color,
+                              prod.price
+                            )
+                          }
+                          style={{ cursor: "pointer" }}
+                          id="add-to-wishlist"
+                        >
+                          <FontAwesomeIcon icon={faHeart} className="fa-1x" />
+                          Add to wishlist
                         </li>
-                        <li>
-                          <Link to={`/details/${prod._id}`}>
-                            <i className="fa fa-plus-square"></i>More details
+                        <li
+                          id="all-products-add-to-wishlist"
+                          style={{ listStyle: "none" }}
+                        >
+                          <Link
+                            to={`/details/${prod._id}`}
+                            style={{
+                              color: "#b3afa8",
+                            }}
+                          >
+                            <FontAwesomeIcon
+                              icon={faPlusSquare}
+                              className="fa-1x"
+                            />
+                            More details
                           </Link>
                         </li>
                       </ul>
@@ -250,12 +310,69 @@ class Products extends Component {
                 );
               })}
             </CardDeck>
-            {/* <BottomProducts /> */}
+          </Col>
+          <Col md={5}>
+            <Carousel>
+              {this.state.accessories.map((accessory, key) => {
+                return (
+                  <Carousel.Item interval={2000}>
+                    <img
+                      className="d-block"
+                      src={accessory.image}
+                      alt="First slide"
+                      style={{ width: "100%" }}
+                    />
+                    <Carousel.Caption>
+                      <h3 style={{ color: "black" }}>{accessory.name}</h3>
+                      <p style={{ color: "black" }}>£ {accessory.price}</p>
+                      <button
+                        id="all-products-accessory-carousel-button"
+                        onClick={() =>
+                          this.addCart(
+                            accessory._id,
+                            accessory.image,
+                            accessory.name,
+                            accessory.size,
+                            accessory.color,
+                            accessory.price
+                          )
+                        }
+                      >
+                        Add to cart
+                      </button>
+                    </Carousel.Caption>
+                  </Carousel.Item>
+                );
+              })}
+            </Carousel>
           </Col>
         </Row>
-      </Container>
+
+        {this.state.alert === true ? (
+          <Alert id="alert">Item added to cart</Alert>
+        ) : (
+          <div></div>
+        )}
+        {this.state.errorAlert === true ? (
+          <Alert id="alert">Unable to add item to cart</Alert>
+        ) : (
+          <div></div>
+        )}
+        {this.state.wishListAlert === true ? (
+          <Alert id="alert">Item added to wishlist</Alert>
+        ) : (
+          <div></div>
+        )}
+        {this.state.wishListErrorAlert === true ? (
+          <Alert id="alert">
+            Unable to add item to wishlist. Please make sure you are signed in.
+          </Alert>
+        ) : (
+          <div></div>
+        )}
+      </>
     );
   }
 }
 
-export default Products;
+export default AllTShirts;

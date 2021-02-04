@@ -1,0 +1,31 @@
+#all-products-accessory-carousel-button {
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+}
+
+#all-products-accessory-carousel-button:hover {
+    background: #fff;
+    color: #fe980f;
+}
+
+#all-products-add-to-wishlist {
+    color: #b3afa8 !important;
+    font-size: 13px;
+    padding-left: 2;
+    padding-right: 0;
+    padding-top: 0.2rem;
+}
+
+#all-products-add-to-wishlist:hover {
+    background: none;
+    color: #fe980f;
+}

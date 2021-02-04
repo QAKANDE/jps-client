@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Row, Col, Form } from "react-bootstrap";
-import "../css/Reviews.css";
+import { Row, Col, Form, Alert } from "react-bootstrap";
+import "../../css/Reviews.css";
 import BeautyStars from "beauty-stars";
 
 class Reviews extends Component {
@@ -12,6 +12,8 @@ class Reviews extends Component {
     },
     value: 1,
     reviews: [],
+    alert: false,
+    ratingsWidth: "",
   };
   updateReview = (event) => {
     event.preventDefault();
@@ -41,7 +43,7 @@ class Reviews extends Component {
   getReviews = async () => {
     const productId = this.props.id;
 
-    const response = await fetch(`http://localhost:3001/reviews/${productId}`, {
+    const response = await fetch(`http://localhost:3003/reviews/${productId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -51,19 +53,31 @@ class Reviews extends Component {
     this.setState({
       reviews,
     });
-    console.log("", this.state.reviews);
   };
 
   postReview = async (event) => {
     event.preventDefault();
+    const widthArr = [];
+    if (this.state.value === 1) {
+      widthArr.push("10%");
+    } else if (this.state.value === 2) {
+      widthArr.push("20%");
+    } else if (this.state.value === 3) {
+      widthArr.push("40%");
+    } else if (this.state.value === 4) {
+      widthArr.push("60%");
+    } else if (this.state.value === 5) {
+      widthArr.push("80%");
+    }
     const productId = this.props.id;
-    let response = await fetch(`http://localhost:3001/reviews/new-review/`, {
+    let response = await fetch(`http://localhost:3003/reviews/new-review/`, {
       method: "POST",
       body: JSON.stringify({
         productId: productId,
         name: this.state.reviewDetails.name,
         email: this.state.reviewDetails.email,
         text: this.state.reviewDetails.reviewText,
+        width: widthArr[0],
         ratings: this.state.value,
       }),
       headers: {
@@ -71,28 +85,37 @@ class Reviews extends Component {
       },
     });
     if (response.ok) {
-      alert("Review Added");
       this.setState({
+        alert: true,
         reviewDetails: {
           name: "",
           email: "",
           reviewText: "",
         },
+        value: 1,
       });
+      setTimeout(() => {
+        this.setState({
+          alert: false,
+        });
+      }, 1200);
       this.getReviews();
+    } else {
+      alert("s");
     }
   };
 
   render() {
     return (
       <div className="mt-5">
-        <h3>Reviews</h3>
+        <div className="text-center mb-5">
+          <h3>Reviews</h3>
+        </div>
+
         <div id="product-information">
           {this.state.reviews.length === 0 ? (
             <div className="text-center">
-              <h5 className="mt-5">
-                This product has no reviews.
-              </h5>
+              <h5 className="mt-5">This product has no reviews.</h5>
             </div>
           ) : (
             <div>
@@ -108,7 +131,20 @@ class Reviews extends Component {
                       <p>{review.text}</p>
                     </div>
                     <div>
-                      <p>Rating : {review.ratings}</p>
+                      <div>
+                        <p>Rating : {review.ratings}</p>
+                      </div>
+                      <div
+                        style={{ width: "100%", backgroundColor: "#f0f0e9" }}
+                      >
+                        <div
+                          style={{
+                            width: review.width,
+                            height: "30px",
+                            backgroundColor: "#fe980f",
+                          }}
+                        ></div>
+                      </div>
                     </div>
                     <hr></hr>
                   </div>
@@ -164,12 +200,19 @@ class Reviews extends Component {
                   size={"20px"}
                   activeColor={"#fe980f"}
                 />
-                <button onClick={(e) => this.postReview(e)}>
+                <button onClick={(e) => this.postReview(e)} id="review-button">
                   Submit Review
                 </button>
               </div>
             </Form>
           </div>
+          {this.state.alert === true ? (
+            <Alert id="alert" className="mt-2">
+              <h5 className="text-center">Review Added</h5>
+            </Alert>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     );

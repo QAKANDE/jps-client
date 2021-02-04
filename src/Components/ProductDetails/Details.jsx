@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import hero2 from "../assets/hero2.png";
-import "../css/Details.css";
-import ProductDetailsCarousel from "../Components/ProductDetailsCarousel";
+import hero2 from "../../assets/hero2.png";
+import "../../css/Details.css";
+import ProductDetailsCarousel from "./ProductDetailsCarousel";
 import { Row, Col, Container, Carousel, CarouselItem } from "react-bootstrap";
 import Review from "./Review";
 
@@ -16,7 +16,7 @@ class Details extends Component {
 
   componentDidMount = async () => {
     const productId = this.props.match.params.productId;
-    const response = await fetch(`http://localhost:3001/product/${productId}`, {
+    const response = await fetch(`http://localhost:3003/product/${productId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -101,23 +101,19 @@ class Details extends Component {
   };
   render() {
     return (
-      <Container>
+      <Container style={{ marginTop: "2rem", marginBottom: "3rem" }}>
         <Row>
           <Col md={4}>
             <div className="view-product">
               <img src={this.state.details.image} />
             </div>
-            <div>
-              <h3 className="mt-5">Similar Products</h3>
-              <ProductDetailsCarousel />
-            </div>
           </Col>
           <Col sm={8}>
             <div className="product-information">
               <h2>{this.state.details.name}</h2>
-              <h2>{this.state.details.description}</h2>
+              <p>{this.state.details.description}</p>
               <span>
-                <span>£{this.state.details.price}</span>
+                <span>£ {this.state.details.price}</span>
                 <button
                   type="button"
                   className="btn btn-fefault"
@@ -138,9 +134,9 @@ class Details extends Component {
                 <b>Availability:</b> In Stock
               </p>
             </div>
-            <Review id={this.props.match.params.productId} />
           </Col>
         </Row>
+        <Review id={this.props.match.params.productId} />
       </Container>
     );
   }
