@@ -30,106 +30,79 @@ class Products extends Component {
   render() {
     return (
       <Container>
-        <Row>
-          <Col md={3}>
-            <div id="category-text">
-              <h2>Category</h2>
-            </div>
-            <div>
-              <div id="category">
-                <Form>
-                  <ul>
-                    <li className="category-anchor">
-                      <Form.Switch
-                        label="T-shirts"
-                        id="tShirt"
-                        onChange={(e) => this.displayTShirtsOnly(e)}
-                      />
-                    </li>
-                    <li className="category-anchor">
-                      <Form.Switch label="Accessories" id="accessories" />
-                    </li>
-                  </ul>
-                </Form>
-              </div>
-            </div>
-          </Col>
-          <Col md={9}>
-            <div id="featured-text">
-              <h2>T-shirts</h2>
-            </div>
+        <div id="featured-text">
+          <h2>T-shirts</h2>
+        </div>
 
-            <CardDeck>
-              {this.props.productsAsProps.map((prod) => {
-                return (
-                  <div className="product-image-wrapper col-sm-4">
-                    <div className="single-products">
-                      <div className="productinfo text-center">
-                        <img src={prod.image} alt="" />
-                        <h2>£ {prod.price}</h2>
-                        <p>{prod.name}</p>
-                        <a href="#" className="btn btn-default add-to-cart">
-                          <i className="fa fa-shopping-cart"></i>Add to cart
-                        </a>
-                      </div>
-                      <div className="product-overlay">
-                        <div className="overlay-content">
-                          <h2>£ {prod.price}</h2>
-                          <p>{prod.name}</p>
-                          <button
-                            onClick={() =>
-                              this.props.addToCartAsProps(
-                                prod._id,
-                                prod.image,
-                                prod.name,
-                                prod.size,
-                                prod.color,
-                                prod.price
-                              )
-                            }
-                            className="btn btn-default add-to-cart"
-                          >
-                            <i className="fa fa-shopping-cart"></i>Add to cart
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="choose">
-                      <ul className="nav nav-pills nav-justified">
-                        <li
-                          onClick={() =>
-                            this.addToWishListAsProps(
-                              prod._id,
-                              prod.image,
-                              prod.name,
-                              prod.size,
-                              prod.color,
-                              prod.price
-                            )
-                          }
-                          style={{ cursor: "pointer" }}
-                          id="add-to-wishlist"
-                        >
-                          <FontAwesomeIcon icon={faHeart} className="fa-1x" />
-                          Add to wishlist
-                        </li>
-                        <li className="">
-                          <Link to={`/details/${prod._id}`}>
-                            <FontAwesomeIcon
-                              icon={faPlusSquare}
-                              className="fa-1x"
-                            />
-                            More details
-                          </Link>
-                        </li>
-                      </ul>
+        <CardDeck>
+          {this.props.productsAsProps.map((prod) => {
+            return (
+              <div className="product-image-wrapper col-sm-4">
+                <div className="single-products">
+                  <div className="productinfo text-center">
+                    <img src={prod.image} alt="" />
+                    <h2>£ {prod.price}</h2>
+                    <p>{prod.name}</p>
+                    <a href="#" className="btn btn-default add-to-cart">
+                      <i className="fa fa-shopping-cart"></i>Add to cart
+                    </a>
+                  </div>
+                  <div className="product-overlay">
+                    <div className="overlay-content">
+                      <h2>£ {prod.price}</h2>
+                      <p>{prod.name}</p>
+                      <button
+                        onClick={() =>
+                          this.props.addToCartAsProps(
+                            prod._id,
+                            prod.image,
+                            prod.name,
+                            prod.size,
+                            prod.color,
+                            prod.price
+                          )
+                        }
+                        className="btn btn-default add-to-cart"
+                      >
+                        <i className="fa fa-shopping-cart"></i>Add to cart
+                      </button>
                     </div>
                   </div>
-                );
-              })}
-            </CardDeck>
-          </Col>
-        </Row>
+                </div>
+                <div className="choose">
+                  <ul className="nav nav-pills nav-justified">
+                    <li
+                      onClick={() =>
+                        this.addToWishListAsProps(
+                          prod._id,
+                          prod.image,
+                          prod.name,
+                          prod.size,
+                          prod.color,
+                          prod.price
+                        )
+                      }
+                      style={{ cursor: "pointer" }}
+                      id="add-to-wishlist"
+                    >
+                      <FontAwesomeIcon icon={faHeart} className="fa-1x" />
+                      Add to wishlist
+                    </li>
+                    <li className="">
+                      <Link to={`/details/${prod._id}`}>
+                        <FontAwesomeIcon
+                          icon={faPlusSquare}
+                          className="fa-1x"
+                        />
+                        More details
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
+        </CardDeck>
       </Container>
     );
   }

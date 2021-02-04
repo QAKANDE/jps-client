@@ -29,3 +29,53 @@
     background: none;
     color: #fe980f;
 }
+
+#search-btn {
+    margin-left: 1.5rem;
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    outline: none;
+}
+
+#view-all-products {
+    margin-left: 1.5rem;
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    outline: none;
+}
+
+#drop-down-form {
+    background-color: #fe980f;
+    border: 0;
+    border-radius: 20px;
+    font-weight: bolder;
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+    outline: none;
+}
+
+.options:focus {
+    color: black !important;
+    background-color: #fff;
+    text-decoration: none;
+}

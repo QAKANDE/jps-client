@@ -27,21 +27,12 @@ class NavSocialMedia extends Component {
           <div className="container">
             <div className="row">
               <div className="col-sm-6">
-                <div className="contactinfo">
-                  <ul className="nav nav-pills">
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-phone"></i> +44 75 01 88 821
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-envelope"></i>{" "}
-                        info@johnpaulstephen.com
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                <Link to="/">
+                  <img
+                    src="https://johnpaulstephen.com/wp-content/uploads/2020/05/johnPaulStephenLOGOhead-1.png"
+                    style={{ width: "12%" }}
+                  />
+                </Link>
               </div>
               <div className="col-sm-6">
                 <div className="d-flex justidy-content-between social-icons pull-right">

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Jumbo from "./Jumbo";
 import Products from "./Products";
 import Accessories from "./Accessories";
-import { Alert } from "react-bootstrap";
+import { Alert, Row, Col, Form, Container } from "react-bootstrap";
 
 class Home extends Component {
   state = {
@@ -15,7 +15,9 @@ class Home extends Component {
     errorAlert: false,
     wishListAlert: false,
     wishListErrorAlert: false,
-    tShirt: false,
+    tShirtdisplay: false,
+    accessoriesDisplay: false,
+    displayAll: true,
   };
 
   getCartLength = (token) => {
@@ -247,107 +249,246 @@ class Home extends Component {
       console.log(err);
     }
   };
+  getProductsByCategory = (e) => {
+    if (e.currentTarget.value === "accessories") {
+      this.setState({
+        accessoriesDisplay: true,
+        tShirtdisplay: false,
+        displayAll: false,
+      });
+    } else if (e.currentTarget.value === "t-shirts") {
+      this.setState({
+        tShirtdisplay: true,
+        accessoriesDisplay: false,
+        displayAll: false,
+      });
+    } else if (e.currentTarget.value === "None") {
+      this.setState({
+        displayAll: true,
+        tShirtdisplay: false,
+        accessoriesDisplay: false,
+      });
+    }
+  };
   render() {
     return (
       <div>
         <Jumbo />
-        {this.state.alert === true ? (
-          <Alert id="alert">Item added to cart</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.errorAlert === true ? (
-          <Alert id="alert">Unable to add item to cart</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.wishListAlert === true ? (
-          <Alert id="alert">Item added to wishlist</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.wishListErrorAlert === true ? (
-          <Alert id="alert">
-            Unable to add item to wishlist. Please make sure you are signed in.
-          </Alert>
-        ) : (
-          <div></div>
-        )}
-        <Products
-          secondAction={this.getCartLength}
-          productsAsProps={this.state.products}
-          addToCartAsProps={(
-            id,
-            productImage,
-            productName,
-            productSize,
-            productColor,
-            productPrice
-          ) =>
-            this.addCart(
-              id,
-              productImage,
-              productName,
-              productSize,
-              productColor,
-              productPrice
-            )
-          }
-          addToWishListAsProps={(
-            id,
-            productImage,
-            productName,
-            productSize,
-            productColor,
-            productPrice
-          ) =>
-            this.addToWishList(
-              id,
-              productImage,
-              productName,
-              productSize,
-              productColor,
-              productPrice
-            )
-          }
-        />
-        <Accessories
-          accessoriesAsProps={this.state.accessories}
-          addToCartAsProps={(
-            id,
-            productImage,
-            productName,
-            productSize,
-            productColor,
-            productPrice
-          ) =>
-            this.addCart(
-              id,
-              productImage,
-              productName,
-              productSize,
-              productColor,
-              productPrice
-            )
-          }
-          addToWishListAsProps={(
-            id,
-            productImage,
-            productName,
-            productSize,
-            productColor,
-            productPrice
-          ) =>
-            this.addToWishList(
-              id,
-              productImage,
-              productName,
-              productSize,
-              productColor,
-              productPrice
-            )
-          }
-        />
+        <Container>
+          {this.state.alert === true ? (
+            <Alert id="alert">Item added to cart</Alert>
+          ) : (
+            <div></div>
+          )}
+          {this.state.errorAlert === true ? (
+            <Alert id="alert">Unable to add item to cart</Alert>
+          ) : (
+            <div></div>
+          )}
+          {this.state.wishListAlert === true ? (
+            <Alert id="alert">Item added to wishlist</Alert>
+          ) : (
+            <div></div>
+          )}
+          {this.state.wishListErrorAlert === true ? (
+            <Alert id="alert">
+              Unable to add item to wishlist. Please make sure you are signed
+              in.
+            </Alert>
+          ) : (
+            <div></div>
+          )}
+          <Row style={{ marginBottom: "3rem", marginTop: "3rem" }}>
+            <Col md={8}>
+              <hr></hr>
+            </Col>
+            <Col md={4}>
+              <Form>
+                <label for="categories">Search by category</label>
+                <select
+                  className="mx-3"
+                  id="drop-down-form"
+                  onChange={(e) => this.getProductsByCategory(e)}
+                >
+                  <option value="None" className="options">
+                    All categories
+                  </option>
+                  <option value="t-shirts" className="options">
+                    T-shirts
+                  </option>
+                  <option value="accessories" className="options">
+                    Accessories
+                  </option>
+                </select>
+              </Form>
+            </Col>
+          </Row>
+          {this.state.displayAll === true ? (
+            <div>
+              <Products
+                secondAction={this.getCartLength}
+                productsAsProps={this.state.products}
+                addToCartAsProps={(
+                  id,
+                  productImage,
+                  productName,
+                  productSize,
+                  productColor,
+                  productPrice
+                ) =>
+                  this.addCart(
+                    id,
+                    productImage,
+                    productName,
+                    productSize,
+                    productColor,
+                    productPrice
+                  )
+                }
+                addToWishListAsProps={(
+                  id,
+                  productImage,
+                  productName,
+                  productSize,
+                  productColor,
+                  productPrice
+                ) =>
+                  this.addToWishList(
+                    id,
+                    productImage,
+                    productName,
+                    productSize,
+                    productColor,
+                    productPrice
+                  )
+                }
+              />
+              <Accessories
+                accessoriesAsProps={this.state.accessories}
+                addToCartAsProps={(
+                  id,
+                  productImage,
+                  productName,
+                  productSize,
+                  productColor,
+                  productPrice
+                ) =>
+                  this.addCart(
+                    id,
+                    productImage,
+                    productName,
+                    productSize,
+                    productColor,
+                    productPrice
+                  )
+                }
+                addToWishListAsProps={(
+                  id,
+                  productImage,
+                  productName,
+                  productSize,
+                  productColor,
+                  productPrice
+                ) =>
+                  this.addToWishList(
+                    id,
+                    productImage,
+                    productName,
+                    productSize,
+                    productColor,
+                    productPrice
+                  )
+                }
+              />
+            </div>
+          ) : (
+            <div>
+              {this.state.tShirtdisplay === true ? (
+                <div>
+                  <Products
+                    secondAction={this.getCartLength}
+                    productsAsProps={this.state.products}
+                    addToCartAsProps={(
+                      id,
+                      productImage,
+                      productName,
+                      productSize,
+                      productColor,
+                      productPrice
+                    ) =>
+                      this.addCart(
+                        id,
+                        productImage,
+                        productName,
+                        productSize,
+                        productColor,
+                        productPrice
+                      )
+                    }
+                    addToWishListAsProps={(
+                      id,
+                      productImage,
+                      productName,
+                      productSize,
+                      productColor,
+                      productPrice
+                    ) =>
+                      this.addToWishList(
+                        id,
+                        productImage,
+                        productName,
+                        productSize,
+                        productColor,
+                        productPrice
+                      )
+                    }
+                  />
+                </div>
+              ) : (
+                <div>
+                  {" "}
+                  <Accessories
+                    accessoriesAsProps={this.state.accessories}
+                    addToCartAsProps={(
+                      id,
+                      productImage,
+                      productName,
+                      productSize,
+                      productColor,
+                      productPrice
+                    ) =>
+                      this.addCart(
+                        id,
+                        productImage,
+                        productName,
+                        productSize,
+                        productColor,
+                        productPrice
+                      )
+                    }
+                    addToWishListAsProps={(
+                      id,
+                      productImage,
+                      productName,
+                      productSize,
+                      productColor,
+                      productPrice
+                    ) =>
+                      this.addToWishList(
+                        id,
+                        productImage,
+                        productName,
+                        productSize,
+                        productColor,
+                        productPrice
+                      )
+                    }
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </Container>
       </div>
     );
   }

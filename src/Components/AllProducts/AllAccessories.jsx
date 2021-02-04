@@ -235,7 +235,7 @@ class AllAccessories extends Component {
             <Carousel style={{ width: "80%" }}>
               {this.state.tShirts.map((accessory, key) => {
                 return (
-                  <Carousel.Item interval={2000}>
+                  <Carousel.Item interval={1500}>
                     <img
                       className="d-block "
                       src={accessory.image}

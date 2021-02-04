@@ -38,6 +38,10 @@ li {
     font-family: "Poppins", sans-serif;
 }
 
+#root button {
+    outline: none;
+}
+
 .btn:hover,
 .btn:focus {
     outline: none;
