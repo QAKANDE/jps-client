@@ -3,6 +3,7 @@ import Jumbo from "./Jumbo";
 import Products from "./Products";
 import Accessories from "./Accessories";
 import { Alert, Row, Col, Form, Container } from "react-bootstrap";
+import "../../css/Home.css";
 
 class Home extends Component {
   state = {
@@ -310,15 +311,9 @@ class Home extends Component {
                   id="drop-down-form"
                   onChange={(e) => this.getProductsByCategory(e)}
                 >
-                  <option value="None" className="options">
-                    All categories
-                  </option>
-                  <option value="t-shirts" className="options">
-                    T-shirts
-                  </option>
-                  <option value="accessories" className="options">
-                    Accessories
-                  </option>
+                  <option value="None">All categories</option>
+                  <option value="t-shirts">T-shirts</option>
+                  <option value="accessories">Accessories</option>
                 </select>
               </Form>
             </Col>

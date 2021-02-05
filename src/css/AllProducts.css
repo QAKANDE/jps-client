@@ -74,8 +74,6 @@
     outline: none;
 }
 
-.options:focus {
-    color: black !important;
-    background-color: #fff;
-    text-decoration: none;
+#drop-down-form option:hover {
+    background-color: black;
 }

@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "../css/Footer.css";
-import footerLogo from "../assets/jpslogo3.png";
+import logoTrademark from "../assets/logo_trademark.png";
+import applePay from "../assets/apple-pay.png";
+import visa from "../assets/visa.png";
+import googleWallet from "../assets/google_wallet.png";
+import amex from "../assets/amex-logo.png";
+import payPal from "../assets/money.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRegistered } from "@fortawesome/free-solid-svg-icons";
+import { faCCVisa } from "@fortawesome/free-solid-svg-icons";
 
 class Footer extends Component {
   state = {};
@@ -14,7 +19,7 @@ class Footer extends Component {
           <div id="footer">
             <Container>
               <Row className="pt-3 pb-3">
-                <Col>
+                <Col md={4}>
                   <div>
                     <h5>How Can We Help ? </h5>
                     <a>Help</a> <br></br>
@@ -23,19 +28,7 @@ class Footer extends Component {
                     <a>Get Exclusive offers and discount</a>
                   </div>
                 </Col>
-                <Col>
-                  <div>
-                    <h5>About JohnPaulStephen</h5>
-                    <br></br>
-                    <img src={footerLogo} id="footer-logo" />
-                    <div className="text-center mb-3 mt-3">
-                      <FontAwesomeIcon icon={faRegistered}></FontAwesomeIcon>
-                      <span className="mx-2">JohnPaulStephen</span>
-                      <span>2021</span>
-                    </div>
-                  </div>
-                </Col>
-                <Col>
+                <Col md={4}>
                   <div>
                     <h5>Information</h5>
                     <a>Delivery Information</a> <br></br>
@@ -43,7 +36,49 @@ class Footer extends Component {
                     <a>Privacy Policy</a> <br></br>
                   </div>
                 </Col>
+                <Col md={3}>
+                  <div>
+                    <h5>About Us</h5>
+                    <a>About JohnPaulStephen</a> <br></br>
+                    <a>Our Heritage</a> <br></br>
+                  </div>
+                </Col>
               </Row>
+              <hr></hr>
+              <div className="text-center">
+                <h5>Shopping is safe with us.</h5>
+                <h5>We accept : </h5>
+                <Row>
+                  <Col>
+                    <img src={applePay}></img>
+                  </Col>
+                  <Col>
+                    <img src={visa}></img>
+                  </Col>
+                  <Col>
+                    <img src={googleWallet}></img>
+                  </Col>
+                  <Col>
+                    <img src={payPal}></img>
+                  </Col>
+                  <Col>
+                    <img src={amex}></img>
+                  </Col>
+                </Row>
+              </div>
+              <hr></hr>
+              <div className="text-center">
+                <img src={logoTrademark} style={{ width: "50%" }} />
+              </div>
+              <hr></hr>
+              <div className="text-center">
+                <p>Call us : +448383728292922</p>
+                <p>
+                  John Paul Stepehen, Stephens road , John Lane, London RT4 2QG
+                  - Registered No. 5624245 - UK Vat No. 891 2391 23
+                  info@johnpaulstephen.com
+                </p>
+              </div>
             </Container>
           </div>
         </div>
