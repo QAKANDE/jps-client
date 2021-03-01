@@ -315,7 +315,7 @@ class AllTShirts extends Component {
             <Carousel>
               {this.state.accessories.map((accessory, key) => {
                 return (
-                  <Carousel.Item interval={1800}>
+                  <Carousel.Item interval={1000}>
                     <img
                       className="d-block"
                       src={accessory.image}

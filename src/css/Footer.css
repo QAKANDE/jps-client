@@ -8,3 +8,12 @@
     width: 85%;
     height: 55%;
 }
+
+.footer-link {
+    color: #fe980f;
+}
+
+.footer-link:hover {
+    text-decoration: none;
+    color: black;
+}

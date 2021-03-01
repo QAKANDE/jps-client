@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import hero2 from "../../assets/hero2.png";
 import "../../css/Details.css";
 import ProductDetailsCarousel from "./ProductDetailsCarousel";
-import { Row, Col, Container, Carousel, CarouselItem } from "react-bootstrap";
+import { Row, Col, Container, Carousel, CarouselItem , Form} from "react-bootstrap";
+import {addCart} from "../../Helpers/functions"
 import Review from "./Review";
 
 class Details extends Component {
@@ -12,9 +13,13 @@ class Details extends Component {
     quantity: 1,
     alert: false,
     errorAlert: false,
+    sizeSelected: "None",
+    sizesFromApi : [],
+    sizeToBeSent : ""
   };
 
   componentDidMount = async () => {
+    const sizeArr = []
     const productId = this.props.match.params.productId;
     const response = await fetch(`http://localhost:3003/product/${productId}`, {
       method: "GET",
@@ -23,69 +28,24 @@ class Details extends Component {
       },
     });
     const details = await response.json();
+    details.sizes.map((size)=> {
+      return sizeArr.push(size)
+    })
     this.setState({
       details,
+      sizesFromApi: sizeArr,
       id: productId,
+      sizeToBeSent: sizeArr.join("")
     });
+  
     this.getReviews();
   };
+ 
 
-  addCart = async (id, productName, productPrice) => {
-    try {
-      if (!localStorage["userId"]) {
-        const productDetails = {
-          productId: id,
-          quantity: this.state.quantity,
-          name: productName,
-          price: parseInt(productPrice),
-          userId: localStorage["guestToken"],
-        };
-        let response = await fetch(
-          `http://localhost:3001/cart/check-out-as-guest`,
-          {
-            method: "POST",
-            body: JSON.stringify(productDetails),
-            headers: {
-              "Content-Type": "Application/json",
-            },
-          }
-        );
-        if (response.ok) {
-          alert("success");
-          const response = await fetch(
-            `http://localhost:3001/cart/${localStorage["guestToken"]}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-type": "application/json",
-              },
-            }
-          );
-          const cart = await response.json();
-          this.props.secondAction(cart.totalItems);
-          // this.setState({ alert: true })
-          // setTimeout(() => {
-          //     this.setState({
-          //         alert: false
-          //     });
-          // }, 1200);
-        } else {
-          this.setState({ errorAlert: true });
-          setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            });
-          }, 1200);
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   getReviews = async () => {
     const response = await fetch(
-      `http://localhost:3001/reviews/${this.props.match.params.productId}`,
+      `http://localhost:3003/reviews/${this.props.match.params.productId}`,
       {
         method: "GET",
         headers: {
@@ -97,7 +57,7 @@ class Details extends Component {
     this.setState({
       reviews,
     });
-    console.log("", this.state.reviews);
+   
   };
   render() {
     return (
@@ -112,17 +72,37 @@ class Details extends Component {
             <div className="product-information">
               <h2>{this.state.details.name}</h2>
               <p>{this.state.details.description}</p>
+              <Form>
+                     <select
+                  className="mt-3 mb-3"
+                  id="drop-down-form"
+                  onChange={e => this.setState({
+                    sizeSelected:e.target.value
+                  })}
+                >
+                  <option value="None">Select size</option>
+                  {this.state.sizesFromApi.map((size)=> {
+                     return <option value={size}>{size}</option> 
+                  })}
+                </select>
+              </Form>
               <span>
                 <span>£ {this.state.details.price}</span>
+
                 <button
                   type="button"
                   className="btn btn-fefault"
                   id="cart"
                   onClick={() =>
-                    this.addCart(
-                      this.state.details.productId,
+                    addCart(
+                      this.state.details._id,
+                      this.state.quantity,
+                      this.state.details.image,
                       this.state.details.name,
-                      this.state.details.price
+                      this.state.sizeSelected,
+                      this.state.details.color,
+                      this.state.details.price, 
+                      this.state.sizeToBeSent
                     )
                   }
                 >

@@ -2,11 +2,12 @@ import React, { Component } from "react";
 import "../../css/Cart.css";
 import CartTotal from "../../Components/cart/CartTotal";
 import Checkout from "../../Components/cart/Checkout";
-import { Row, Col, Container, Card } from "react-bootstrap";
+import { Row, Col, Container, Card, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Alert } from "react-bootstrap";
 import { loadStripe } from "@stripe/stripe-js";
+
 const stripeTestPromise = loadStripe(
   "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"
 );
@@ -24,6 +25,8 @@ class Cart extends Component {
     itemsLength: "",
     userId: "",
     alert: false,
+    sizes: [],
+    sizeSelected: "",
   };
 
   componentDidMount = async () => {
@@ -33,6 +36,7 @@ class Cart extends Component {
   getCart = async () => {
     const cartt = [];
     const total = [];
+    const sizeArr = [];
     if (localStorage["userId"]) {
       const response = await fetch(
         `http://localhost:3003/cart/${localStorage["userId"]}`,
@@ -48,6 +52,7 @@ class Cart extends Component {
         cartt.push(product);
         total.push(product.total);
       });
+     
       const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
       const finalTotal = parseInt(
         subTotal + this.state.tax + this.state.shippingCost
@@ -60,8 +65,8 @@ class Cart extends Component {
         finalTotal,
         itemsLength: cart.totalItems,
         userId: cart.userId,
+        sizes: sizeArr,
       });
-      console.log(this.state.allCart);
     } else if (localStorage["guestToken"]) {
       const response = await fetch(
         `http://localhost:3003/cart/${localStorage["guestToken"]}`,
@@ -77,6 +82,8 @@ class Cart extends Component {
         cartt.push(product);
         total.push(product.total);
       });
+    
+     
       const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
       const finalTotal = parseInt(
         subTotal + this.state.tax + this.state.shippingCost
@@ -89,8 +96,8 @@ class Cart extends Component {
         finalTotal,
         itemsLength: cart.totalItems,
         userId: cart.userId,
+        sizes: sizeArr,
       });
-      console.log(this.state.allCart);
     }
   };
 
@@ -103,16 +110,26 @@ class Cart extends Component {
   increaseQuantity = async (
     id,
     productName,
-    productPrice,
-    previousQuantity
+    previousQuantity,
+    productImage,
+    productSize,
+    productColor,
+    productPrice
   ) => {
-    if (!localStorage["userId"]) {
+    const productSizes = this.state.sizes.join("");
+
+    if (localStorage["guestToken"]) {
       const quantity = previousQuantity + 1;
       const productDetails = {
         productId: id,
-        quantity: quantity,
+        quantity: parseInt(quantity),
+        image: productImage,
         name: productName,
+        size: productSize,
+        color: productColor,
         price: parseInt(productPrice),
+        sizeFromClient: productSizes,
+        total: parseInt(productPrice),
         userId: localStorage["guestToken"],
       };
       let response = await fetch(
@@ -135,7 +152,7 @@ class Cart extends Component {
               productName: productName,
               productPrice: parseInt(productPrice * 100),
               productId: id,
-              quantity: quantity,
+              quantity: parseInt(quantity),
             }),
             headers: {
               "Content-Type": "application/json",
@@ -149,8 +166,13 @@ class Cart extends Component {
       const productDetails = {
         productId: id,
         quantity: quantity,
+        image: productImage,
         name: productName,
+        size: productSize,
+        color: productColor,
         price: parseInt(productPrice),
+        sizeFromClient: productSizes,
+        total: parseInt(productPrice),
         userId: localStorage["userId"],
       };
       let response = await fetch(
@@ -188,9 +210,26 @@ class Cart extends Component {
   decreaseQuantity = async (
     id,
     productName,
-    productPrice,
-    previousQuantity
+    previousQuantity,
+    productImage,
+    productSize,
+    productColor,
+    productPrice
   ) => {
+    const productSizes = this.state.sizes.join("");
+    const quantity = previousQuantity - 1;
+     const productDetails = {
+       productId: id,
+       quantity: parseInt(quantity),
+       image: productImage,
+       name: productName,
+       size: productSize,
+       color: productColor,
+       price: parseInt(productPrice),
+       sizeFromClient: productSizes,
+       total: parseInt(productPrice),
+       userId: localStorage["guestToken"],
+     };
     if (!localStorage["userId"]) {
       if (previousQuantity === 1) {
         this.setState({ alert: true });
@@ -200,14 +239,7 @@ class Cart extends Component {
           });
         }, 1200);
       } else {
-        const quantity = previousQuantity - 1;
-        const productDetails = {
-          productId: id,
-          quantity: quantity,
-          name: productName,
-          price: parseInt(productPrice),
-          userId: localStorage["guestToken"],
-        };
+        
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
           {
@@ -247,14 +279,7 @@ class Cart extends Component {
           });
         }, 1200);
       } else {
-        const quantity = previousQuantity - 1;
-        const productDetails = {
-          productId: id,
-          quantity: quantity,
-          name: productName,
-          price: parseInt(productPrice),
-          userId: localStorage["userId"],
-        };
+       
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
           {
@@ -304,6 +329,25 @@ class Cart extends Component {
       alert("some");
     }
   };
+
+  editSize = async (e, userId, productId) => {
+    this.setState({
+      sizeSelected: e.target.value,
+    });
+    let response = await fetch(
+      `http://localhost:3003/cart/edit-product-size/${userId}/${productId}`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          size: e.target.value,
+        }),
+        headers: {
+          "Content-Type": "Application/json",
+        },
+      }
+    );
+    this.getCart();
+  };
   render() {
     return (
       <Container style={{ marginTop: "2rem", marginBottom: "2rem" }}>
@@ -342,8 +386,8 @@ class Cart extends Component {
                                 <div className="d-flex justify-content-between">
                                   <div>
                                     <h5>{item.name}</h5>
-                                    {item.color === "" ? (
-                                      <div></div>
+                                    {item.color === "No color required" ? (
+                                      <></>
                                     ) : (
                                       <div>
                                         <p class="mb-3 text-muted text-uppercase small">
@@ -351,10 +395,44 @@ class Cart extends Component {
                                         </p>
                                       </div>
                                     )}
+                                    <div className="d-flex justify-content-between">
+                                      {item.size === "No size required" ? (
+                                        <div></div>
+                                      ) : (
+                                        <p class="mt-2 text-muted text-uppercase small">
+                                          Size: {item.size}
+                                        </p>
+                                      )}
 
-                                    <p class="mb-3 text-muted text-uppercase small">
-                                      Size: {item.size}
-                                    </p>
+                                      {item.sizes.length !== 0 ? (
+                                        <Form>
+                                          <select
+                                            className="mx-3"
+                                            id="drop-down-form"
+                                            onChange={(e) =>
+                                              this.editSize(
+                                                e,
+                                                this.state.allCart.userId,
+                                                item.productId
+                                              )
+                                            }
+                                          >
+                                            <option value="None">
+                                              Edit size
+                                            </option>
+                                            {item.sizes.map((size) => {
+                                              return (
+                                                <option value={size}>
+                                                  {size}
+                                                </option>
+                                              );
+                                            })}
+                                          </select>
+                                        </Form>
+                                      ) : (
+                                        <div></div>
+                                      )}
+                                    </div>
                                   </div>
                                   <div className="d-flex justify-content-between">
                                     <button
@@ -368,8 +446,12 @@ class Cart extends Component {
                                         this.increaseQuantity(
                                           item.productId,
                                           item.name,
+                                          item.quantity,
+                                          item.image,
+                                          this.state.sizeSelected,
+                                          item.color,
                                           item.price,
-                                          item.quantity
+                                          item.total
                                         )
                                       }
                                     >
@@ -387,8 +469,12 @@ class Cart extends Component {
                                         this.decreaseQuantity(
                                           item.productId,
                                           item.name,
+                                          item.quantity,
+                                          item.image,
+                                          this.state.sizeSelected,
+                                          item.color,
                                           item.price,
-                                          item.quantity
+                                          item.total
                                         )
                                       }
                                     >

@@ -1,6 +1,14 @@
 import React, { Component } from "react";
-import { Row, Col, Container, Carousel, CarouselItem } from "react-bootstrap";
+import {
+  Row,
+  Col,
+  Container,
+  Carousel,
+  CarouselItem,
+  Form,
+} from "react-bootstrap";
 import Review from "./Review";
+import { addCart } from "../../Helpers/functions";
 
 class AccessoriesDetails extends Component {
   state = {
@@ -9,6 +17,8 @@ class AccessoriesDetails extends Component {
     quantity: 1,
     alert: false,
     errorAlert: false,
+    size: "No size required",
+    color: "No color required",
   };
   componentDidMount = async () => {
     const accessoryId = this.props.match.params.productId;
@@ -110,6 +120,7 @@ class AccessoriesDetails extends Component {
             <div className="product-information">
               <h2>{this.state.details.name}</h2>
               <p>{this.state.details.description}</p>
+
               <span>
                 <span>£ {this.state.details.price}</span>
                 <button
@@ -117,9 +128,13 @@ class AccessoriesDetails extends Component {
                   className="btn btn-fefault"
                   id="cart"
                   onClick={() =>
-                    this.addCart(
-                      this.state.details.productId,
+                    addCart(
+                      this.state.details._id,
+                      this.state.quantity,
+                      this.state.details.image,
                       this.state.details.name,
+                      this.state.size,
+                      this.state.color,
                       this.state.details.price
                     )
                   }

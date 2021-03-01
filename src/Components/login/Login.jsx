@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Form } from "react-bootstrap";
 import "../../css/Login.css";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   state = {
@@ -72,76 +73,11 @@ class Login extends Component {
             wishListAlert: false,
           });
         }, 1200);
-        window.location.href = `http://localhost:3002/`;
+        window.location.href = `http://localhost:3000/`;
       }
     }
   };
 
-  // postSignUpDetails = async (e) => {
-  //   e.preventDefault();
-  //   if (!localStorage["userId"]) {
-  //     const response = await fetch("http://localhost:3003/users/register", {
-  //       method: "POST",
-  //       body: JSON.stringify({
-  //         userName: this.state.signUpDetails.name,
-  //         email: this.state.signUpDetails.email,
-  //         phoneNumber: this.state.signUpDetails.phoneNumber,
-  //         password: this.state.signUpDetails.password,
-  //       }),
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     const userDetails = await response.json();
-
-  //     if (response.ok) {
-  //       alert("Sign up succesfull");
-  //       localStorage["userId"] = userDetails;
-  //       this.setState({
-  //         signUpDetails: {
-  //           name: "",
-  //           email: "",
-  //           phoneNumber: "",
-  //           password: "",
-  //         },
-  //       });
-  //       window.location.href = `http://localhost:3000/`;
-  //     }
-  //   } else if (localStorage["guestToken"]) {
-  //     const res = await fetch(
-  //       `http://localhost:3003/users/guest-token-already-exists/${localStorage["guestToken"]}`,
-  //       {
-  //         method: "POST",
-  //         body: JSON.stringify({
-  //           userName: this.state.details.name,
-  //           email: this.state.details.email,
-  //           phoneNumber: this.state.details.phoneNumber,
-  //           password: this.state.details.password,
-  //         }),
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-  //     const userDetails = await res.json();
-  //     if (res.ok) {
-  //       localStorage["userId"] = userDetails;
-  //       this.setState({
-  //         alert: true,
-  //       });
-  //       setTimeout(() => {
-  //         this.setState({
-  //           alert: false,
-  //           displayCheckOut: true,
-  //           signUpcompleted: true,
-  //         });
-  //       }, 1200);
-  //       window.location.href = `http://localhost:3000/`;
-  //     } else {
-  //       alert("Something went wrong");
-  //     }
-  //   }
-  // };
   render() {
     return (
       <>
@@ -174,6 +110,11 @@ class Login extends Component {
             <Form.Group>
               <Form.Check type="checkbox" label="Remember me" />
             </Form.Group>
+            <div className="text-center mt-4 mb-4">
+              <Link to="forgotPassword" id="forgot-password-link">
+                Forgotten Password ?{" "}
+              </Link>
+            </div>
             <div className="text-center">
               <button
                 id="login-button"

@@ -19,7 +19,14 @@ import {
 import { Link } from "react-router-dom";
 
 class Products extends Component {
-  state = {};
+  state = {
+    sizes: [],
+    products: [],
+  };
+
+  
+
+  
 
   displayTShirtsOnly = (event) => {
     this.setState({
@@ -33,9 +40,8 @@ class Products extends Component {
         <div id="featured-text">
           <h2>T-shirts</h2>
         </div>
-
         <CardDeck>
-          {this.props.productsAsProps.map((prod) => {
+          {this.props.productsAsProps.slice(0, 3).map((prod) => {
             return (
               <div className="product-image-wrapper col-sm-4">
                 <div className="single-products">
@@ -57,9 +63,11 @@ class Products extends Component {
                             prod._id,
                             prod.image,
                             prod.name,
-                            prod.size,
                             prod.color,
-                            prod.price
+                            prod.price,
+                            prod.sizes,
+                            prod.total,
+                            prod.sizeAsString
                           )
                         }
                         className="btn btn-default add-to-cart"
@@ -109,3 +117,4 @@ class Products extends Component {
 }
 
 export default Products;
+;;;;

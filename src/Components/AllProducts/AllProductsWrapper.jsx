@@ -3,6 +3,7 @@ import { Container, Form, Row, Col, Alert } from "react-bootstrap";
 import AllTShirts from "./AllTShirts";
 import AllAccessories from "./AllAccessories";
 import "../../css/AllProducts.css";
+import { withLastLocation } from "react-router-last-location";
 
 class AllProductsWrapper extends Component {
   state = {
@@ -151,7 +152,7 @@ class AllProductsWrapper extends Component {
                 </Row>
               )}
 
-              <div className="text-center">
+              <div className="text-center mt-5">
                 <button
                   onClick={() => this.viewProducts()}
                   id="view-all-products"

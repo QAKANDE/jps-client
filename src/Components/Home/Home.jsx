@@ -4,6 +4,7 @@ import Products from "./Products";
 import Accessories from "./Accessories";
 import { Alert, Row, Col, Form, Container } from "react-bootstrap";
 import "../../css/Home.css";
+// import { addCart } from "../../Helpers/functions";
 
 class Home extends Component {
   state = {
@@ -19,6 +20,7 @@ class Home extends Component {
     tShirtdisplay: false,
     accessoriesDisplay: false,
     displayAll: true,
+    initialSize: "None",
   };
 
   getCartLength = (token) => {
@@ -45,6 +47,7 @@ class Home extends Component {
       localStorage["guestToken"] = this.state.guestToken;
       this.getProducts();
       this.getAccessories();
+      console.log(window.history.back);
     } else if (localStorage["userId"]) {
       localStorage.removeItem("guestToken");
     }
@@ -62,7 +65,7 @@ class Home extends Component {
     this.setState({
       products,
     });
-    console.log("from home", this.state.products);
+    console.log("dd" , this.state.products)
   };
 
   getAccessories = async () => {
@@ -81,7 +84,6 @@ class Home extends Component {
     id,
     productImage,
     productName,
-    productSize,
     productColor,
     productPrice
   ) => {
@@ -89,7 +91,6 @@ class Home extends Component {
       productId: id,
       image: productImage,
       name: productName,
-      size: productSize,
       color: productColor,
       price: parseInt(productPrice),
     };
@@ -132,20 +133,24 @@ class Home extends Component {
     id,
     productImage,
     productName,
-    productSize,
     productColor,
-    productPrice
+    productPrice,
+    productSizes,
+    productTotal,
+    productSizesAsString
   ) => {
-    try {
+    try {      
+    
       if (localStorage["guestToken"]) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
           image: productImage,
           name: productName,
-          size: productSize,
+          size:this.state.initialSize,
           color: productColor,
           price: parseInt(productPrice),
+          sizeFromClient: productSizesAsString,
           userId: localStorage["guestToken"],
         };
         let response = await fetch(
@@ -197,9 +202,10 @@ class Home extends Component {
           quantity: this.state.quantity,
           image: productImage,
           name: productName,
-          size: productSize,
+          size: this.state.initialSize,
           color: productColor,
           price: parseInt(productPrice),
+          sizeFromClient: productSizesAsString,
           userId: localStorage["userId"],
         };
         let response = await fetch(
@@ -325,26 +331,30 @@ class Home extends Component {
                 productsAsProps={this.state.products}
                 addToCartAsProps={(
                   id,
+                  quantity,
                   productImage,
                   productName,
                   productSize,
                   productColor,
-                  productPrice
+                  productPrice,
+                  productSizes
                 ) =>
                   this.addCart(
                     id,
+                    quantity,
                     productImage,
                     productName,
                     productSize,
                     productColor,
-                    productPrice
+                    productPrice,
+                    productSizes
                   )
                 }
                 addToWishListAsProps={(
                   id,
                   productImage,
                   productName,
-                  productSize,
+
                   productColor,
                   productPrice
                 ) =>
@@ -352,7 +362,7 @@ class Home extends Component {
                     id,
                     productImage,
                     productName,
-                    productSize,
+
                     productColor,
                     productPrice
                   )
@@ -364,7 +374,7 @@ class Home extends Component {
                   id,
                   productImage,
                   productName,
-                  productSize,
+
                   productColor,
                   productPrice
                 ) =>
@@ -372,7 +382,7 @@ class Home extends Component {
                     id,
                     productImage,
                     productName,
-                    productSize,
+
                     productColor,
                     productPrice
                   )
@@ -381,7 +391,7 @@ class Home extends Component {
                   id,
                   productImage,
                   productName,
-                  productSize,
+
                   productColor,
                   productPrice
                 ) =>
@@ -389,7 +399,7 @@ class Home extends Component {
                     id,
                     productImage,
                     productName,
-                    productSize,
+
                     productColor,
                     productPrice
                   )
@@ -407,7 +417,7 @@ class Home extends Component {
                       id,
                       productImage,
                       productName,
-                      productSize,
+
                       productColor,
                       productPrice
                     ) =>
@@ -415,7 +425,7 @@ class Home extends Component {
                         id,
                         productImage,
                         productName,
-                        productSize,
+
                         productColor,
                         productPrice
                       )
@@ -424,7 +434,7 @@ class Home extends Component {
                       id,
                       productImage,
                       productName,
-                      productSize,
+
                       productColor,
                       productPrice
                     ) =>
@@ -432,7 +442,7 @@ class Home extends Component {
                         id,
                         productImage,
                         productName,
-                        productSize,
+
                         productColor,
                         productPrice
                       )
@@ -448,7 +458,7 @@ class Home extends Component {
                       id,
                       productImage,
                       productName,
-                      productSize,
+
                       productColor,
                       productPrice
                     ) =>
@@ -456,7 +466,7 @@ class Home extends Component {
                         id,
                         productImage,
                         productName,
-                        productSize,
+
                         productColor,
                         productPrice
                       )
@@ -465,7 +475,7 @@ class Home extends Component {
                       id,
                       productImage,
                       productName,
-                      productSize,
+
                       productColor,
                       productPrice
                     ) =>
@@ -473,7 +483,7 @@ class Home extends Component {
                         id,
                         productImage,
                         productName,
-                        productSize,
+
                         productColor,
                         productPrice
                       )
