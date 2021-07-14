@@ -1,193 +1,203 @@
-import React, { Component } from "react";
-import { Form, Row, Col } from "react-bootstrap";
-import "../../css/Signup.css";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { Component } from 'react'
+import { Form, Row, Col, Alert } from 'react-bootstrap'
+import '../../css/Signup.css'
+import { loadStripe } from '@stripe/stripe-js'
+import Paypalpayment from './Paypalpayment'
 const stripeTestPromise = loadStripe(
-  "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"
-);
+  'pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf',
+)
 
 class Checkoutasguest extends Component {
   state = {
     deliverTo: {
-      title: "",
-      firstName: "",
-      lastName: "",
-      addressLine1: "",
-      postCode: "",
-      county: "",
-      country: "",
-      email: "",
+      title: '',
+      firstName: '',
+      lastName: '',
+      addressLine1: '',
+      postCode: '',
+      county: '',
+      country: '',
+      email: '',
     },
     checkBox: false,
-  };
+    redirectToStripeSuccess: false,
+    showPayPal: false,
+  }
 
   updateDeliverTo = (event) => {
-    let deliverTo = this.state.deliverTo;
-    let id = event.currentTarget.id;
-    deliverTo[id] = event.currentTarget.value;
+    let deliverTo = this.state.deliverTo
+    let id = event.currentTarget.id
+    deliverTo[id] = event.currentTarget.value
     this.setState({
       deliverTo,
-    });
-  };
+    })
+  }
 
   confirmBillAddress = () => {
     this.setState({
       checkBox: true,
-    });
-  };
+    })
+  }
 
-  checkOut = async () => {
-    if (!localStorage["userId"]) {
-      const stripe = await stripeTestPromise;
-      const res = await fetch(
-        "http://localhost:3003/payment/create-checkout-session",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            userId: localStorage["guestToken"],
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const session = await res.json();
-      const result = await stripe.redirectToCheckout({
-        sessionId: session.id,
-      });
-
-      if (result.error) {
-        console.log(result.error.message);
-      } else {
-        alert("sucess");
-      }
-    } else if (localStorage["userId"]) {
-      const stripe = await stripeTestPromise;
-      const res = await fetch(
-        "http://localhost:3003/payment/create-checkout-session",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            userId: localStorage["userId"],
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const session = await res.json();
-      const result = await stripe.redirectToCheckout({
-        sessionId: session.id,
-      });
-
-      if (result.error) {
-        console.log(result.error.message);
-      } else {
-        alert("sucess");
-      }
-    }
-  };
   sendUserOrderDetails = async () => {
     const response = await fetch(
-      `http://localhost:3003/users/user-order/${localStorage["userId"]}`,
+      `http://localhost:3003/users/user-order/${localStorage['userId']}`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
-    );
-    console.log("re", response);
-  };
+      },
+    )
+  }
+
+  checkOut = async (e) => {
+    e.preventDefault()
+    this.setState({ showPayPal: true })
+  }
+
+  // checkOut = async () => {
+  //   if (!localStorage['userId']) {
+  //     const stripe = await stripeTestPromise
+  //     const res = await fetch(
+  //       'http://localhost:3003/payment/create-checkout-session',
+  //       {
+  //         method: 'POST',
+  //         body: JSON.stringify({
+  //           userId: localStorage['guestToken'],
+  //         }),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     )
+  //     const session = await res.json()
+  //     const result = await stripe.redirectToCheckout({
+  //       sessionId: session.id,
+  //     })
+  //     console.log(result)
+  //     // if (result.error) {
+  //     //   console.log(result.error.message)
+  //     // } else {
+  //     //   this.sendUserOrderDetails()
+  //     // }
+  //   } else if (localStorage['userId']) {
+  //     const stripe = await stripeTestPromise
+  //     const res = await fetch(
+  //       'http://localhost:3003/payment/create-checkout-session',
+  //       {
+  //         method: 'POST',
+  //         body: JSON.stringify({
+  //           userId: localStorage['userId'],
+  //         }),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //         },
+  //       },
+  //     )
+
+  //     const session = await res.json()
+  //     const result = await stripe.redirectToCheckout({
+  //       sessionId: session.id,
+  //     })
+
+  //     if (result.error) {
+  //       console.log(result.error.message)
+  //     } else {
+  //       this.sendUserOrderDetails()
+  //     }
+  //   }
+  // }
 
   sendOrderDetails = async (e) => {
-    e.preventDefault();
-    if (!localStorage["userId"]) {
-      const res = await fetch("http://localhost:3003/orders/new-order", {
-        method: "POST",
+    e.preventDefault()
+    if (localStorage['guestToken']) {
+      const res = await fetch('http://localhost:3003/orders/new-order', {
+        method: 'POST',
         body: JSON.stringify({
           customerId: this.state.deliverTo.email,
           customerName:
             this.state.deliverTo.title +
-            " " +
+            ' ' +
             this.state.deliverTo.firstName +
-            " " +
+            ' ' +
             this.state.deliverTo.lastName,
           addressLine1: this.state.deliverTo.addressLine1,
           county: this.state.deliverTo.county,
           country: this.state.deliverTo.country,
           postCode: this.state.deliverTo.postCode,
           subTotal: 234,
-          userId: localStorage["guestToken"],
+          userId: localStorage['guestToken'],
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      });
+      })
       if (res.status === 200) {
         this.setState({
           deliverTo: {
-            title: "",
-            firstName: "",
-            lastName: "",
-            addressLine1: "",
-            postCode: "",
-            county: "",
-            country: "",
-            email: "",
+            title: '',
+            firstName: '',
+            lastName: '',
+            addressLine1: '',
+            postCode: '',
+            county: '',
+            country: '',
+            email: '',
           },
-        });
-        alert("success");
-        this.sendUserOrderDetails();
-        this.checkOut();
+          redirectToStripeSuccess: true,
+        })
+        setTimeout(() => {
+          this.setState({
+            redirectToStripeSuccess: false,
+          })
+        }, 2000)
+        this.checkOut()
       } else {
-        alert("Something went wrong");
+        alert('Something went wrong')
       }
-    } else if (localStorage["userId"]) {
-      const res = await fetch("http://localhost:3003/orders/new-order", {
-        method: "POST",
+    } else if (localStorage['userId']) {
+      const res = await fetch('http://localhost:3003/orders/new-order', {
+        method: 'POST',
         body: JSON.stringify({
           customerId: this.state.deliverTo.email,
           customerName:
             this.state.deliverTo.title +
-            " " +
+            ' ' +
             this.state.deliverTo.firstName +
-            " " +
+            ' ' +
             this.state.deliverTo.lastName,
           addressLine1: this.state.deliverTo.addressLine1,
           county: this.state.deliverTo.county,
           country: this.state.deliverTo.country,
           postCode: this.state.deliverTo.postCode,
           subTotal: 234,
-          userId: localStorage["userId"],
+          userId: localStorage['userId'],
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      });
+      })
       if (res.status === 200) {
         this.setState({
           deliverTo: {
-            title: "",
-            firstName: "",
-            lastName: "",
-            addressLine1: "",
-            postCode: "",
-            county: "",
-            country: "",
-            email: "",
+            title: '',
+            firstName: '',
+            lastName: '',
+            addressLine1: '',
+            postCode: '',
+            county: '',
+            country: '',
+            email: '',
           },
-        });
-        alert("success");
-        this.sendUserOrderDetails();
-        this.checkOut();
+          redirectToStripeSuccess: false,
+        })
+        this.checkOut()
       } else {
-        alert("Something went wrong");
+        alert('Something went wrong')
       }
     }
-  };
+  }
 
   render() {
     return (
@@ -546,7 +556,7 @@ class Checkoutasguest extends Component {
                   placeholder="County"
                   id="county"
                   onChange={(e) => this.updateDeliverTo(e)}
-                  value={this.state.deliverTo.County}
+                  value={this.state.deliverTo.county}
                 />
               </Form.Group>
               <Form.Group>
@@ -561,15 +571,47 @@ class Checkoutasguest extends Component {
               </Form.Group>
             </Col>
           </Row>
+          {this.state.showPayPal === true ? (
+            <Paypalpayment
+              total={this.props.total}
+              subTotal={this.props.subTotal}
+              fullName={
+                this.state.deliverTo.title +
+                ' ' +
+                this.state.deliverTo.firstName +
+                ' ' +
+                this.state.deliverTo.lastName
+              }
+              addressLine1={this.state.deliverTo.addressLine1}
+              city={this.state.deliverTo.county}
+              postCode={this.state.deliverTo.postCode}
+              email={this.state.deliverTo.email}
+            />
+          ) : (
+            <div></div>
+          )}
+          {/* 
+          {this.state.redirectToStripeSuccess === true ? (
+            <div>
+              <Alert id="alert" className="text-center">
+                <p className="pt-2">
+                  Please wait to be redirected to the payment page.
+                </p>
+              </Alert>
+            </div>
+          ) : (
+            <div></div>
+          )} */}
+
           <div className="text-center">
-            <button onClick={(e) => this.sendOrderDetails(e)} id="check-out">
+            <button onClick={(e) => this.checkOut(e)} id="check-out">
               Proceed to payment
             </button>
           </div>
         </Form>
       </>
-    );
+    )
   }
 }
 
-export default Checkoutasguest;
+export default Checkoutasguest

@@ -42,7 +42,6 @@ class Reviews extends Component {
 
   getReviews = async () => {
     const productId = this.props.id;
-
     const response = await fetch(`http://localhost:3003/reviews/${productId}`, {
       method: "GET",
       headers: {

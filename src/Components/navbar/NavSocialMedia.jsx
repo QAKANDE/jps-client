@@ -1,73 +1,66 @@
-import React, { Component } from "react";
-import jpglogo from "../../assets/logo2.png";
-import "../../css/NavSocialMedia.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Component } from 'react'
+import jpglogo from '../../assets/logo2.png'
+import '../../css/NavSocialMedia.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faUser,
   faStar,
   faCrosshairs,
   faShoppingCart,
   faLock,
-} from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import LittleCart from "../LittleCart";
+} from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
+import LittleCart from '../LittleCart'
 
 class NavSocialMedia extends Component {
   state = {
     displayLittleCart: false,
-  };
+  }
 
   displayCart = () => {
-    this.setState({ displayLittleCart: true });
-  };
+    this.setState({ displayLittleCart: true })
+  }
   render() {
     return (
       <header id="header">
         <div className="header_top">
           <div className="container">
             <div className="row">
-              <div className="col-sm-6">
-                <Link to="/">
-                  <img
-                    src="https://johnpaulstephen.com/wp-content/uploads/2020/05/johnPaulStephenLOGOhead-1.png"
-                    style={{ width: "12%" }}
-                  />
-                </Link>
-              </div>
-              <div className="col-sm-6">
-                <div className="d-flex justidy-content-between social-icons pull-right">
-                  <ul>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-twitter"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-linkedin"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="https://www.instagram.com/p/CEw_yF1hwML/?igshid=1w3pklytbaat"
-                        target="_blank"
-                      >
-                        <i class="fa fa-instagram"></i>
-                      </a>
-                    </li>
-
-                    <li>
-                      <a href="#">
-                        <i className="fa fa-google-plus"></i>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              <div className="d-flex justify-content-between social-icons pull-right">
+                <ul>
+                  <li>
+                    <a
+                      href="https://www.facebook.com/johnpaulstephenofficial"
+                      target="_blank"
+                    >
+                      <i className="fa fa-facebook"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://twitter.com/JohnPaulStephe8"
+                      target="_blank"
+                    >
+                      <i className="fa fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href=" https://www.youtube.com/channel/UC-fAzdzdg7gR8RzsSQkq43Q"
+                      target="_blank"
+                    >
+                      <i class="fa fa-youtube"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href=" https://www.instagram.com/johnpaulstephen_jps/"
+                      target="_blank"
+                    >
+                      <i class="fa fa-instagram"></i>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -77,7 +70,7 @@ class NavSocialMedia extends Component {
             <div className="row">
               <div className="col-md-4 clearfix">
                 <div className="logo pull-left">
-                  <Link to={"/"}>
+                  <Link to={'/'}>
                     <img src={jpglogo} alt="logo" id="logo" />
                   </Link>
                 </div>
@@ -90,7 +83,7 @@ class NavSocialMedia extends Component {
                         <FontAwesomeIcon
                           icon={faUser}
                           className="navbar-icon"
-                        />{" "}
+                        />{' '}
                         Account
                       </Link>
                     </li>
@@ -99,7 +92,7 @@ class NavSocialMedia extends Component {
                         <FontAwesomeIcon
                           icon={faStar}
                           className="navbar-icon"
-                        />{" "}
+                        />{' '}
                         Wishlist
                       </Link>
                     </li>
@@ -113,19 +106,19 @@ class NavSocialMedia extends Component {
                         <FontAwesomeIcon
                           icon={faShoppingCart}
                           className="navbar-icon"
-                        />{" "}
+                        />{' '}
                         Cart
                       </Link>
                     </li>
                     <span className="badge badge-warning" id="lblCartCount">
-                      {this.props.itemsLength}{" "}
+                      {this.props.itemsLength}{' '}
                     </span>
                     <li>
-                      <Link to={"/login"}>
+                      <Link to={'/login'}>
                         <FontAwesomeIcon
                           icon={faLock}
                           className="navbar-icon"
-                        />{" "}
+                        />{' '}
                         Login
                       </Link>
                     </li>
@@ -143,8 +136,8 @@ class NavSocialMedia extends Component {
           </div>
         </div>
       </header>
-    );
+    )
   }
 }
 
-export default NavSocialMedia;
+export default NavSocialMedia

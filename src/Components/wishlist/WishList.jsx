@@ -1,44 +1,44 @@
-import React, { Component } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import "../../css/Account.css";
+import React, { Component } from 'react'
+import { Container, Row, Col, Card } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import '../../css/Account.css'
 
 class WishList extends Component {
   state = {
     noWishlist: {},
     wishList: [],
     noUserSignedIn: false,
-  };
+  }
 
   componentDidMount = async () => {
-    if (localStorage["userId"]) {
+    if (localStorage['userId']) {
       const response = await fetch(
-        `http://localhost:3003/wishlist/${localStorage["userId"]}`,
+        `http://localhost:3003/wishlist/${localStorage['userId']}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        }
-      );
-      const wishList = await response.json();
-      if (wishList.hasOwnProperty("message")) {
+        },
+      )
+      const wishList = await response.json()
+      if (wishList.hasOwnProperty('message')) {
         this.setState({
           noWishlist: wishList,
-        });
+        })
       } else {
         this.setState({
           wishList: wishList.products,
-        });
+        })
       }
-      console.log(this.state.noWishlist);
-      console.log(this.state.wishList);
-    } else if (localStorage["guestToken"]) {
+      console.log(this.state.noWishlist)
+      console.log(this.state.wishList)
+    } else if (localStorage['guestToken']) {
       this.setState({
         noUserSignedIn: true,
-      });
+      })
     }
-  };
+  }
   render() {
     return (
       <>
@@ -46,23 +46,23 @@ class WishList extends Component {
           {this.state.noUserSignedIn === true ? (
             <div
               className="text-center"
-              style={{ marginTop: "9rem", marginBottom: "9rem" }}
+              style={{ marginTop: '9rem', marginBottom: '9rem' }}
             >
               <h3>
-                You Are Not Logged In, Please Login Or Signup {""}
+                You Are Not Logged In, Please Login Or Signup {''}
                 <Link to="/login" id="login-link">
                   here
-                </Link>{" "}
+                </Link>{' '}
                 to add items to wishlist.
               </h3>
             </div>
           ) : (
             <div>
-              {" "}
-              {this.state.noWishlist.hasOwnProperty("message") ? (
+              {' '}
+              {this.state.noWishlist.hasOwnProperty('message') ? (
                 <div
                   className="text-center"
-                  style={{ marginTop: "10rem", marginBottom: "5rem" }}
+                  style={{ marginTop: '10rem', marginBottom: '5rem' }}
                 >
                   <h3>Wishlist is empty, please add items</h3>
                 </div>
@@ -72,7 +72,7 @@ class WishList extends Component {
                     return (
                       <Row
                         className="gutters-sm"
-                        style={{ marginBottom: "2rem" }}
+                        style={{ marginBottom: '2rem' }}
                       >
                         <Col md={4} className="mb-3">
                           <Card>
@@ -81,8 +81,7 @@ class WishList extends Component {
                                 <img
                                   src={item.image}
                                   alt="user-picture"
-                                  class="rounded-circle"
-                                  width="150"
+                                  width="250"
                                 ></img>
                               </div>
                             </Card.Body>
@@ -91,30 +90,18 @@ class WishList extends Component {
                         <Col md={8}>
                           <Card>
                             <Card.Body>
-                              <Row style={{ marginTop: "1rem" }}>
+                              <Row style={{ marginTop: '1rem' }}>
                                 <Col sm={3}></Col>
                                 <Col sm={9}>
                                   <h5>{item.name}</h5>
                                 </Col>
                               </Row>
 
-                              <Row style={{ marginTop: "1rem" }}>
+                              <Row style={{ marginTop: '1rem' }}>
                                 <Col sm={3}>
                                   <h6 class="mb-0">Price</h6>
                                 </Col>
                                 <Col sm={9}>£ {item.price}</Col>
-                              </Row>
-                              <Row style={{ marginTop: "1rem" }}>
-                                <Col sm={3}>
-                                  <h6 class="mb-0">Size</h6>
-                                </Col>
-                                <Col sm={9}>{item.size}</Col>
-                              </Row>
-                              <Row style={{ marginTop: "1rem" }}>
-                                <Col sm={3}>
-                                  <h6 class="mb-0">Color</h6>
-                                </Col>
-                                <Col sm={9}>{item.color}</Col>
                               </Row>
                             </Card.Body>
                             {/* <div
@@ -143,7 +130,7 @@ class WishList extends Component {
                           </Card>
                         </Col>
                       </Row>
-                    );
+                    )
                   })}
                 </div>
               )}
@@ -151,8 +138,8 @@ class WishList extends Component {
           )}
         </Container>
       </>
-    );
+    )
   }
 }
 
-export default WishList;
+export default WishList

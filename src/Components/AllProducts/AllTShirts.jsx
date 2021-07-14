@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import {
   Container,
   Row,
@@ -7,12 +7,12 @@ import {
   CardDeck,
   Carousel,
   Alert,
-} from "react-bootstrap";
-import "../../css/Products.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
-import "../../css/AllProducts.css";
+} from 'react-bootstrap'
+import '../../css/Products.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
+import '../../css/AllProducts.css'
 
 class AllTShirts extends Component {
   state = {
@@ -24,47 +24,51 @@ class AllTShirts extends Component {
     wishListAlert: false,
     wishListErrorAlert: false,
     tShirt: false,
-  };
+    size: 'No size required',
+    color: 'No color required',
+    sizeForTShirt: 'None',
+  }
 
   componentDidMount = async () => {
-    this.getTshirts();
-    this.getAccessories();
-  };
+    this.getTshirts()
+    this.getAccessories()
+  }
 
   getTshirts = async () => {
-    const response = await fetch("http://localhost:3003/product/", {
-      method: "GET",
+    const response = await fetch('http://localhost:3003/product/', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    });
-    const tShirts = await response.json();
+    })
+    const tShirts = await response.json()
     this.setState({
       tShirts,
-    });
-  };
+    })
+  }
   getAccessories = async () => {
-    const response = await fetch("http://localhost:3003/accessories/", {
-      method: "GET",
+    const response = await fetch('http://localhost:3003/accessories/', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    });
-    const accessories = await response.json();
+    })
+    const accessories = await response.json()
     this.setState({
       accessories,
-    });
-  };
+    })
+  }
   addCart = async (
     id,
     productImage,
     productName,
     productSize,
     productColor,
-    productPrice
+    productPrice,
+    productSizes,
   ) => {
     try {
-      if (localStorage["guestToken"]) {
+      if (localStorage['guestToken']) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
@@ -73,117 +77,101 @@ class AllTShirts extends Component {
           size: productSize,
           color: productColor,
           price: parseInt(productPrice),
-          userId: localStorage["guestToken"],
-        };
-        let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
-          {
-            method: "POST",
-            body: JSON.stringify(productDetails),
-            headers: {
-              "Content-Type": "Application/json",
-            },
-          }
-        );
-        if (response.ok) {
-          const createPriceResponse = await fetch(
-            "http://localhost:3003/payment/create-product-price",
-            {
-              method: "POST",
-              body: JSON.stringify({
-                userId: localStorage["guestToken"],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: this.state.quantity,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          if (createPriceResponse.ok) {
-            this.setState({ alert: true });
-            setTimeout(() => {
-              this.setState({
-                alert: false,
-              });
-            }, 1200);
-          }
-        } else {
-          this.setState({ errorAlert: true });
-          setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            });
-          }, 1200);
+          sizeFromClient: productSizes,
+          userId: localStorage['guestToken'],
         }
-      } else if (localStorage["userId"]) {
-        const productDetails = {
-          productId: id,
-          quantity: this.state.quantity,
-          image: productImage,
-          name: productName,
-          size: productSize,
-          color: productColor,
-          price: parseInt(productPrice),
-          userId: localStorage["userId"],
-        };
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
           {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(productDetails),
             headers: {
-              "Content-Type": "Application/json",
+              'Content-Type': 'Application/json',
             },
-          }
-        );
+          },
+        )
         if (response.ok) {
           const createPriceResponse = await fetch(
-            "http://localhost:3003/payment/create-product-price",
+            'http://localhost:3003/payment/create-product-price',
             {
-              method: "POST",
+              method: 'POST',
               body: JSON.stringify({
-                userId: localStorage["userId"],
+                userId: localStorage['guestToken'],
                 productName: productName,
                 productPrice: parseInt(productPrice * 100),
                 productId: id,
                 quantity: this.state.quantity,
               }),
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
-            }
-          );
+            },
+          )
           if (createPriceResponse.ok) {
-            this.setState({ alert: true });
+            this.setState({ alert: true })
             setTimeout(() => {
               this.setState({
                 alert: false,
-              });
-            }, 1200);
+              })
+            }, 1200)
           }
         } else {
-          this.setState({ errorAlert: true });
+          this.setState({ errorAlert: true })
           setTimeout(() => {
             this.setState({
               errorAlert: false,
-            });
-          }, 1200);
+            })
+          }, 1200)
+        }
+      } else if (localStorage['userId']) {
+        const productDetails = {
+          productId: id,
+          quantity: this.state.quantity,
+          image: productImage,
+          name: productName,
+          size: this.state.sizeForTShirt,
+          color: productColor,
+          price: parseInt(productPrice),
+          sizeFromClient: productSizes,
+          userId: localStorage['userId'],
+        }
+        let response = await fetch(
+          `http://localhost:3003/cart/check-out-as-guest`,
+          {
+            method: 'POST',
+            body: JSON.stringify(productDetails),
+            headers: {
+              'Content-Type': 'Application/json',
+            },
+          },
+        )
+        if (response.ok) {
+          this.setState({ alert: true })
+          setTimeout(() => {
+            this.setState({
+              alert: false,
+            })
+          }, 1200)
+        } else {
+          this.setState({ errorAlert: true })
+          setTimeout(() => {
+            this.setState({
+              errorAlert: false,
+            })
+          }, 1200)
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
   addToWishList = async (
     id,
     productImage,
     productName,
     productSize,
     productColor,
-    productPrice
+    productPrice,
   ) => {
     const productDetails = {
       productId: id,
@@ -192,42 +180,42 @@ class AllTShirts extends Component {
       size: productSize,
       color: productColor,
       price: parseInt(productPrice),
-    };
-    if (localStorage["userId"]) {
+    }
+    if (localStorage['userId']) {
       let response = await fetch(
-        `http://localhost:3003/wishlist/${localStorage["userId"]}`,
+        `http://localhost:3003/wishlist/${localStorage['userId']}`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify(productDetails),
           headers: {
-            "Content-Type": "Application/json",
+            'Content-Type': 'Application/json',
           },
-        }
-      );
+        },
+      )
       if (response.ok) {
-        this.setState({ wishListAlert: true });
+        this.setState({ wishListAlert: true })
         setTimeout(() => {
           this.setState({
             wishListAlert: false,
-          });
-        }, 1200);
+          })
+        }, 1200)
       } else {
-        this.setState({ wishListErrorAlert: true });
+        this.setState({ wishListErrorAlert: true })
         setTimeout(() => {
           this.setState({
             wishListErrorAlert: false,
-          });
-        }, 1200);
+          })
+        }, 1200)
       }
-    } else if (localStorage["guestToken"]) {
-      this.setState({ wishListErrorAlert: true });
+    } else if (localStorage['guestToken']) {
+      this.setState({ wishListErrorAlert: true })
       setTimeout(() => {
         this.setState({
           wishListErrorAlert: false,
-        });
-      }, 1200);
+        })
+      }, 1200)
     }
-  };
+  }
   render() {
     return (
       <>
@@ -256,9 +244,10 @@ class AllTShirts extends Component {
                                 prod._id,
                                 prod.image,
                                 prod.name,
-                                prod.size,
+                                this.state.sizeForTShirt,
                                 prod.color,
-                                prod.price
+                                prod.price,
+                                prod.sizeAsString,
                               )
                             }
                             className="btn btn-default add-to-cart"
@@ -278,10 +267,10 @@ class AllTShirts extends Component {
                               prod.name,
                               prod.size,
                               prod.color,
-                              prod.price
+                              prod.price,
                             )
                           }
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: 'pointer' }}
                           id="add-to-wishlist"
                         >
                           <FontAwesomeIcon icon={faHeart} className="fa-1x" />
@@ -289,12 +278,12 @@ class AllTShirts extends Component {
                         </li>
                         <li
                           id="all-products-add-to-wishlist"
-                          style={{ listStyle: "none" }}
+                          style={{ listStyle: 'none' }}
                         >
                           <Link
                             to={`/details/${prod._id}`}
                             style={{
-                              color: "#b3afa8",
+                              color: '#b3afa8',
                             }}
                           >
                             <FontAwesomeIcon
@@ -307,7 +296,7 @@ class AllTShirts extends Component {
                       </ul>
                     </div>
                   </div>
-                );
+                )
               })}
             </CardDeck>
           </Col>
@@ -320,11 +309,11 @@ class AllTShirts extends Component {
                       className="d-block"
                       src={accessory.image}
                       alt="First slide"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                     />
                     <Carousel.Caption>
-                      <h3 style={{ color: "black" }}>{accessory.name}</h3>
-                      <p style={{ color: "black" }}>£ {accessory.price}</p>
+                      <h3 style={{ color: 'black' }}>{accessory.name}</h3>
+                      <p style={{ color: 'black' }}>£ {accessory.price}</p>
                       <button
                         id="all-products-accessory-carousel-button"
                         onClick={() =>
@@ -332,9 +321,9 @@ class AllTShirts extends Component {
                             accessory._id,
                             accessory.image,
                             accessory.name,
-                            accessory.size,
-                            accessory.color,
-                            accessory.price
+                            this.state.size,
+                            this.state.color,
+                            accessory.price,
                           )
                         }
                       >
@@ -342,7 +331,7 @@ class AllTShirts extends Component {
                       </button>
                     </Carousel.Caption>
                   </Carousel.Item>
-                );
+                )
               })}
             </Carousel>
           </Col>
@@ -371,8 +360,8 @@ class AllTShirts extends Component {
           <div></div>
         )}
       </>
-    );
+    )
   }
 }
 
-export default AllTShirts;
+export default AllTShirts

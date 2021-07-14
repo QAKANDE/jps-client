@@ -1,62 +1,60 @@
-import React, { Component } from "react";
-import "../../css/Cart.css";
-import CartTotal from "../../Components/cart/CartTotal";
-import Checkout from "../../Components/cart/Checkout";
-import { Row, Col, Container, Card, Form } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Alert } from "react-bootstrap";
-import { loadStripe } from "@stripe/stripe-js";
+import React, { Component } from 'react'
+import '../../css/Cart.css'
+import CartTotal from '../../Components/cart/CartTotal'
+import Checkout from '../../Components/cart/Checkout'
+import { Row, Col, Container, Card, Form } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { Alert } from 'react-bootstrap'
+import { loadStripe } from '@stripe/stripe-js'
 
 const stripeTestPromise = loadStripe(
-  "pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf"
-);
+  'pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf',
+)
 
 class Cart extends Component {
   state = {
     allCart: {},
     cart: [],
-    subTotal: "",
+    subTotal: '',
     tax: 30,
-    finalTotal: "",
-    shippingCost: 50,
+    finalTotal: '',
+    shippingCost: 3.5,
     displayCheckOut: false,
-    quantity: "",
-    itemsLength: "",
-    userId: "",
+    quantity: '',
+    itemsLength: '',
+    userId: '',
     alert: false,
     sizes: [],
-    sizeSelected: "",
-  };
+    sizeSelected: '',
+  }
 
   componentDidMount = async () => {
-    this.getCart();
-  };
+    this.getCart()
+  }
 
   getCart = async () => {
-    const cartt = [];
-    const total = [];
-    const sizeArr = [];
-    if (localStorage["userId"]) {
+    const cartt = []
+    const total = []
+    const sizeArr = []
+    if (localStorage['userId']) {
       const response = await fetch(
-        `http://localhost:3003/cart/${localStorage["userId"]}`,
+        `http://localhost:3003/cart/${localStorage['userId']}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-type": "application/json",
+            'Content-type': 'application/json',
           },
-        }
-      );
-      const cart = await response.json();
+        },
+      )
+      const cart = await response.json()
       cart.products.map((product) => {
-        cartt.push(product);
-        total.push(product.total);
-      });
-     
-      const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
-      const finalTotal = parseInt(
-        subTotal + this.state.tax + this.state.shippingCost
-      );
+        cartt.push(product)
+        total.push(product.total)
+      })
+
+      const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
+      const finalTotal = parseInt(subTotal + this.state.shippingCost)
 
       this.setState({
         allCart: cart,
@@ -66,28 +64,25 @@ class Cart extends Component {
         itemsLength: cart.totalItems,
         userId: cart.userId,
         sizes: sizeArr,
-      });
-    } else if (localStorage["guestToken"]) {
+      })
+    } else if (localStorage['guestToken']) {
       const response = await fetch(
-        `http://localhost:3003/cart/${localStorage["guestToken"]}`,
+        `http://localhost:3003/cart/${localStorage['guestToken']}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-type": "application/json",
+            'Content-type': 'application/json',
           },
-        }
-      );
-      const cart = await response.json();
+        },
+      )
+      const cart = await response.json()
       cart.products.map((product) => {
-        cartt.push(product);
-        total.push(product.total);
-      });
-    
-     
-      const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
-      const finalTotal = parseInt(
-        subTotal + this.state.tax + this.state.shippingCost
-      );
+        cartt.push(product)
+        total.push(product.total)
+      })
+
+      const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
+      const finalTotal = parseInt(subTotal + this.state.shippingCost)
 
       this.setState({
         allCart: cart,
@@ -97,15 +92,15 @@ class Cart extends Component {
         itemsLength: cart.totalItems,
         userId: cart.userId,
         sizes: sizeArr,
-      });
+      })
     }
-  };
+  }
 
   displayCheckOut = () => {
     this.setState({
       displayCheckOut: true,
-    });
-  };
+    })
+  }
 
   increaseQuantity = async (
     id,
@@ -114,12 +109,11 @@ class Cart extends Component {
     productImage,
     productSize,
     productColor,
-    productPrice
+    productPrice,
   ) => {
-    const productSizes = this.state.sizes.join("");
-
-    if (localStorage["guestToken"]) {
-      const quantity = previousQuantity + 1;
+    const productSizes = this.state.sizes.join('')
+    if (localStorage['guestToken']) {
+      const quantity = previousQuantity + 1
       const productDetails = {
         productId: id,
         quantity: parseInt(quantity),
@@ -130,39 +124,23 @@ class Cart extends Component {
         price: parseInt(productPrice),
         sizeFromClient: productSizes,
         total: parseInt(productPrice),
-        userId: localStorage["guestToken"],
-      };
+        userId: localStorage['guestToken'],
+      }
       let response = await fetch(
         `http://localhost:3003/cart/check-out-as-guest`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify(productDetails),
           headers: {
-            "Content-Type": "Application/json",
+            'Content-Type': 'Application/json',
           },
-        }
-      );
+        },
+      )
       if (response.ok) {
-        const createPriceResponse = await fetch(
-          "http://localhost:3003/payment/create-product-price",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              userId: localStorage["guestToken"],
-              productName: productName,
-              productPrice: parseInt(productPrice * 100),
-              productId: id,
-              quantity: parseInt(quantity),
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        this.getCart();
+        this.getCart()
       }
-    } else if (localStorage["userId"]) {
-      const quantity = previousQuantity + 1;
+    } else if (localStorage['userId']) {
+      const quantity = previousQuantity + 1
       const productDetails = {
         productId: id,
         quantity: quantity,
@@ -173,39 +151,23 @@ class Cart extends Component {
         price: parseInt(productPrice),
         sizeFromClient: productSizes,
         total: parseInt(productPrice),
-        userId: localStorage["userId"],
-      };
+        userId: localStorage['userId'],
+      }
       let response = await fetch(
         `http://localhost:3003/cart/check-out-as-guest`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify(productDetails),
           headers: {
-            "Content-Type": "Application/json",
+            'Content-Type': 'Application/json',
           },
-        }
-      );
+        },
+      )
       if (response.ok) {
-        const createPriceResponse = await fetch(
-          "http://localhost:3003/payment/create-product-price",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              userId: localStorage["userId"],
-              productName: productName,
-              productPrice: parseInt(productPrice * 100),
-              productId: id,
-              quantity: quantity,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        this.getCart();
+        this.getCart()
       }
     }
-  };
+  }
 
   decreaseQuantity = async (
     id,
@@ -214,143 +176,121 @@ class Cart extends Component {
     productImage,
     productSize,
     productColor,
-    productPrice
+    productPrice,
   ) => {
-    const productSizes = this.state.sizes.join("");
-    const quantity = previousQuantity - 1;
-     const productDetails = {
-       productId: id,
-       quantity: parseInt(quantity),
-       image: productImage,
-       name: productName,
-       size: productSize,
-       color: productColor,
-       price: parseInt(productPrice),
-       sizeFromClient: productSizes,
-       total: parseInt(productPrice),
-       userId: localStorage["guestToken"],
-     };
-    if (!localStorage["userId"]) {
+    const productSizes = this.state.sizes.join('')
+    const quantity = previousQuantity - 1
+    if (localStorage['guestToken']) {
+      const productDetails = {
+        productId: id,
+        quantity: parseInt(quantity),
+        image: productImage,
+        name: productName,
+        size: productSize,
+        color: productColor,
+        price: parseInt(productPrice),
+        sizeFromClient: productSizes,
+        total: parseInt(productPrice),
+        userId: localStorage['guestToken'],
+      }
       if (previousQuantity === 1) {
-        this.setState({ alert: true });
+        this.setState({ alert: true })
         setTimeout(() => {
           this.setState({
             alert: false,
-          });
-        }, 1200);
+          })
+        }, 1200)
       } else {
-        
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
           {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(productDetails),
             headers: {
-              "Content-Type": "Application/json",
+              'Content-Type': 'Application/json',
             },
-          }
-        );
+          },
+        )
         if (response.ok) {
-          const createPriceResponse = await fetch(
-            "http://localhost:3003/payment/create-product-price",
-            {
-              method: "POST",
-              body: JSON.stringify({
-                userId: localStorage["guestToken"],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: quantity,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          this.getCart();
+          this.getCart()
         }
       }
-    } else if (localStorage["userId"]) {
+    } else if (localStorage['userId']) {
+      const productDetails = {
+        productId: id,
+        quantity: parseInt(quantity),
+        image: productImage,
+        name: productName,
+        size: productSize,
+        color: productColor,
+        price: parseInt(productPrice),
+        sizeFromClient: productSizes,
+        total: parseInt(productPrice),
+        userId: localStorage['userId'],
+      }
       if (previousQuantity === 1) {
-        this.setState({ alert: true });
+        this.setState({ alert: true })
         setTimeout(() => {
           this.setState({
             alert: false,
-          });
-        }, 1200);
+          })
+        }, 1200)
       } else {
-       
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
           {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(productDetails),
             headers: {
-              "Content-Type": "Application/json",
+              'Content-Type': 'Application/json',
             },
-          }
-        );
+          },
+        )
         if (response.ok) {
-          const createPriceResponse = await fetch(
-            "http://localhost:3003/payment/create-product-price",
-            {
-              method: "POST",
-              body: JSON.stringify({
-                userId: localStorage["userId"],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: quantity,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          this.getCart();
+          this.getCart()
         }
       }
     }
-  };
+  }
 
   deleteItem = async (user, id) => {
     let response = await fetch(
       `http://localhost:3003/cart/delete-item/${user}/${id}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "Application/json",
+          'Content-Type': 'Application/json',
         },
-      }
-    );
+      },
+    )
     if (response.ok) {
-      this.getCart();
+      this.getCart()
     } else {
-      alert("some");
+      alert('some')
     }
-  };
+  }
 
   editSize = async (e, userId, productId) => {
     this.setState({
       sizeSelected: e.target.value,
-    });
+    })
     let response = await fetch(
       `http://localhost:3003/cart/edit-product-size/${userId}/${productId}`,
       {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify({
           size: e.target.value,
         }),
         headers: {
-          "Content-Type": "Application/json",
+          'Content-Type': 'Application/json',
         },
-      }
-    );
-    this.getCart();
-  };
+      },
+    )
+    this.getCart()
+  }
   render() {
     return (
-      <Container style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+      <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
         {this.state.alert === true ? (
           <Alert id="alert">Quantity cannot be less than 1</Alert>
         ) : (
@@ -372,7 +312,7 @@ class Cart extends Component {
                     {this.state.cart.map((item, key) => {
                       return (
                         <div>
-                          <Row style={{ paddingTop: "2rem" }} key={item._id}>
+                          <Row style={{ paddingTop: '2rem' }} key={item._id}>
                             <Col md={5} lg={3} xl={3}>
                               <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
                                 <img
@@ -386,7 +326,7 @@ class Cart extends Component {
                                 <div className="d-flex justify-content-between">
                                   <div>
                                     <h5>{item.name}</h5>
-                                    {item.color === "No color required" ? (
+                                    {item.color === 'No color required' ? (
                                       <></>
                                     ) : (
                                       <div>
@@ -396,7 +336,7 @@ class Cart extends Component {
                                       </div>
                                     )}
                                     <div className="d-flex justify-content-between">
-                                      {item.size === "No size required" ? (
+                                      {item.size === 'No size required' ? (
                                         <div></div>
                                       ) : (
                                         <p class="mt-2 text-muted text-uppercase small">
@@ -413,7 +353,7 @@ class Cart extends Component {
                                               this.editSize(
                                                 e,
                                                 this.state.allCart.userId,
-                                                item.productId
+                                                item.productId,
                                               )
                                             }
                                           >
@@ -425,7 +365,7 @@ class Cart extends Component {
                                                 <option value={size}>
                                                   {size}
                                                 </option>
-                                              );
+                                              )
                                             })}
                                           </select>
                                         </Form>
@@ -438,9 +378,9 @@ class Cart extends Component {
                                     <button
                                       id="quantity-increase"
                                       style={{
-                                        width: "40px",
-                                        height: "40px",
-                                        marginRight: "1rem",
+                                        width: '40px',
+                                        height: '40px',
+                                        marginRight: '1rem',
                                       }}
                                       onClick={() =>
                                         this.increaseQuantity(
@@ -451,7 +391,7 @@ class Cart extends Component {
                                           this.state.sizeSelected,
                                           item.color,
                                           item.price,
-                                          item.total
+                                          item.total,
                                         )
                                       }
                                     >
@@ -461,9 +401,9 @@ class Cart extends Component {
                                     <button
                                       id="quantity-decrease"
                                       style={{
-                                        width: "40px",
-                                        height: "40px",
-                                        marginLeft: "1rem",
+                                        width: '40px',
+                                        height: '40px',
+                                        marginLeft: '1rem',
                                       }}
                                       onClick={() =>
                                         this.decreaseQuantity(
@@ -474,7 +414,7 @@ class Cart extends Component {
                                           this.state.sizeSelected,
                                           item.color,
                                           item.price,
-                                          item.total
+                                          item.total,
                                         )
                                       }
                                     >
@@ -488,7 +428,7 @@ class Cart extends Component {
                                       onClick={() =>
                                         this.deleteItem(
                                           this.state.allCart.userId,
-                                          item._id
+                                          item._id,
                                         )
                                       }
                                       id="delete-item-div"
@@ -502,7 +442,7 @@ class Cart extends Component {
                             </Col>
                           </Row>
                         </div>
-                      );
+                      )
                     })}
                   </Card.Body>
                 </Card>
@@ -518,12 +458,19 @@ class Cart extends Component {
                 />
               </Col>
             </Row>
-            {this.state.displayCheckOut === true ? <Checkout /> : <div></div>}
+            {this.state.displayCheckOut === true ? (
+              <Checkout
+                total={this.state.finalTotal}
+                subTotal={this.state.subTotal}
+              />
+            ) : (
+              <div></div>
+            )}
           </section>
         )}
       </Container>
-    );
+    )
   }
 }
 
-export default Cart;
+export default Cart

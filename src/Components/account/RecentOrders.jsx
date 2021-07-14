@@ -1,35 +1,43 @@
-import React, { Component } from "react";
-import { Container, Row, Col, Card, Alert } from "react-bootstrap";
-import "../../css/RecentOrders.css";
+import React, { Component } from 'react'
+import { Container, Row, Col, Card, Alert } from 'react-bootstrap'
+import { findAllInRenderedTree } from 'react-dom/test-utils'
+import '../../css/RecentOrders.css'
 
 class RecentOrders extends Component {
   state = {
-    recentOrders: [],
+    recentOrdersEmpty: {},
+    recentOrdersProducts: [],
     quantity: 1,
     alert: false,
     errorAlert: false,
-  };
+  }
 
   componentDidMount = async () => {
     const response = await fetch(
-      `http://localhost:3003/users/user-order/${localStorage["userId"]}`,
+      `http://localhost:3003/users/user-order/${localStorage['userId']}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
-    );
-    const recentOrders = await response.json();
-    this.setState({ recentOrders });
-  };
+      },
+    )
+
+    const recentOrders = await response.json()
+
+    if (recentOrders.message === 'No Order Available') {
+      this.setState({ recentOrdersEmpty: recentOrders.message })
+    } else {
+      this.setState({ recentOrdersProducts: recentOrders.products })
+    }
+  }
   reOrderItem = async (
     id,
     productImage,
     productName,
     productSize,
     productColor,
-    productPrice
+    productPrice,
   ) => {
     try {
       const productDetails = {
@@ -41,70 +49,74 @@ class RecentOrders extends Component {
         color: productColor,
         price: parseInt(productPrice),
 
-        userId: localStorage["userId"],
-      };
+        userId: localStorage['userId'],
+      }
       let response = await fetch(
         `http://localhost:3003/cart/check-out-as-guest`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify(productDetails),
           headers: {
-            "Content-Type": "Application/json",
+            'Content-Type': 'Application/json',
           },
-        }
-      );
+        },
+      )
       if (response.ok) {
         const createPriceResponse = await fetch(
-          "http://localhost:3003/payment/create-product-price",
+          'http://localhost:3003/payment/create-product-price',
           {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify({
-              userId: localStorage["userId"],
+              userId: localStorage['userId'],
               productName: productName,
               productPrice: parseInt(productPrice * 100),
               productId: id,
               quantity: this.state.quantity,
             }),
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-          }
-        );
+          },
+        )
         if (createPriceResponse.ok) {
-          this.setState({ alert: true });
+          this.setState({ alert: true })
           setTimeout(() => {
             this.setState({
               alert: false,
-            });
-          }, 1200);
+            })
+          }, 1200)
         }
       } else {
-        this.setState({ errorAlert: true });
+        this.setState({ errorAlert: true })
         setTimeout(() => {
           this.setState({
             errorAlert: false,
-          });
-        }, 1200);
+          })
+        }, 1200)
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
   render() {
     return (
       <>
         <Container className="pt-5">
-          <h5 className="text-center pb-3">Your recent orders</h5>
-
-          {this.state.recentOrders.length === 0 ? (
+          <h3 className="text-center pb-3">Your recent orders</h3>
+          {this.state.recentOrdersProducts.length === 0 ? (
             <div>
-              <h3>No Recent Orders To Display</h3>
+              <h5
+                className="text-center mb-5 mt-5"
+                style={{ fontSize: '35px' }}
+              >
+                No Recent Orders To Display
+              </h5>
             </div>
           ) : (
             <div>
-              {this.state.recentOrders.products.map((product, key) => {
+              {this.state.recentOrdersProducts.map((product, key) => {
                 return (
-                  <Row className="gutters-sm" style={{ marginBottom: "2rem" }}>
+                  <Row className="gutters-sm" style={{ marginBottom: '2rem' }}>
                     <Col md={4} className="mb-3">
                       <Card>
                         <Card.Body>
@@ -122,7 +134,7 @@ class RecentOrders extends Component {
                     <Col md={8}>
                       <Card>
                         <Card.Body>
-                          <Row style={{ marginTop: "1rem" }}>
+                          <Row style={{ marginTop: '1rem' }}>
                             <Col sm={3}></Col>
                             <Col sm={9}>
                               <h5>{product.name}</h5>
@@ -130,19 +142,19 @@ class RecentOrders extends Component {
                           </Row>
                           <hr></hr>
 
-                          <Row style={{ marginTop: "1rem" }}>
+                          <Row style={{ marginTop: '1rem' }}>
                             <Col sm={3}>
                               <h6 class="mb-0">Price</h6>
                             </Col>
                             <Col sm={9}>£ {product.price}</Col>
                           </Row>
-                          <Row style={{ marginTop: "1rem" }}>
+                          <Row style={{ marginTop: '1rem' }}>
                             <Col sm={3}>
                               <h6 class="mb-0">Size</h6>
                             </Col>
                             <Col sm={9}>{product.size}</Col>
                           </Row>
-                          <Row style={{ marginTop: "1rem" }}>
+                          <Row style={{ marginTop: '1rem' }}>
                             <Col sm={3}>
                               <h6 class="mb-0">Color</h6>
                             </Col>
@@ -153,9 +165,9 @@ class RecentOrders extends Component {
                         <div
                           className="text-center"
                           style={{
-                            marginBottom: "2rem",
-                            marginTop: "1rem",
-                            width: "20%",
+                            marginBottom: '2rem',
+                            marginTop: '1rem',
+                            width: '20%',
                           }}
                         >
                           <button
@@ -167,7 +179,7 @@ class RecentOrders extends Component {
                                 product.name,
                                 product.size,
                                 product.color,
-                                product.price
+                                product.price,
                               )
                             }
                           >
@@ -177,7 +189,7 @@ class RecentOrders extends Component {
                       </Card>
                     </Col>
                   </Row>
-                );
+                )
               })}
             </div>
           )}
@@ -190,8 +202,8 @@ class RecentOrders extends Component {
           )}
         </Container>
       </>
-    );
+    )
   }
 }
 
-export default RecentOrders;
+export default RecentOrders

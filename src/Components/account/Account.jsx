@@ -46,7 +46,7 @@ class Account extends Component {
     this.setState({
       userAddress,
     });
-    console.log("state", this.state.userAddress);
+  
   };
   render() {
     return (

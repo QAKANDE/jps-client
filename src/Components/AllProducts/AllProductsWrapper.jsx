@@ -12,6 +12,10 @@ class AllProductsWrapper extends Component {
     searchError: false,
     productFound: false,
     noSearchQuery: false,
+    sizeForTShirt: "None",
+    quantity: 1,
+    size: "No size required",
+    color: "No color required",
   };
   updateSearch = (event) => {
     this.setState({
@@ -66,6 +70,132 @@ class AllProductsWrapper extends Component {
   getProductsByCategory = async (e) => {
     this.setState({});
   };
+
+  addCart = async (
+    id,
+    productImage,
+    productName,
+    productSize,
+    productColor,
+    productPrice,
+    productSizes
+  ) => {
+    try {
+      if (localStorage["guestToken"]) {
+        const productDetails = {
+          productId: id,
+          quantity: this.state.quantity,
+          image: productImage,
+          name: productName,
+          size: productSize,
+          color: productColor,
+          price: parseInt(productPrice),
+          sizeFromClient: productSizes,
+          userId: localStorage["guestToken"],
+        };
+        let response = await fetch(
+          `http://localhost:3003/cart/check-out-as-guest`,
+          {
+            method: "POST",
+            body: JSON.stringify(productDetails),
+            headers: {
+              "Content-Type": "Application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          const createPriceResponse = await fetch(
+            "http://localhost:3003/payment/create-product-price",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                userId: localStorage["guestToken"],
+                productName: productName,
+                productPrice: parseInt(productPrice * 100),
+                productId: id,
+                quantity: this.state.quantity,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (createPriceResponse.ok) {
+            this.setState({ alert: true });
+            setTimeout(() => {
+              this.setState({
+                alert: false,
+              });
+            }, 1200);
+          }
+        } else {
+          this.setState({ errorAlert: true });
+          setTimeout(() => {
+            this.setState({
+              errorAlert: false,
+            });
+          }, 1200);
+        }
+      } else if (localStorage["userId"]) {
+        const productDetails = {
+          productId: id,
+          quantity: this.state.quantity,
+          image: productImage,
+          name: productName,
+          size: productSize,
+          color: productColor,
+          price: parseInt(productPrice),
+          sizeFromClient: productSizes,
+          userId: localStorage["userId"],
+        };
+        let response = await fetch(
+          `http://localhost:3003/cart/check-out-as-guest`,
+          {
+            method: "POST",
+            body: JSON.stringify(productDetails),
+            headers: {
+              "Content-Type": "Application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          const createPriceResponse = await fetch(
+            "http://localhost:3003/payment/create-product-price",
+            {
+              method: "POST",
+              body: JSON.stringify({
+                userId: localStorage["userId"],
+                productName: productName,
+                productPrice: parseInt(productPrice * 100),
+                productId: id,
+                quantity: this.state.quantity,
+              }),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (createPriceResponse.ok) {
+            this.setState({ alert: true });
+            setTimeout(() => {
+              this.setState({
+                alert: false,
+              });
+            }, 1200);
+          }
+        } else {
+          this.setState({ errorAlert: true });
+          setTimeout(() => {
+            this.setState({
+              errorAlert: false,
+            });
+          }, 1200);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   render() {
     return (
       <>
@@ -116,40 +246,86 @@ class AllProductsWrapper extends Component {
                   </h5>
                 </div>
               ) : (
-                <Row>
-                  <Col md={4}>
-                    <div className="view-product">
-                      <img src={this.state.foundProduct.image} />
-                    </div>
-                  </Col>
-                  <Col sm={8}>
-                    <div className="product-information">
-                      <h2>{this.state.foundProduct.name}</h2>
-                      <p>{this.state.foundProduct.description}</p>
-                      <span>
-                        <span>£ {this.state.foundProduct.price}</span>
-                        <button
-                          type="button"
-                          className="btn btn-fefault"
-                          id="cart"
-                          onClick={() =>
-                            this.addCart(
-                              this.state.foundProduct.productId,
-                              this.state.foundProduct.name,
-                              this.state.foundProduct.price
-                            )
-                          }
-                        >
-                          <i className="fa fa-shopping-cart"></i>
-                          Add to cart
-                        </button>
-                      </span>
-                      <p>
-                        <b>Availability:</b> In Stock
-                      </p>
-                    </div>
-                  </Col>
-                </Row>
+                <div>
+                  {this.state.foundProduct.accessory === "Yes" ? (
+                    <Row>
+                      <Col md={4}>
+                        <div className="view-product">
+                          <img src={this.state.foundProduct.image} />
+                        </div>
+                      </Col>
+                      <Col sm={8}>
+                        <div className="product-information">
+                          <h2>{this.state.foundProduct.name}</h2>
+                          <p>{this.state.foundProduct.description}</p>
+                          <span>
+                            <span>£ {this.state.foundProduct.price}</span>
+                            <button
+                              type="button"
+                              className="btn btn-fefault"
+                              id="cart"
+                              onClick={() =>
+                                this.addCart(
+                                  this.state.foundProduct._id,
+                                  this.state.foundProduct.image,
+                                  this.state.foundProduct.name,
+                                  this.state.size,
+                                  this.state.color,
+                                  this.state.foundProduct.price
+                                )
+                              }
+                            >
+                              <i className="fa fa-shopping-cart"></i>
+                              Add to cart
+                            </button>
+                          </span>
+                          <p>
+                            <b>Availability:</b> In Stockkkkk accessory
+                          </p>
+                        </div>
+                      </Col>
+                    </Row>
+                  ) : (
+                    <Row>
+                      <Col md={4}>
+                        <div className="view-product">
+                          <img src={this.state.foundProduct.image} />
+                        </div>
+                      </Col>
+                      <Col sm={8}>
+                        <div className="product-information">
+                          <h2>{this.state.foundProduct.name}</h2>
+                          <p>{this.state.foundProduct.description}</p>
+                          <span>
+                            <span>£ {this.state.foundProduct.price}</span>
+                            <button
+                              type="button"
+                              className="btn btn-fefault"
+                              id="cart"
+                              onClick={() =>
+                                this.addCart(
+                                  this.state.foundProduct._id,
+                                  this.state.foundProduct.image,
+                                  this.state.foundProduct.name,
+                                  this.state.sizeForTShirt,
+                                  this.state.foundProduct.color,
+                                  this.state.foundProduct.price,
+                                  this.state.foundProduct.sizeAsString
+                                )
+                              }
+                            >
+                              <i className="fa fa-shopping-cart"></i>
+                              Add to cart
+                            </button>
+                          </span>
+                          <p>
+                            <b>Availability:</b> In Stock
+                          </p>
+                        </div>
+                      </Col>
+                    </Row>
+                  )}
+                </div>
               )}
 
               <div className="text-center mt-5">

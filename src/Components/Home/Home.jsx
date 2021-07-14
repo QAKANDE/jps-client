@@ -1,15 +1,16 @@
-import React, { Component } from "react";
-import Jumbo from "./Jumbo";
-import Products from "./Products";
-import Accessories from "./Accessories";
-import { Alert, Row, Col, Form, Container } from "react-bootstrap";
-import "../../css/Home.css";
+import React, { Component } from 'react'
+import Jumbo from './Jumbo'
+import Products from './Products'
+import Accessories from './Accessories'
+import { Alert, Row, Col, Form, Container } from 'react-bootstrap'
+import '../../css/Home.css'
+
 // import { addCart } from "../../Helpers/functions";
 
 class Home extends Component {
   state = {
-    guestToken: "",
-    itemsLength: "",
+    guestToken: '',
+    itemsLength: '',
     products: [],
     accessories: [],
     quantity: 1,
@@ -20,115 +21,54 @@ class Home extends Component {
     tShirtdisplay: false,
     accessoriesDisplay: false,
     displayAll: true,
-    initialSize: "None",
-  };
+    initialSize: 'None',
+  }
 
   getCartLength = (token) => {
     this.setState({
       itemsLength: token,
-    });
-  };
-
-  componentDidMount = async () => {
-    if (!localStorage["userId"]) {
-      const guestResponse = await fetch(
-        "http://localhost:3003/cart/guest/guest-token",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const guestToken = await guestResponse.json();
-      this.setState({
-        guestToken,
-      });
-      localStorage["guestToken"] = this.state.guestToken;
-      this.getProducts();
-      this.getAccessories();
-      console.log(window.history.back);
-    } else if (localStorage["userId"]) {
-      localStorage.removeItem("guestToken");
-    }
-    // this.props.action(this.state.itemsLength)
-  };
+    })
+  }
 
   getProducts = async () => {
-    const response = await fetch("http://localhost:3003/product/", {
-      method: "GET",
+    const response = await fetch('http://localhost:3003/product/', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    });
-    const products = await response.json();
+    })
+    const products = await response.json()
     this.setState({
       products,
-    });
-    console.log("dd" , this.state.products)
-  };
+    })
+  }
 
-  getAccessories = async () => {
-    const response = await fetch("http://localhost:3003/accessories/", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const accessories = await response.json();
-    this.setState({
-      accessories,
-    });
-  };
-  addToWishList = async (
-    id,
-    productImage,
-    productName,
-    productColor,
-    productPrice
-  ) => {
-    const productDetails = {
-      productId: id,
-      image: productImage,
-      name: productName,
-      color: productColor,
-      price: parseInt(productPrice),
-    };
-    if (localStorage["userId"]) {
-      let response = await fetch(
-        `http://localhost:3003/wishlist/${localStorage["userId"]}`,
+  componentDidMount = async () => {
+    if (!localStorage['userId']) {
+      const guestResponse = await fetch(
+        'http://localhost:3003/cart/guest/guest-token',
         {
-          method: "POST",
-          body: JSON.stringify(productDetails),
+          method: 'GET',
           headers: {
-            "Content-Type": "Application/json",
+            'Content-Type': 'application/json',
           },
-        }
-      );
-      if (response.ok) {
-        this.setState({ wishListAlert: true });
-        setTimeout(() => {
-          this.setState({
-            wishListAlert: false,
-          });
-        }, 1200);
-      } else {
-        this.setState({ wishListErrorAlert: true });
-        setTimeout(() => {
-          this.setState({
-            wishListErrorAlert: false,
-          });
-        }, 1200);
-      }
-    } else if (localStorage["guestToken"]) {
-      this.setState({ wishListErrorAlert: true });
-      setTimeout(() => {
-        this.setState({
-          wishListErrorAlert: false,
-        });
-      }, 1200);
+        },
+      )
+      const guestToken = await guestResponse.json()
+      this.setState({
+        guestToken,
+      })
+      localStorage['guestToken'] = this.state.guestToken
+      this.getProducts()
+
+      console.log(window.history.back)
+    } else if (localStorage['userId']) {
+      localStorage.removeItem('guestToken')
+      this.getProducts()
     }
-  };
+    // this.props.action(this.state.itemsLength)
+  }
+
   addCart = async (
     id,
     productImage,
@@ -137,66 +77,10 @@ class Home extends Component {
     productPrice,
     productSizes,
     productTotal,
-    productSizesAsString
+    productSizesAsString,
   ) => {
-    try {      
-    
-      if (localStorage["guestToken"]) {
-        const productDetails = {
-          productId: id,
-          quantity: this.state.quantity,
-          image: productImage,
-          name: productName,
-          size:this.state.initialSize,
-          color: productColor,
-          price: parseInt(productPrice),
-          sizeFromClient: productSizesAsString,
-          userId: localStorage["guestToken"],
-        };
-        let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
-          {
-            method: "POST",
-            body: JSON.stringify(productDetails),
-            headers: {
-              "Content-Type": "Application/json",
-            },
-          }
-        );
-        if (response.ok) {
-          const createPriceResponse = await fetch(
-            "http://localhost:3003/payment/create-product-price",
-            {
-              method: "POST",
-              body: JSON.stringify({
-                userId: localStorage["guestToken"],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: this.state.quantity,
-              }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          if (createPriceResponse.ok) {
-            this.setState({ alert: true });
-            setTimeout(() => {
-              this.setState({
-                alert: false,
-              });
-            }, 1200);
-          }
-        } else {
-          this.setState({ errorAlert: true });
-          setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            });
-          }, 1200);
-        }
-      } else if (localStorage["userId"]) {
+    try {
+      if (localStorage['guestToken']) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
@@ -206,82 +90,159 @@ class Home extends Component {
           color: productColor,
           price: parseInt(productPrice),
           sizeFromClient: productSizesAsString,
-          userId: localStorage["userId"],
-        };
+          userId: localStorage['guestToken'],
+        }
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
           {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(productDetails),
             headers: {
-              "Content-Type": "Application/json",
+              'Content-Type': 'Application/json',
             },
-          }
-        );
+          },
+        )
         if (response.ok) {
           const createPriceResponse = await fetch(
-            "http://localhost:3003/payment/create-product-price",
+            'http://localhost:3003/payment/create-product-price',
             {
-              method: "POST",
+              method: 'POST',
               body: JSON.stringify({
-                userId: localStorage["userId"],
+                userId: localStorage['guestToken'],
                 productName: productName,
                 productPrice: parseInt(productPrice * 100),
                 productId: id,
                 quantity: this.state.quantity,
               }),
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
-            }
-          );
+            },
+          )
           if (createPriceResponse.ok) {
-            this.setState({ alert: true });
+            this.setState({ alert: true })
             setTimeout(() => {
               this.setState({
                 alert: false,
-              });
-            }, 1200);
+              })
+            }, 1200)
           }
         } else {
-          this.setState({ errorAlert: true });
+          this.setState({ errorAlert: true })
           setTimeout(() => {
             this.setState({
               errorAlert: false,
-            });
-          }, 1200);
+            })
+          }, 1200)
+        }
+      } else if (localStorage['userId']) {
+        const productDetails = {
+          productId: id,
+          quantity: this.state.quantity,
+          image: productImage,
+          name: productName,
+          size: this.state.initialSize,
+          color: productColor,
+          price: parseInt(productPrice),
+          sizeFromClient: productSizesAsString,
+          userId: localStorage['userId'],
+        }
+        let response = await fetch(
+          `http://localhost:3003/cart/check-out-as-guest`,
+          {
+            method: 'POST',
+            body: JSON.stringify(productDetails),
+            headers: {
+              'Content-Type': 'Application/json',
+            },
+          },
+        )
+        if (response.ok) {
+          const createPriceResponse = await fetch(
+            'http://localhost:3003/payment/create-product-price',
+            {
+              method: 'POST',
+              body: JSON.stringify({
+                userId: localStorage['userId'],
+                productName: productName,
+                productPrice: parseInt(productPrice * 100),
+                productId: id,
+                quantity: this.state.quantity,
+              }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+          if (createPriceResponse.ok) {
+            this.setState({ alert: true })
+            setTimeout(() => {
+              this.setState({
+                alert: false,
+              })
+            }, 1200)
+          }
+        } else {
+          this.setState({ errorAlert: true })
+          setTimeout(() => {
+            this.setState({
+              errorAlert: false,
+            })
+          }, 1200)
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
-  getProductsByCategory = (e) => {
-    if (e.currentTarget.value === "accessories") {
-      this.setState({
-        accessoriesDisplay: true,
-        tShirtdisplay: false,
-        displayAll: false,
-      });
-    } else if (e.currentTarget.value === "t-shirts") {
-      this.setState({
-        tShirtdisplay: true,
-        accessoriesDisplay: false,
-        displayAll: false,
-      });
-    } else if (e.currentTarget.value === "None") {
-      this.setState({
-        displayAll: true,
-        tShirtdisplay: false,
-        accessoriesDisplay: false,
-      });
-    }
-  };
+  }
+
   render() {
     return (
       <div>
         <Jumbo />
         <Container>
+          <div>
+            <Products
+              secondAction={this.getCartLength}
+              productsAsProps={this.state.products}
+              addToCartAsProps={(
+                id,
+                quantity,
+                productImage,
+                productName,
+                productSize,
+                productColor,
+                productPrice,
+                productSizes,
+              ) =>
+                this.addCart(
+                  id,
+                  quantity,
+                  productImage,
+                  productName,
+                  productSize,
+                  productColor,
+                  productPrice,
+                  productSizes,
+                )
+              }
+              addToWishListAsProps={(
+                id,
+                productImage,
+                productName,
+                productColor,
+                productPrice,
+              ) =>
+                this.addToWishList(
+                  id,
+                  productImage,
+                  productName,
+                  productColor,
+                  productPrice,
+                )
+              }
+            />
+          </div>
           {this.state.alert === true ? (
             <Alert id="alert">Item added to cart</Alert>
           ) : (
@@ -292,211 +253,10 @@ class Home extends Component {
           ) : (
             <div></div>
           )}
-          {this.state.wishListAlert === true ? (
-            <Alert id="alert">Item added to wishlist</Alert>
-          ) : (
-            <div></div>
-          )}
-          {this.state.wishListErrorAlert === true ? (
-            <Alert id="alert">
-              Unable to add item to wishlist. Please make sure you are signed
-              in.
-            </Alert>
-          ) : (
-            <div></div>
-          )}
-          <Row style={{ marginBottom: "3rem", marginTop: "3rem" }}>
-            <Col md={8}>
-              <hr></hr>
-            </Col>
-            <Col md={4}>
-              <Form>
-                <label for="categories">Search by category</label>
-                <select
-                  className="mx-3"
-                  id="drop-down-form"
-                  onChange={(e) => this.getProductsByCategory(e)}
-                >
-                  <option value="None">All categories</option>
-                  <option value="t-shirts">T-shirts</option>
-                  <option value="accessories">Accessories</option>
-                </select>
-              </Form>
-            </Col>
-          </Row>
-          {this.state.displayAll === true ? (
-            <div>
-              <Products
-                secondAction={this.getCartLength}
-                productsAsProps={this.state.products}
-                addToCartAsProps={(
-                  id,
-                  quantity,
-                  productImage,
-                  productName,
-                  productSize,
-                  productColor,
-                  productPrice,
-                  productSizes
-                ) =>
-                  this.addCart(
-                    id,
-                    quantity,
-                    productImage,
-                    productName,
-                    productSize,
-                    productColor,
-                    productPrice,
-                    productSizes
-                  )
-                }
-                addToWishListAsProps={(
-                  id,
-                  productImage,
-                  productName,
-
-                  productColor,
-                  productPrice
-                ) =>
-                  this.addToWishList(
-                    id,
-                    productImage,
-                    productName,
-
-                    productColor,
-                    productPrice
-                  )
-                }
-              />
-              <Accessories
-                accessoriesAsProps={this.state.accessories}
-                addToCartAsProps={(
-                  id,
-                  productImage,
-                  productName,
-
-                  productColor,
-                  productPrice
-                ) =>
-                  this.addCart(
-                    id,
-                    productImage,
-                    productName,
-
-                    productColor,
-                    productPrice
-                  )
-                }
-                addToWishListAsProps={(
-                  id,
-                  productImage,
-                  productName,
-
-                  productColor,
-                  productPrice
-                ) =>
-                  this.addToWishList(
-                    id,
-                    productImage,
-                    productName,
-
-                    productColor,
-                    productPrice
-                  )
-                }
-              />
-            </div>
-          ) : (
-            <div>
-              {this.state.tShirtdisplay === true ? (
-                <div>
-                  <Products
-                    secondAction={this.getCartLength}
-                    productsAsProps={this.state.products}
-                    addToCartAsProps={(
-                      id,
-                      productImage,
-                      productName,
-
-                      productColor,
-                      productPrice
-                    ) =>
-                      this.addCart(
-                        id,
-                        productImage,
-                        productName,
-
-                        productColor,
-                        productPrice
-                      )
-                    }
-                    addToWishListAsProps={(
-                      id,
-                      productImage,
-                      productName,
-
-                      productColor,
-                      productPrice
-                    ) =>
-                      this.addToWishList(
-                        id,
-                        productImage,
-                        productName,
-
-                        productColor,
-                        productPrice
-                      )
-                    }
-                  />
-                </div>
-              ) : (
-                <div>
-                  {" "}
-                  <Accessories
-                    accessoriesAsProps={this.state.accessories}
-                    addToCartAsProps={(
-                      id,
-                      productImage,
-                      productName,
-
-                      productColor,
-                      productPrice
-                    ) =>
-                      this.addCart(
-                        id,
-                        productImage,
-                        productName,
-
-                        productColor,
-                        productPrice
-                      )
-                    }
-                    addToWishListAsProps={(
-                      id,
-                      productImage,
-                      productName,
-
-                      productColor,
-                      productPrice
-                    ) =>
-                      this.addToWishList(
-                        id,
-                        productImage,
-                        productName,
-
-                        productColor,
-                        productPrice
-                      )
-                    }
-                  />
-                </div>
-              )}
-            </div>
-          )}
         </Container>
       </div>
-    );
+    )
   }
 }
 
-export default Home;
+export default Home

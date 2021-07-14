@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&family=Poppins&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&family=Poppins&display=swap');
 #category-text h2 {
     font-size: 18px;
     font-weight: 700;
@@ -7,6 +7,11 @@
     text-transform: uppercase;
     position: relative;
     z-index: 3;
+}
+
+#product-images {
+    width: 100%;
+    object-fit: cover;
 }
 
 #featured-text h2 {
@@ -19,8 +24,21 @@
     z-index: 3;
 }
 
+.carousel-inner>.item>img {
+    height: 10% !important;
+}
+
+#prod-jumbo {
+    background-size: cover;
+    text-align: left;
+    color: #fff;
+    position: relative;
+    height: 100vh;
+    padding: 150px 0;
+}
+
 #category-text h2:after {
-    content: " ";
+    content: ' ';
     position: absolute;
     border: 1px solid #f5f5f5;
     bottom: 8px;
@@ -31,7 +49,7 @@
 }
 
 #featured-text h2:after {
-    content: " ";
+    content: ' ';
     position: absolute;
     border: 1px solid #f5f5f5;
     bottom: 8px;
@@ -42,7 +60,7 @@
 }
 
 #category-text h2:before {
-    content: " ";
+    content: ' ';
     position: absolute;
     background: #fff;
     bottom: -6px;
@@ -54,7 +72,7 @@
 }
 
 #featured-text h2:before {
-    content: " ";
+    content: ' ';
     position: absolute;
     background: #fff;
     bottom: -6px;
@@ -94,7 +112,7 @@
 
 .category-products .panel-default .panel-heading .panel-title a {
     color: #696763;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     text-decoration: none;
     text-transform: uppercase;
@@ -130,7 +148,7 @@
 
 .panel-body ul li a {
     color: #696763;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 12px;
     text-transform: uppercase;
 }
@@ -154,20 +172,20 @@
 
 .productinfo h2 {
     color: #fe980f;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 700;
 }
 
 .product-overlay h2 {
     color: #fff;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 700;
 }
 
 .productinfo p {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #696763;
@@ -239,7 +257,7 @@
 }
 
 .product-overlay p {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 14px;
     font-weight: 400;
     color: #fff;
@@ -250,7 +268,7 @@
     border: 0 none;
     border-radius: 0;
     color: #696763;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 15px;
     margin-bottom: 25px;
 }
@@ -281,7 +299,7 @@
 
 .choose ul li a {
     color: #b3afa8;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 13px;
     padding-left: 3rem;
     padding-right: 0;

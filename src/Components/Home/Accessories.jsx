@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import "../../css/Products.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import React, { Component } from 'react'
+import '../../css/Products.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
 import {
   Row,
@@ -12,23 +12,22 @@ import {
   Accordion,
   Button,
   Alert,
-} from "react-bootstrap";
+} from 'react-bootstrap'
 
-import BottomProducts from "./BottomProducts";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
 class Accessories extends Component {
   state = {
-    size: "No size required",
-    color: "No color required",
+    size: 'No size required',
+    color: 'No color required',
     quantity: 1,
     alert: false,
     errorAlert: false,
     wishListAlert: false,
     wishListErrorAlert: false,
-  };
+  }
 
- addCart = async(
+  addCart = async (
     id,
     quantity,
     productImage,
@@ -36,120 +35,124 @@ class Accessories extends Component {
     productSize,
     productColor,
     productPrice,
-    productSizes
-) => {
+    productSizes,
+  ) => {
     try {
-        if (localStorage["guestToken"]) {
-            const productDetails = {
-                productId: id,
-                quantity: quantity,
-                image: productImage,
-                name: productName,
-                size: productSize,
-                color: productColor,
-                price: parseInt(productPrice),
-                sizeFromClient: productSizes,
-                userId: localStorage["guestToken"],
-            };
-            let response = await fetch(
-                `http://localhost:3003/cart/check-out-as-guest`, {
-                    method: "POST",
-                    body: JSON.stringify(productDetails),
-                    headers: {
-                        "Content-Type": "Application/json",
-                    },
-                }
-            );
-            if (response.ok) {
-                const createPriceResponse = await fetch(
-                    "http://localhost:3003/payment/create-product-price", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            userId: localStorage["guestToken"],
-                            productName: productName,
-                            productPrice: parseInt(productPrice * 100),
-                            productId: id,
-                            quantity: this.state.quantity,
-                        }),
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                if (createPriceResponse.ok) {
-                    this.setState({ alert: true });
-                    setTimeout(() => {
-                        this.setState({
-                            alert: false,
-                        });
-                    }, 1200);
-                }
-            } else {
-                this.setState({ errorAlert: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorAlert: false,
-                    });
-                }, 1200);
-            }
-        } else if (localStorage["userId"]) {
-            const productDetails = {
+      if (localStorage['guestToken']) {
+        const productDetails = {
+          productId: id,
+          quantity: quantity,
+          image: productImage,
+          name: productName,
+          size: productSize,
+          color: productColor,
+          price: parseInt(productPrice),
+          sizeFromClient: productSizes,
+          userId: localStorage['guestToken'],
+        }
+        let response = await fetch(
+          `http://localhost:3003/cart/check-out-as-guest`,
+          {
+            method: 'POST',
+            body: JSON.stringify(productDetails),
+            headers: {
+              'Content-Type': 'Application/json',
+            },
+          },
+        )
+        if (response.ok) {
+          const createPriceResponse = await fetch(
+            'http://localhost:3003/payment/create-product-price',
+            {
+              method: 'POST',
+              body: JSON.stringify({
+                userId: localStorage['guestToken'],
+                productName: productName,
+                productPrice: parseInt(productPrice * 100),
                 productId: id,
                 quantity: this.state.quantity,
-                image: productImage,
-                name: productName,
-                size: productSize,
-                color: productColor,
-                price: parseInt(productPrice),
-                sizeFromClient: productSizes,
-                userId: localStorage["userId"],
-            };
-            let response = await fetch(
-                `http://localhost:3003/cart/check-out-as-guest`, {
-                    method: "POST",
-                    body: JSON.stringify(productDetails),
-                    headers: {
-                        "Content-Type": "Application/json",
-                    },
-                }
-            );
-            if (response.ok) {
-                const createPriceResponse = await fetch(
-                    "http://localhost:3003/payment/create-product-price", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            userId: localStorage["userId"],
-                            productName: productName,
-                            productPrice: parseInt(productPrice * 100),
-                            productId: id,
-                            quantity: this.state.quantity,
-                        }),
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                    }
-                );
-                if (createPriceResponse.ok) {
-                    this.setState({ alert: true });
-                    setTimeout(() => {
-                        this.setState({
-                            alert: false,
-                        });
-                    }, 1200);
-                }
-            } else {
-                this.setState({ errorAlert: true });
-                setTimeout(() => {
-                    this.setState({
-                        errorAlert: false,
-                    });
-                }, 1200);
-            }
+              }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+          if (createPriceResponse.ok) {
+            this.setState({ alert: true })
+            setTimeout(() => {
+              this.setState({
+                alert: false,
+              })
+            }, 1200)
+          }
+        } else {
+          this.setState({ errorAlert: true })
+          setTimeout(() => {
+            this.setState({
+              errorAlert: false,
+            })
+          }, 1200)
         }
+      } else if (localStorage['userId']) {
+        const productDetails = {
+          productId: id,
+          quantity: this.state.quantity,
+          image: productImage,
+          name: productName,
+          size: productSize,
+          color: productColor,
+          price: parseInt(productPrice),
+          sizeFromClient: productSizes,
+          userId: localStorage['userId'],
+        }
+        let response = await fetch(
+          `http://localhost:3003/cart/check-out-as-guest`,
+          {
+            method: 'POST',
+            body: JSON.stringify(productDetails),
+            headers: {
+              'Content-Type': 'Application/json',
+            },
+          },
+        )
+        if (response.ok) {
+          const createPriceResponse = await fetch(
+            'http://localhost:3003/payment/create-product-price',
+            {
+              method: 'POST',
+              body: JSON.stringify({
+                userId: localStorage['userId'],
+                productName: productName,
+                productPrice: parseInt(productPrice * 100),
+                productId: id,
+                quantity: this.state.quantity,
+              }),
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            },
+          )
+          if (createPriceResponse.ok) {
+            this.setState({ alert: true })
+            setTimeout(() => {
+              this.setState({
+                alert: false,
+              })
+            }, 1200)
+          }
+        } else {
+          this.setState({ errorAlert: true })
+          setTimeout(() => {
+            this.setState({
+              errorAlert: false,
+            })
+          }, 1200)
+        }
+      }
     } catch (err) {
-        console.log(err);
+      console.log(err)
     }
-};
+  }
 
   render() {
     return (
@@ -184,7 +187,7 @@ class Accessories extends Component {
                             prod.name,
                             this.state.size,
                             this.state.color,
-                            prod.price
+                            prod.price,
                           )
                         }
                         className="btn btn-default add-to-cart"
@@ -203,10 +206,10 @@ class Accessories extends Component {
                           prod.image,
                           prod.name,
                           prod.color,
-                          prod.price
+                          prod.price,
                         )
                       }
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: 'pointer' }}
                       id="add-to-wishlist"
                     >
                       <FontAwesomeIcon icon={faHeart} className="fa-1x" />
@@ -224,7 +227,7 @@ class Accessories extends Component {
                   </ul>
                 </div>
               </div>
-            );
+            )
           })}
         </CardDeck>
         {this.state.alert === true ? (
@@ -250,8 +253,8 @@ class Accessories extends Component {
           <div></div>
         )}
       </Container>
-    );
+    )
   }
 }
 
-export default Accessories;
+export default Accessories

@@ -23,6 +23,9 @@ class AllAccessories extends Component {
     errorAlert: false,
     wishListAlert: false,
     wishListErrorAlert: false,
+    size: "No size required",
+    color: "No color required",
+    sizeForTShirt: "None",
   };
 
   componentDidMount = async () => {
@@ -59,7 +62,8 @@ class AllAccessories extends Component {
     productName,
     productSize,
     productColor,
-    productPrice
+    productPrice,
+    productSizes
   ) => {
     try {
       if (localStorage["guestToken"]) {
@@ -71,6 +75,7 @@ class AllAccessories extends Component {
           size: productSize,
           color: productColor,
           price: parseInt(productPrice),
+          sizeFromClient: productSizes,
           userId: localStorage["guestToken"],
         };
         let response = await fetch(
@@ -125,6 +130,7 @@ class AllAccessories extends Component {
           size: productSize,
           color: productColor,
           price: parseInt(productPrice),
+          sizeFromClient: productSizes,
           userId: localStorage["userId"],
         };
         let response = await fetch(
@@ -252,9 +258,10 @@ class AllAccessories extends Component {
                             accessory._id,
                             accessory.image,
                             accessory.name,
-                            accessory.size,
+                            this.state.sizeForTShirt,
                             accessory.color,
-                            accessory.price
+                            accessory.price,
+                            accessory.sizeAsString
                           )
                         }
                       >
@@ -287,13 +294,14 @@ class AllAccessories extends Component {
                             <p>{prod.name}</p>
                             <button
                               onClick={() =>
-                                this.addCart(
-                                  prod._id,
-                                  prod.image,
-                                  prod.name,
-                                  prod.size,
-                                  prod.color,
-                                  prod.price
+                                this.addCart(      
+
+                                     prod._id,
+                            prod.image,
+                            prod.name,
+                            this.state.size,
+                            this.state.color, 
+                            prod.price,
                                 )
                               }
                               className="btn btn-default add-to-cart"
