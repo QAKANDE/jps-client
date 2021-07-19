@@ -86,7 +86,7 @@ class Products extends Component {
                 <div className="product-image-wrapper col-sm-4">
                   <div className="single-products">
                     <div className="productinfo text-center">
-                      <img src={prod.imageUrl} alt="" />
+                      <img src={prod.imageUrl[0].url} alt="" />
                       <h2>£ {prod.price}</h2>
                       <p>{prod.name}</p>
                       <a href="#" className="btn btn-default add-to-cart">
@@ -101,7 +101,7 @@ class Products extends Component {
                           onClick={() =>
                             this.props.addToCartAsProps(
                               prod._id,
-                              prod.imageUrl,
+                              prod.imageUrl[0].url,
                               prod.name,
                               prod.color,
                               prod.price,

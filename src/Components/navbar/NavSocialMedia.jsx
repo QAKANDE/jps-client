@@ -78,7 +78,7 @@ class NavSocialMedia extends Component {
               <div className="col-md-8 clearfix">
                 <div className="d-flex flex-row shop-menu clearfix pull-right">
                   <ul>
-                    <li>
+                    {/* <li>
                       <Link to="/account">
                         <FontAwesomeIcon
                           icon={faUser}
@@ -92,10 +92,10 @@ class NavSocialMedia extends Component {
                         <FontAwesomeIcon
                           icon={faStar}
                           className="navbar-icon"
-                        />{' '}
+                        />
                         Wishlist
                       </Link>
-                    </li>
+                    </li> */}
                     {/* <li>
                       <Link to="/checkout">
                         <FontAwesomeIcon icon={faCrosshairs} /> Checkout
@@ -111,9 +111,9 @@ class NavSocialMedia extends Component {
                       </Link>
                     </li>
                     <span className="badge badge-warning" id="lblCartCount">
-                      {this.props.itemsLength}{' '}
+                      {this.props.itemsLength}
                     </span>
-                    <li>
+                    {/* <li>
                       <Link to={'/login'}>
                         <FontAwesomeIcon
                           icon={faLock}
@@ -121,7 +121,7 @@ class NavSocialMedia extends Component {
                         />{' '}
                         Login
                       </Link>
-                    </li>
+                    </li> */}
                   </ul>
                 </div>
               </div>

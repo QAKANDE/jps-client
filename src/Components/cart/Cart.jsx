@@ -19,7 +19,7 @@ class Cart extends Component {
     subTotal: '',
     tax: 30,
     finalTotal: '',
-    shippingCost: 3.5,
+    shippingCost: 4.99,
     displayCheckOut: false,
     quantity: '1',
     itemsLength: '',
@@ -286,16 +286,18 @@ class Cart extends Component {
     }
   }
 
-  deleteItem = async (user, id) => {
-    let response = await fetch(
-      `http://localhost:3003/cart/delete-item/${user}/${id}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'Application/json',
-        },
+  deleteItem = async (id) => {
+    const guestToken = sessionStorage.getItem('guestToken')
+
+    let response = await fetch(`http://localhost:3003/cart/delete-item/${id}`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        userId: guestToken,
+      }),
+      headers: {
+        'Content-Type': 'Application/json',
       },
-    )
+    })
     if (response.ok) {
       this.getCart()
     } else {
@@ -428,71 +430,111 @@ class Cart extends Component {
                                     </button>
                                   </div>
                                 </div>
+                                <Row>
+                                  {item.stock.map((stc) => {
+                                    return (
+                                      <Col md={4}>
+                                        <button
+                                          id="color-button"
+                                          onClick={(e) =>
+                                            this.editColor(
+                                              e,
+                                              this.state.allCart.userId,
+                                              item._id,
+                                              stc.color,
+                                            )
+                                          }
+                                          className="mt-3"
+                                        >
+                                          {stc.color}
+                                        </button>
+                                      </Col>
+                                    )
+                                  })}
+                                </Row>
+                                <Row className="mt-5 mb-5" md={4}>
+                                  <Col>
+                                    <button
+                                      id="color-button"
+                                      onClick={(e) =>
+                                        this.editSize(
+                                          e,
+                                          this.state.allCart.userId,
+                                          item._id,
+                                          'XXL',
+                                        )
+                                      }
+                                    >
+                                      XXL
+                                    </button>
+                                  </Col>
+                                  <Col>
+                                    <button
+                                      id="color-button"
+                                      onClick={(e) =>
+                                        this.editSize(
+                                          e,
+                                          this.state.allCart.userId,
+                                          item._id,
+                                          'XL',
+                                        )
+                                      }
+                                    >
+                                      XL
+                                    </button>
+                                  </Col>
+                                  <Col>
+                                    <button
+                                      id="color-button"
+                                      onClick={(e) =>
+                                        this.editSize(
+                                          e,
+                                          this.state.allCart.userId,
+                                          item._id,
+                                          'L',
+                                        )
+                                      }
+                                    >
+                                      L
+                                    </button>
+                                  </Col>
+                                  <Col>
+                                    <button
+                                      id="color-button"
+                                      onClick={(e) =>
+                                        this.editSize(
+                                          e,
+                                          this.state.allCart.userId,
+                                          item._id,
+                                          'M',
+                                        )
+                                      }
+                                    >
+                                      M
+                                    </button>
+                                  </Col>
+                                  <Col>
+                                    <button
+                                      id="color-button"
+                                      className="mt-3"
+                                      onClick={(e) =>
+                                        this.editSize(
+                                          e,
+                                          this.state.allCart.userId,
+                                          item._id,
+                                          'S',
+                                        )
+                                      }
+                                    >
+                                      S
+                                    </button>
+                                  </Col>
+                                </Row>
 
-                                {item.stock.map((stc) => {
-                                  return (
-                                    <div>
-                                      <Row>
-                                        <Col>
-                                          <button
-                                            id="proceed-to-checkout"
-                                            onClick={(e) =>
-                                              this.editColor(
-                                                e,
-                                                this.state.allCart.userId,
-                                                item._id,
-                                                stc.color,
-                                              )
-                                            }
-                                            className="mt-3"
-                                          >
-                                            {stc.color}
-                                          </button>
-                                        </Col>
-                                      </Row>
-                                      <Row>
-                                        {stc.sizes.map((siz) => {
-                                          return (
-                                            <div>
-                                              {siz.quantity === '0' ? (
-                                                <button disabled>
-                                                  {siz.size}
-                                                </button>
-                                              ) : (
-                                                <Col>
-                                                  <button
-                                                    id="proceed-to-checkout"
-                                                    onClick={(e) =>
-                                                      this.editSize(
-                                                        e,
-                                                        this.state.allCart
-                                                          .userId,
-                                                        item._id,
-                                                        siz.size,
-                                                      )
-                                                    }
-                                                    className="mt-5 mb-5"
-                                                  >
-                                                    {siz.size}
-                                                  </button>
-                                                </Col>
-                                              )}
-                                            </div>
-                                          )
-                                        })}
-                                      </Row>
-                                    </div>
-                                  )
-                                })}
                                 <div class="d-flex justify-content-between align-items-center">
                                   <div>
                                     <div
-                                      onClick={() =>
-                                        this.deleteItem(
-                                          this.state.allCart.userId,
-                                          item._id,
-                                        )
-                                      }
+                                      onClick={() => this.deleteItem(item._id)}
                                       id="delete-item-div"
                                     >
                                       <FontAwesomeIcon icon={faTrash} />

@@ -61,12 +61,13 @@ class Details extends Component {
 
     this.setState({
       details,
-      imageUrl: details.imageUrl,
+      imageUrl: details.imageUrl[0].url,
       sizesFromApi: sizeArr,
       description: desc,
       id: productId,
       sizeToBeSent: sizeArr.join(''),
     })
+    console.log(this.state.imageUrl)
 
     this.getReviews()
   }
@@ -88,13 +89,10 @@ class Details extends Component {
   }
   addCart = async (
     id,
-    quantity,
     productImage,
     productName,
-    productSize,
-    productColor,
     productPrice,
-    productSizes,
+    productStock,
   ) => {
     try {
       const guestToken = sessionStorage.getItem('guestToken')
@@ -102,13 +100,11 @@ class Details extends Component {
       if (guestToken) {
         const productDetails = {
           productId: id,
-          quantity: quantity,
+          quantity: this.state.quantity,
           image: productImage,
           name: productName,
-          size: productSize,
-          color: productColor,
           price: parseInt(productPrice),
-          sizeFromClient: productSizes,
+          stock: productStock,
           userId: guestToken,
         }
         let response = await fetch(
@@ -142,10 +138,8 @@ class Details extends Component {
           quantity: this.state.quantity,
           image: productImage,
           name: productName,
-          size: productSize,
-          color: productColor,
           price: parseInt(productPrice),
-          sizeFromClient: productSizes,
+          stock: productStock,
           userId: userId,
         }
         let response = await fetch(
@@ -284,13 +278,10 @@ class Details extends Component {
                   onClick={() =>
                     this.addCart(
                       this.state.details._id,
-                      this.state.quantity,
-                      this.state.details.image,
+                      this.state.imageUrl,
                       this.state.details.name,
-                      this.state.sizeSelected,
-                      this.state.details.color,
                       this.state.details.price,
-                      this.state.sizeToBeSent,
+                      this.state.details.stock,
                     )
                   }
                 >
@@ -298,9 +289,6 @@ class Details extends Component {
                   Add to cart
                 </button>
               </span>
-              <p>
-                <b>Availability:</b> In Stock
-              </p>
             </div>
           </Col>
         </Row>

@@ -25,3 +25,11 @@
     padding-bottom: 1rem;
     padding-top: 1rem;
 }
+
+#error-div {
+    background-color: red;
+    padding: 0.5rem 0.5rem;
+    font-weight: 600;
+    color: black;
+    margin: 1rem 1rem;
+}

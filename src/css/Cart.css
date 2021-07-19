@@ -160,3 +160,16 @@
     font-style: italic;
     font-weight: 700;
 }
+
+#color-button {
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding: 0.5rem 0.4rem;
+    width: 100%;
+    outline: none;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Jumbo from './Jumbo'
 import Products from './Products'
+import cryptoRandomString from 'crypto-random-string'
 import Accessories from './Accessories'
 import {
   Alert,
@@ -60,31 +61,25 @@ class Home extends Component {
   handleShow = () => this.setState({ showModal: true })
 
   componentDidMount = async () => {
+    this.getProducts()
     const userId = sessionStorage.getItem('userId')
-    // localStorage.setItem('show_status', 1)
-    // const status = localStorage.getItem('show_status')
-    // if (status) {
-    //   this.setState({ showModal: true })
-    // } else if (!status) {
-    //   this.setState({ showModal: false })
-    // }
-
-    if (!userId) {
-      const guestResponse = await fetch(
-        'http://localhost:3003/cart/guest/guest-token',
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      const guestToken = await guestResponse.json()
-      this.setState({
-        guestToken,
-      })
-      sessionStorage.setItem('guestToken', this.state.guestToken)
-      this.getProducts()
+    const guestToken = sessionStorage.getItem('guestToken')
+    if (!userId && !guestToken) {
+      const guestToken = cryptoRandomString({ length: 24, type: 'hex' })
+      // const guestResponse = await fetch(
+      //   'http://localhost:3003/cart/guest/guest-token',
+      //   {
+      //     method: 'GET',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   },
+      // )
+      // const guestToken = await guestResponse.json()
+      // this.setState({
+      //   guestToken: guestToken.id,
+      // })
+      sessionStorage.setItem('guestToken', guestToken)
     } else if (userId) {
       sessionStorage.removeItem('guestToken')
       this.getProducts()

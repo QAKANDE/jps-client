@@ -21,8 +21,9 @@ class Checkoutasguest extends Component {
       email: '',
     },
     checkBox: false,
-    redirectToStripeSuccess: false,
     showPayPal: false,
+    formError: false,
+    emailError: false,
   }
 
   updateDeliverTo = (event) => {
@@ -34,169 +35,64 @@ class Checkoutasguest extends Component {
     })
   }
 
-  confirmBillAddress = () => {
-    this.setState({
-      checkBox: true,
-    })
-  }
+  // confirmBillAddress = () => {
+  //   this.setState({
+  //     checkBox: true,
+  //   })
+  // }
 
-  sendUserOrderDetails = async () => {
-    const response = await fetch(
-      `http://localhost:3003/users/user-order/${localStorage['userId']}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
+  // sendUserOrderDetails = async () => {
+  //   const response = await fetch(
+  //     `http://localhost:3003/users/user-order/${localStorage['userId']}`,
+  //     {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     },
+  //   )
+  // }
+  isValidEmail = (email) => {
+    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    if (email.match(mailformat)) {
+      return true
+    } else {
+      return false
+    }
   }
 
   checkOut = async (e) => {
     e.preventDefault()
-    this.setState({ showPayPal: true })
-  }
-
-  // checkOut = async () => {
-  //   if (!localStorage['userId']) {
-  //     const stripe = await stripeTestPromise
-  //     const res = await fetch(
-  //       'http://localhost:3003/payment/create-checkout-session',
-  //       {
-  //         method: 'POST',
-  //         body: JSON.stringify({
-  //           userId: localStorage['guestToken'],
-  //         }),
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       },
-  //     )
-  //     const session = await res.json()
-  //     const result = await stripe.redirectToCheckout({
-  //       sessionId: session.id,
-  //     })
-  //     console.log(result)
-  //     // if (result.error) {
-  //     //   console.log(result.error.message)
-  //     // } else {
-  //     //   this.sendUserOrderDetails()
-  //     // }
-  //   } else if (localStorage['userId']) {
-  //     const stripe = await stripeTestPromise
-  //     const res = await fetch(
-  //       'http://localhost:3003/payment/create-checkout-session',
-  //       {
-  //         method: 'POST',
-  //         body: JSON.stringify({
-  //           userId: localStorage['userId'],
-  //         }),
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //       },
-  //     )
-
-  //     const session = await res.json()
-  //     const result = await stripe.redirectToCheckout({
-  //       sessionId: session.id,
-  //     })
-
-  //     if (result.error) {
-  //       console.log(result.error.message)
-  //     } else {
-  //       this.sendUserOrderDetails()
-  //     }
-  //   }
-  // }
-
-  sendOrderDetails = async (e) => {
-    e.preventDefault()
-    if (localStorage['guestToken']) {
-      const res = await fetch('http://localhost:3003/orders/new-order', {
-        method: 'POST',
-        body: JSON.stringify({
-          customerId: this.state.deliverTo.email,
-          customerName:
-            this.state.deliverTo.title +
-            ' ' +
-            this.state.deliverTo.firstName +
-            ' ' +
-            this.state.deliverTo.lastName,
-          addressLine1: this.state.deliverTo.addressLine1,
-          county: this.state.deliverTo.county,
-          country: this.state.deliverTo.country,
-          postCode: this.state.deliverTo.postCode,
-          subTotal: 234,
-          userId: localStorage['guestToken'],
-        }),
-        headers: {
-          'Content-Type': 'application/json',
+    if (
+      this.state.deliverTo.title === '' ||
+      this.state.deliverTo.firstName === '' ||
+      this.state.deliverTo.lastName === '' ||
+      this.state.deliverTo.addressLine1 === '' ||
+      this.state.deliverTo.postCode === '' ||
+      this.state.deliverTo.postCode === '' ||
+      this.state.deliverTo.county === '' ||
+      this.state.deliverTo.country === '' ||
+      this.state.deliverTo.email === ''
+    ) {
+      this.setState({ formError: true })
+      setTimeout(() => this.setState({ formError: false }), 1500)
+    } else if (this.isValidEmail(this.state.deliverTo.email) === false) {
+      this.setState({ emailError: true })
+      setTimeout(() => this.setState({ emailError: false }), 1500)
+    } else {
+      this.setState({
+        showPayPal: true,
+        deliverTo: {
+          title: '',
+          firstName: '',
+          lastName: '',
+          addressLine1: '',
+          postCode: '',
+          county: '',
+          country: '',
+          email: '',
         },
       })
-      if (res.status === 200) {
-        this.setState({
-          deliverTo: {
-            title: '',
-            firstName: '',
-            lastName: '',
-            addressLine1: '',
-            postCode: '',
-            county: '',
-            country: '',
-            email: '',
-          },
-          redirectToStripeSuccess: true,
-        })
-        setTimeout(() => {
-          this.setState({
-            redirectToStripeSuccess: false,
-          })
-        }, 2000)
-        this.checkOut()
-      } else {
-        alert('Something went wrong')
-      }
-    } else if (localStorage['userId']) {
-      const res = await fetch('http://localhost:3003/orders/new-order', {
-        method: 'POST',
-        body: JSON.stringify({
-          customerId: this.state.deliverTo.email,
-          customerName:
-            this.state.deliverTo.title +
-            ' ' +
-            this.state.deliverTo.firstName +
-            ' ' +
-            this.state.deliverTo.lastName,
-          addressLine1: this.state.deliverTo.addressLine1,
-          county: this.state.deliverTo.county,
-          country: this.state.deliverTo.country,
-          postCode: this.state.deliverTo.postCode,
-          subTotal: 234,
-          userId: localStorage['userId'],
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      })
-      if (res.status === 200) {
-        this.setState({
-          deliverTo: {
-            title: '',
-            firstName: '',
-            lastName: '',
-            addressLine1: '',
-            postCode: '',
-            county: '',
-            country: '',
-            email: '',
-          },
-          redirectToStripeSuccess: false,
-        })
-        this.checkOut()
-      } else {
-        alert('Something went wrong')
-      }
     }
   }
 
@@ -225,7 +121,7 @@ class Checkoutasguest extends Component {
                 </Form.Control>
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="firstName">First Name</Form.Label>
+                <Form.Label htmlFor="firstName">First Name*</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ex. John"
@@ -235,7 +131,7 @@ class Checkoutasguest extends Component {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="lastName">Last Name</Form.Label>
+                <Form.Label htmlFor="lastName">Last Name*</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Ex. John"
@@ -245,7 +141,7 @@ class Checkoutasguest extends Component {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="country">Country</Form.Label>
+                <Form.Label htmlFor="country">Country*</Form.Label>
                 <Form.Control
                   as="select"
                   id="country"
@@ -518,30 +414,20 @@ class Checkoutasguest extends Component {
                   <option value="ZW">Zimbabwe</option>
                 </Form.Control>
               </Form.Group>
-              {/* 
-              <Form.Group id="billAddressNotDelivery">
-                <Form.Check
-                  type="checkbox"
-                  label="Billing address different from delivery? Click here"
-                  onChange={() => this.confirmBillAddress()}
-                  default={this.state.checkBox}
-                  defaultValue={this.state.checkBox}
-                />
-              </Form.Group> */}
             </Col>
             <Col>
               <Form.Group>
-                <Form.Label htmlFor="addressLine1">Address Line 1</Form.Label>
+                <Form.Label htmlFor="addressLine1">Address Line 1*</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Adress Line 1"
+                  placeholder="Address Line 1"
                   id="addressLine1"
                   onChange={(e) => this.updateDeliverTo(e)}
                   value={this.state.deliverTo.addressline1}
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="email">Email</Form.Label>
+                <Form.Label htmlFor="email">Email*</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="Ex . john@john.com"
@@ -551,7 +437,7 @@ class Checkoutasguest extends Component {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="county">County</Form.Label>
+                <Form.Label htmlFor="county">County*</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="County"
@@ -561,7 +447,7 @@ class Checkoutasguest extends Component {
                 />
               </Form.Group>
               <Form.Group>
-                <Form.Label htmlFor="postCode">Post Code</Form.Label>
+                <Form.Label htmlFor="postCode">Post Code*</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Post Code"
@@ -572,6 +458,22 @@ class Checkoutasguest extends Component {
               </Form.Group>
             </Col>
           </Row>
+          {this.state.formError === true ? (
+            <div id="error-div">
+              <p className="text-center">
+                Please fill in required fields. All fields are required.
+              </p>
+            </div>
+          ) : (
+            <div></div>
+          )}
+          {this.state.emailError === true ? (
+            <div id="error-div">
+              <p className="text-center">Please enter a valid email.</p>
+            </div>
+          ) : (
+            <div></div>
+          )}
           {this.state.showPayPal === true ? (
             <Paypalpayment
               total={this.props.total}
@@ -598,19 +500,6 @@ class Checkoutasguest extends Component {
           ) : (
             <div></div>
           )}
-          {/* 
-          {this.state.redirectToStripeSuccess === true ? (
-            <div>
-              <Alert id="alert" className="text-center">
-                <p className="pt-2">
-                  Please wait to be redirected to the payment page.
-                </p>
-              </Alert>
-            </div>
-          ) : (
-            <div></div>
-          )} */}
-
           <div className="text-center">
             <button onClick={(e) => this.checkOut(e)} id="check-out">
               Proceed to payment

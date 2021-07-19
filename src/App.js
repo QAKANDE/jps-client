@@ -97,8 +97,8 @@ function App() {
             component = { UpdateInventory }
             />{' '} <
             Footer / > { ' ' } <
-            /Router>{' '} <
-            /div>
+            /Router>{' '} < /
+            div >
         )
     }
 

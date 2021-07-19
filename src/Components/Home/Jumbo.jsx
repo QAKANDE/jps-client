@@ -12,7 +12,7 @@ class Products extends Component {
   render() {
     return (
       <>
-        <section className="jumbotron ">
+        <section className="jumbotron">
           <div id="jumbo-all-wrapper">
             <div id="jumbo-text-wrapper">
               <p id="affordable">A British brand with an African heritage</p>

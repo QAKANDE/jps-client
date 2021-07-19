@@ -10,6 +10,10 @@ class Paypalpayment extends Component {
     paypalDisplay: true,
   }
 
+  componentDidMount = () => {
+    this.setState({ orderConfirmed: true })
+  }
+
   createOrder(data, actions) {
     const value = this.state.total
     return actions.order.create({

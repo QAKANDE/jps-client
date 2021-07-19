@@ -9,7 +9,7 @@ class CookiePolicy extends Component {
           style={{ width: '100%', height: '500px' }}
           scrolling="auto"
           frameBorder="0"
-          src="https://docs.google.com/document/d/e/2PACX-1vRWCnsKSP09kR0jmDwOHYTpTGhIF3gJiPs5LYkBd5vz0kK25hjxX1SgZz29jNAAOJY2yVDuPIo7fhS6/pub?embedded=true"
+          src="https://docs.google.com/document/d/e/2PACX-1vShpDxA1OFx2gZPRweeTC_eNAaTUFUlQwGmHsnXhzsOqf_k45CdFX-MvEWoNqqwtVOxspaCwiQejBIk/pub?embedded=true"
         ></iframe>
       </div>
     )

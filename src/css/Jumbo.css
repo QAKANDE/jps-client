@@ -12,30 +12,6 @@
     border-radius: 0 !important;
 }
 
-.jumbotron2 {
-    font-family: 'Montserrat', sans-serif;
-    padding: 150px 0;
-    background: url(https://res.cloudinary.com/quadri/image/upload/v1625316500/2D3A1123_gmbquq.jpg) center center;
-    background-size: cover;
-    text-align: left;
-    color: #fff;
-    position: relative;
-    height: 100vh;
-    margin-bottom: 0 !important;
-    border-radius: 0 !important;
-}
-
-.jumbotron3 {
-    font-family: 'Montserrat', sans-serif;
-    padding: 150px 0;
-    background: url(C:\Users\quadr\OneDrive\Documents\GitHub\jps-client\src\assets\one.png) center center;
-    background-size: cover;
-    text-align: left;
-    color: #fff;
-    position: relative;
-    height: 100vh;
-}
-
 #jumbo-cards {
     margin-bottom: 7rem;
 }
@@ -57,10 +33,10 @@
 #affordable {
     margin-top: 0.5rem;
     font-family: serif;
-    font-size: 25px;
+    font-size: 43px;
     font-weight: 900;
     font-style: italic;
-    color: #000;
+    color: black;
 }
 
 #jumbo-text-wrapper {
@@ -69,7 +45,7 @@
 }
 
 #jumbo-all-wrapper {
-    margin-top: 23rem;
+    margin-top: 24rem;
 }
 
 .button {

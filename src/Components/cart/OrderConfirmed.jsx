@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import '../../css/orderConfirmed.css'
 
 class OrderConfirmed extends Component {
   state = { success: false, error: false }
@@ -95,11 +96,17 @@ class OrderConfirmed extends Component {
     return (
       <div>
         {this.state.success === true ? (
-          <div>Dear {this.props.fullName}, your order is successful</div>
+          <div id="order-complete">
+            <h5 className="text-center pt-5">
+              Dear Mr Quadri Akande, thank you for your order.
+            </h5>
+            <h5 className="text-center pb-5">
+              Your order details will be sent to your email shortly.
+            </h5>
+          </div>
         ) : (
           <div></div>
         )}
-        <div></div>
       </div>
     )
   }
