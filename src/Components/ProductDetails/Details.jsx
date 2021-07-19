@@ -275,22 +275,6 @@ class Details extends Component {
                 <div></div>
               )}
 
-              <Form>
-                <select
-                  className="mt-3 mb-3"
-                  id="drop-down-form"
-                  onChange={(e) =>
-                    this.setState({
-                      sizeSelected: e.target.value,
-                    })
-                  }
-                >
-                  <option value="None">Select size</option>
-                  {this.state.sizesFromApi.map((size) => {
-                    return <option value={size}>{size}</option>
-                  })}
-                </select>
-              </Form>
               <span>
                 <span>£ {this.state.details.price}</span>
                 <button

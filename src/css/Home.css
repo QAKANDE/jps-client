@@ -2,3 +2,30 @@ option:hover {
     background-color: black;
     color: black;
 }
+
+.modal-body {
+    background-color: #f0f0e9 !important;
+}
+
+.modal-footer {
+    background-color: #f0f0e9 !important;
+}
+
+.modal-buttons {
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    outline: 0 !important;
+}
+
+#close-button {
+    cursor: pointer;
+}

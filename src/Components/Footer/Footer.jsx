@@ -84,10 +84,10 @@ class Footer extends Component {
               </div>
               <hr></hr>
               <div className="text-center">
-                <p>Call us : +448383728292922</p>
+                <p>Call us :+44 132 280 0331</p>
                 <p>
-                  John Paul Stepehen, Stephens road , John Lane, London RT4 2QG
-                  - Registered No. 5624245 - info@johnpaulstephen.com
+                  20-22 Wenlock Road London N1 7GU - Registered No. 11064839 -
+                  info@johnpaulstephen.com
                 </p>
               </div>
             </Container>

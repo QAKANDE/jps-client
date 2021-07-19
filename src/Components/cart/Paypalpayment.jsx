@@ -9,9 +9,6 @@ class Paypalpayment extends Component {
     orderConfirmed: false,
     paypalDisplay: true,
   }
-  componentDidMount = () => {
-    this.setState({ orderConfirmed: true })
-  }
 
   createOrder(data, actions) {
     const value = this.state.total
@@ -33,7 +30,7 @@ class Paypalpayment extends Component {
   render() {
     return (
       <div>
-        <div className="d-flex justify-content-center mt-5 mb-5">
+        <div className=" mt-5 mb-5">
           <PayPalButton
             createOrder={(data, actions) => this.createOrder(data, actions)}
             onApprove={(data, actions) => this.onApprove(data, actions)}
@@ -54,6 +51,7 @@ class Paypalpayment extends Component {
             stockId={this.props.stockId}
             size={this.props.size}
             currentQuantity={this.props.currentQuantity}
+            id={this.props.id}
           />
         ) : (
           <div></div>

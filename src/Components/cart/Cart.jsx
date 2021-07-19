@@ -34,6 +34,7 @@ class Cart extends Component {
     sizeId: '',
     stockId: '',
     currentQuantity: '',
+    id: '',
   }
 
   componentDidMount = async () => {
@@ -99,6 +100,7 @@ class Cart extends Component {
         itemsLength: cart.totalItems,
         userId: cart.userId,
         stock: stock,
+        id: cart._id,
       })
       console.log('sstock', this.state.stock)
     }
@@ -110,19 +112,20 @@ class Cart extends Component {
     })
   }
 
-  getColor = (e, color, productId, stockId) => {
-    e.preventDefault()
-    this.setState({ color: color, productId: productId, stockId: stockId })
-  }
+  // getColor = (e, color, productId, stockId) => {
+  //   e.preventDefault()
+  //   this.setState({ color: color, productId: productId, stockId: stockId })
+  // }
 
-  getSize = (e, size, sizeId, currentQuantity) => {
-    e.preventDefault()
-    this.setState({
-      size: size,
-      sizeId: sizeId,
-      currentQuantity: currentQuantity,
-    })
-  }
+  // getSize = (e, size, sizeId, currentQuantity) => {
+  //   e.preventDefault()
+
+  //   this.setState({
+  //     size: size,
+  //     sizeId: sizeId,
+  //     currentQuantity: currentQuantity,
+  //   })
+  // }
 
   increaseQuantity = async (
     id,
@@ -300,24 +303,40 @@ class Cart extends Component {
     }
   }
 
-  // editSize = async (e, userId, productId) => {
-  //   this.setState({
-  //     sizeSelected: e.target.value,
-  //   })
-  //   let response = await fetch(
-  //     `http://localhost:3003/cart/edit-product-size/${userId}/${productId}`,
-  //     {
-  //       method: 'PUT',
-  //       body: JSON.stringify({
-  //         size: e.target.value,
-  //       }),
-  //       headers: {
-  //         'Content-Type': 'Application/json',
-  //       },
-  //     },
-  //   )
-  //   this.getCart()
-  // }
+  editSize = async (e, userId, productId, size) => {
+    e.preventDefault()
+
+    let response = await fetch(
+      `http://localhost:3003/cart/edit-product-size/${userId}/${productId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({
+          size: size,
+        }),
+        headers: {
+          'Content-Type': 'Application/json',
+        },
+      },
+    )
+    this.getCart()
+  }
+  editColor = async (e, userId, productId, color) => {
+    e.preventDefault()
+
+    let response = await fetch(
+      `http://localhost:3003/cart/edit-product-color/${userId}/${productId}`,
+      {
+        method: 'PUT',
+        body: JSON.stringify({
+          color: color,
+        }),
+        headers: {
+          'Content-Type': 'Application/json',
+        },
+      },
+    )
+    this.getCart()
+  }
   render() {
     return (
       <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
@@ -355,10 +374,10 @@ class Cart extends Component {
                                   <div>
                                     <h5 className="mt-4 mb-4">{item.name}</h5>
                                     <h5 className="mt-4 mb-4 color-size-text">
-                                      Size : {this.state.size}
+                                      Size: {item.size}
                                     </h5>
                                     <h5 className="mt-4 mb-4 color-size-text">
-                                      Color : {this.state.color}
+                                      Color : {item.color}
                                     </h5>
                                   </div>
                                   <div className="d-flex justify-content-between">
@@ -418,13 +437,14 @@ class Cart extends Component {
                                           <button
                                             id="proceed-to-checkout"
                                             onClick={(e) =>
-                                              this.getColor(
+                                              this.editColor(
                                                 e,
-                                                stc.color,
+                                                this.state.allCart.userId,
                                                 item._id,
-                                                stc._id,
+                                                stc.color,
                                               )
                                             }
+                                            className="mt-3"
                                           >
                                             {stc.color}
                                           </button>
@@ -443,14 +463,15 @@ class Cart extends Component {
                                                   <button
                                                     id="proceed-to-checkout"
                                                     onClick={(e) =>
-                                                      this.getSize(
+                                                      this.editSize(
                                                         e,
+                                                        this.state.allCart
+                                                          .userId,
+                                                        item._id,
                                                         siz.size,
-                                                        siz._id,
-                                                        siz.quantity,
                                                       )
                                                     }
-                                                    className="mt-4 mb-4"
+                                                    className="mt-5 mb-5"
                                                   >
                                                     {siz.size}
                                                   </button>
@@ -509,6 +530,7 @@ class Cart extends Component {
                 stockId={this.state.stockId}
                 size={this.state.size}
                 currentQuantity={this.state.currentQuantity}
+                id={this.state.id}
               />
             ) : (
               <div></div>

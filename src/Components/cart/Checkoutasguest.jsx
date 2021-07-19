@@ -593,6 +593,7 @@ class Checkoutasguest extends Component {
               stockId={this.props.stockId}
               size={this.props.size}
               currentQuantity={this.props.currentQuantity}
+              id={this.props.id}
             />
           ) : (
             <div></div>
