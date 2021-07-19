@@ -23,7 +23,7 @@
 
 .view-product img {
     border: 1px solid #f7f7f0;
-    height: 380px;
+    height: auto;
     width: 100%;
 }
 
@@ -31,13 +31,38 @@
     background: #fe980f;
     bottom: 0;
     color: #ffffff;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 0;
     padding: 8px 20px;
     position: absolute;
     right: 0;
+}
+
+#details-description {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.activeDesctiption-details {
+    border-bottom: 5px solid #fe980f;
+    border-top: 5px solid #fe980f;
+    padding: 0.5rem 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 300;
+}
+
+.inactivedescription-details {
+    border-bottom: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+#description-text {
+    font-style: italic;
 }
 
 #similar-product .carousel-inner .item {
@@ -82,14 +107,14 @@
 
 .product-information h2 {
     color: #363432;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 20px;
     margin-top: 0;
 }
 
 .product-information p {
     color: #696763;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-bottom: 5px;
 }
 
@@ -102,7 +127,7 @@
 .product-information span span {
     color: #fe980f;
     float: left;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 30px;
     font-weight: 700;
     margin-right: 20px;
@@ -112,7 +137,7 @@
 .product-information span input {
     border: 1px solid #dededc;
     color: #696763;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 20px;
     font-weight: 700;
     height: 33px;
@@ -123,7 +148,7 @@
 
 .product-information span label {
     color: #696763;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 700;
     margin-right: 5px;
 }
@@ -137,7 +162,7 @@
     border: 0 none;
     border-radius: 0;
     color: #ffffff;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 15px;
     margin-bottom: 10px;
     margin-left: 20px;
@@ -171,7 +196,7 @@
 #reviews ul li a {
     color: #696763;
     display: block;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     padding-right: 15px;
 }
@@ -198,7 +223,7 @@
     background: #f0f0e9;
     border: 0 none;
     color: #a6a6a1;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
     outline: medium none;
     padding: 8px;
@@ -228,6 +253,6 @@
     border: 0 none;
     border-radius: 0;
     color: #ffffff;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
 }

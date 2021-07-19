@@ -77,38 +77,16 @@ class Products extends Component {
     return (
       <>
         <Container>
-          <div id="featured-text">
+          <div id="featured-text" className="mt-5">
             <h2>Our products</h2>
           </div>
-          {/* <CardDeck>
-            <div className="product-image-wrapper col-sm-4">
-              <div className="single-products">
-                <div className="productinfo text-center">
-                  <img src={solo1} alt="" />
-                  <a href="#" className="btn btn-default add-to-cart">
-                    <i className="fa fa-shopping-cart"></i>Add to cart
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="product-image-wrapper col-sm-4">
-              <div className="single-products">
-                <div className="productinfo text-center">
-                  <img src={solo2} alt="" />
-                  <a href="#" className="btn btn-default add-to-cart">
-                    <i className="fa fa-shopping-cart"></i>Add to cart
-                  </a>
-                </div>
-              </div>
-            </div>
-          </CardDeck> */}
           <CardDeck>
             {this.props.productsAsProps.map((prod) => {
               return (
                 <div className="product-image-wrapper col-sm-4">
                   <div className="single-products">
                     <div className="productinfo text-center">
-                      <img src={prod.images[0].imageUrl} alt="" />
+                      <img src={prod.imageUrl} alt="" />
                       <h2>£ {prod.price}</h2>
                       <p>{prod.name}</p>
                       <a href="#" className="btn btn-default add-to-cart">
@@ -123,13 +101,13 @@ class Products extends Component {
                           onClick={() =>
                             this.props.addToCartAsProps(
                               prod._id,
-                              prod.images[0].imageUrl,
+                              prod.imageUrl,
                               prod.name,
                               prod.color,
                               prod.price,
                               prod.sizes,
                               prod.total,
-                              prod.sizeAsString,
+                              prod.stock,
                             )
                           }
                           className="btn btn-default add-to-cart"
@@ -145,7 +123,7 @@ class Products extends Component {
                         onClick={() =>
                           this.addToWishList(
                             prod._id,
-                            prod.images[0].imageUrl,
+                            prod.imageUrl,
                             prod.name,
                             prod.price,
                           )

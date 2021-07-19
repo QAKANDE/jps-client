@@ -16,7 +16,12 @@ import AboutUs from './Components/Footer/AboutUs'
 import ForgottenPassword from './Components/login/ForgottenPassword'
 import UpdatePassword from './Components/login/UpdatePassword'
 import OrderConfirmed from './Components/cart/OrderConfirmed'
-
+import StockManager from './Components/Inventory/StockManager'
+import UpdateInventory from './Components/Inventory/UpdateInventory'
+import CookiePolicy from './Components/Footer/CookiePolicy'
+import TermsOfSales from './Components/Footer/TermsOfSales'
+import PrivacyPolicy from './Components/Footer/PrivacyPolicy'
+import TermsOfUse from './Components/Footer/TermsOfUse'
 import { LastLocationProvider } from 'react-router-last-location'
 
 function App() {
@@ -70,10 +75,30 @@ function App() {
             />{' '} <
             Route path = "/order-confirmed"
             exact component = { OrderConfirmed }
-            /> <
+            />{' '} <
+            Route path = "/stock-manager"
+            exact component = { StockManager }
+            />{' '} <
+            Route path = "/cookie-policy"
+            exact component = { CookiePolicy }
+            />{' '} <
+            Route path = "/terms-of-sales"
+            exact component = { TermsOfSales }
+            />{' '} <
+            Route path = "/terms-of-use"
+            exact component = { TermsOfUse }
+            />{' '} <
+            Route path = "/privacy-policy"
+            exact component = { PrivacyPolicy }
+            />{' '} <
+            Route
+            path = "/update-inventory/:productId"
+            exact
+            component = { UpdateInventory }
+            />{' '} <
             Footer / > { ' ' } <
-            /Router>{' '} < /
-            div >
+            /Router>{' '} <
+            /div>
         )
     }
 

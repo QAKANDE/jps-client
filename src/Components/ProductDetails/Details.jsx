@@ -26,6 +26,21 @@ class Details extends Component {
     description: [],
     sizesFromApi: [],
     sizeToBeSent: '',
+    showDescription: true,
+    showDetails: false,
+  }
+
+  showDescription = () => {
+    this.setState({
+      showDescription: true,
+      showDetails: false,
+    })
+  }
+  showDetails = () => {
+    this.setState({
+      showDescription: false,
+      showDetails: true,
+    })
   }
 
   componentDidMount = async () => {
@@ -39,16 +54,14 @@ class Details extends Component {
       },
     })
     const details = await response.json()
-    details.sizes.map((size) => {
-      return sizeArr.push(size)
-    })
+
     details.description.map((des) => {
       return desc.push(des)
     })
 
     this.setState({
       details,
-      imageUrl: details.images[0].imageUrl,
+      imageUrl: details.imageUrl,
       sizesFromApi: sizeArr,
       description: desc,
       id: productId,
@@ -84,7 +97,9 @@ class Details extends Component {
     productSizes,
   ) => {
     try {
-      if (localStorage['guestToken']) {
+      const guestToken = sessionStorage.getItem('guestToken')
+      const userId = sessionStorage.getItem('userId')
+      if (guestToken) {
         const productDetails = {
           productId: id,
           quantity: quantity,
@@ -94,7 +109,7 @@ class Details extends Component {
           color: productColor,
           price: parseInt(productPrice),
           sizeFromClient: productSizes,
-          userId: localStorage['guestToken'],
+          userId: guestToken,
         }
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
@@ -107,30 +122,12 @@ class Details extends Component {
           },
         )
         if (response.ok) {
-          const createPriceResponse = await fetch(
-            'http://localhost:3003/payment/create-product-price',
-            {
-              method: 'POST',
-              body: JSON.stringify({
-                userId: localStorage['guestToken'],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: this.state.quantity,
-              }),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          )
-          if (createPriceResponse.ok) {
-            this.setState({ alert: true })
-            setTimeout(() => {
-              this.setState({
-                alert: false,
-              })
-            }, 1200)
-          }
+          this.setState({ alert: true })
+          setTimeout(() => {
+            this.setState({
+              alert: false,
+            })
+          }, 1200)
         } else {
           this.setState({ errorAlert: true })
           setTimeout(() => {
@@ -139,7 +136,7 @@ class Details extends Component {
             })
           }, 1200)
         }
-      } else if (localStorage['userId']) {
+      } else if (userId) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
@@ -149,7 +146,7 @@ class Details extends Component {
           color: productColor,
           price: parseInt(productPrice),
           sizeFromClient: productSizes,
-          userId: localStorage['userId'],
+          userId: userId,
         }
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
@@ -162,30 +159,12 @@ class Details extends Component {
           },
         )
         if (response.ok) {
-          const createPriceResponse = await fetch(
-            'http://localhost:3003/payment/create-product-price',
-            {
-              method: 'POST',
-              body: JSON.stringify({
-                userId: localStorage['userId'],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: this.state.quantity,
-              }),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          )
-          if (createPriceResponse.ok) {
-            this.setState({ alert: true })
-            setTimeout(() => {
-              this.setState({
-                alert: false,
-              })
-            }, 1200)
-          }
+          this.setState({ alert: true })
+          setTimeout(() => {
+            this.setState({
+              alert: false,
+            })
+          }, 1200)
         } else {
           this.setState({ errorAlert: true })
           setTimeout(() => {
@@ -232,10 +211,70 @@ class Details extends Component {
           </Col>
           <Col sm={8}>
             <div className="product-information">
-              <h2>{this.state.details.name}</h2>
-              {this.state.description.map((des) => {
-                return <p>{des}</p>
-              })}
+              <h2 className="text-center" style={{ fontSize: '30px' }}>
+                {this.state.details.name}
+              </h2>
+              <div className="d-flex justify-content-center mt-4 mb-4">
+                <div id="details-description">
+                  <p
+                    onClick={() => this.showDescription()}
+                    className={
+                      this.state.showDescription === true
+                        ? 'activeDesctiption-details'
+                        : 'inactiveDesctiption-details'
+                    }
+                    style={{ cursor: 'pointer' }}
+                  >
+                    DESCRIPTION
+                  </p>
+                  <p
+                    onClick={() => this.showDetails()}
+                    className={
+                      this.state.showDetails === true
+                        ? 'activeDesctiption-details'
+                        : 'inactiveDesctiption-details'
+                    }
+                    style={{ cursor: 'pointer', fontWeight: '500' }}
+                  >
+                    DETAILS
+                  </p>
+                </div>
+              </div>
+              {this.state.showDescription === true ? (
+                <div>
+                  {this.state.description.map((des) => {
+                    return (
+                      <p className="text-center" id="description-text">
+                        {des}
+                      </p>
+                    )
+                  })}
+                </div>
+              ) : (
+                <div></div>
+              )}
+              {this.state.showDetails === true ? (
+                <div>
+                  <p className="text-center" id="description-text">
+                    100% ringspun combed cotton
+                  </p>
+                  <p className="text-center" id="description-text">
+                    Shoulder to shoulder neck tape
+                  </p>
+                  <p className="text-center" id="description-text">
+                    Two-layer neck rib with elastane Double stitched
+                  </p>
+                  <p className="text-center" id="description-text">
+                    Double preshrunk cotton
+                  </p>
+                  <p className="text-center" id="description-text">
+                    Washable at 40 degrees
+                  </p>
+                </div>
+              ) : (
+                <div></div>
+              )}
+
               <Form>
                 <select
                   className="mt-3 mb-3"
@@ -254,7 +293,6 @@ class Details extends Component {
               </Form>
               <span>
                 <span>£ {this.state.details.price}</span>
-
                 <button
                   type="button"
                   className="btn btn-fefault"

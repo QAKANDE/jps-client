@@ -11,16 +11,15 @@ class WishList extends Component {
   }
 
   componentDidMount = async () => {
-    if (localStorage['userId']) {
-      const response = await fetch(
-        `http://localhost:3003/wishlist/${localStorage['userId']}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+    const guestToken = sessionStorage.getItem('guestToken')
+    const userId = sessionStorage.getItem('userId')
+    if (userId) {
+      const response = await fetch(`http://localhost:3003/wishlist/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      )
+      })
       const wishList = await response.json()
       if (wishList.hasOwnProperty('message')) {
         this.setState({
@@ -31,9 +30,7 @@ class WishList extends Component {
           wishList: wishList.products,
         })
       }
-      console.log(this.state.noWishlist)
-      console.log(this.state.wishList)
-    } else if (localStorage['guestToken']) {
+    } else if (guestToken) {
       this.setState({
         noUserSignedIn: true,
       })

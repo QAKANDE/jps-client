@@ -21,12 +21,19 @@ class Cart extends Component {
     finalTotal: '',
     shippingCost: 3.5,
     displayCheckOut: false,
-    quantity: '',
+    quantity: '1',
     itemsLength: '',
     userId: '',
     alert: false,
     sizes: [],
     sizeSelected: '',
+    stock: [],
+    color: 'None selected',
+    size: 'None selected',
+    productId: '',
+    sizeId: '',
+    stockId: '',
+    currentQuantity: '',
   }
 
   componentDidMount = async () => {
@@ -36,18 +43,20 @@ class Cart extends Component {
   getCart = async () => {
     const cartt = []
     const total = []
-    const sizeArr = []
-    if (localStorage['userId']) {
-      const response = await fetch(
-        `http://localhost:3003/cart/${localStorage['userId']}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-          },
+    const stock = []
+    const guestToken = sessionStorage.getItem('guestToken')
+    const userId = sessionStorage.getItem('userId')
+
+    if (userId) {
+      const response = await fetch(`http://localhost:3003/cart/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
         },
-      )
+      })
       const cart = await response.json()
+      console.log(cart)
+
       cart.products.map((product) => {
         cartt.push(product)
         total.push(product.total)
@@ -63,42 +72,55 @@ class Cart extends Component {
         finalTotal,
         itemsLength: cart.totalItems,
         userId: cart.userId,
-        sizes: sizeArr,
+        stock: cart.stock,
       })
-    } else if (localStorage['guestToken']) {
-      const response = await fetch(
-        `http://localhost:3003/cart/${localStorage['guestToken']}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json',
-          },
+    } else if (guestToken) {
+      const response = await fetch(`http://localhost:3003/cart/${guestToken}`, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json',
         },
-      )
+      })
       const cart = await response.json()
+
       cart.products.map((product) => {
         cartt.push(product)
         total.push(product.total)
+        stock.push(product.stock)
       })
 
       const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
       const finalTotal = parseInt(subTotal + this.state.shippingCost)
 
       this.setState({
-        allCart: cart,
         cart: cartt,
         subTotal,
         finalTotal,
         itemsLength: cart.totalItems,
         userId: cart.userId,
-        sizes: sizeArr,
+        stock: stock,
       })
+      console.log('sstock', this.state.stock)
     }
   }
 
   displayCheckOut = () => {
     this.setState({
       displayCheckOut: true,
+    })
+  }
+
+  getColor = (e, color, productId, stockId) => {
+    e.preventDefault()
+    this.setState({ color: color, productId: productId, stockId: stockId })
+  }
+
+  getSize = (e, size, sizeId, currentQuantity) => {
+    e.preventDefault()
+    this.setState({
+      size: size,
+      sizeId: sizeId,
+      currentQuantity: currentQuantity,
     })
   }
 
@@ -112,7 +134,9 @@ class Cart extends Component {
     productPrice,
   ) => {
     const productSizes = this.state.sizes.join('')
-    if (localStorage['guestToken']) {
+    const guestToken = sessionStorage.getItem('guestToken')
+    const userId = sessionStorage.getItem('userId')
+    if (guestToken) {
       const quantity = previousQuantity + 1
       const productDetails = {
         productId: id,
@@ -124,7 +148,7 @@ class Cart extends Component {
         price: parseInt(productPrice),
         sizeFromClient: productSizes,
         total: parseInt(productPrice),
-        userId: localStorage['guestToken'],
+        userId: guestToken,
       }
       let response = await fetch(
         `http://localhost:3003/cart/check-out-as-guest`,
@@ -137,9 +161,10 @@ class Cart extends Component {
         },
       )
       if (response.ok) {
+        this.setState({ quantity: quantity.toString() })
         this.getCart()
       }
-    } else if (localStorage['userId']) {
+    } else if (userId) {
       const quantity = previousQuantity + 1
       const productDetails = {
         productId: id,
@@ -151,7 +176,7 @@ class Cart extends Component {
         price: parseInt(productPrice),
         sizeFromClient: productSizes,
         total: parseInt(productPrice),
-        userId: localStorage['userId'],
+        userId: userId,
       }
       let response = await fetch(
         `http://localhost:3003/cart/check-out-as-guest`,
@@ -164,6 +189,7 @@ class Cart extends Component {
         },
       )
       if (response.ok) {
+        this.setState({ quantity: quantity.toString() })
         this.getCart()
       }
     }
@@ -180,7 +206,9 @@ class Cart extends Component {
   ) => {
     const productSizes = this.state.sizes.join('')
     const quantity = previousQuantity - 1
-    if (localStorage['guestToken']) {
+    const guestToken = sessionStorage.getItem('guestToken')
+    const userId = sessionStorage.getItem('userId')
+    if (guestToken) {
       const productDetails = {
         productId: id,
         quantity: parseInt(quantity),
@@ -191,7 +219,7 @@ class Cart extends Component {
         price: parseInt(productPrice),
         sizeFromClient: productSizes,
         total: parseInt(productPrice),
-        userId: localStorage['guestToken'],
+        userId: guestToken,
       }
       if (previousQuantity === 1) {
         this.setState({ alert: true })
@@ -212,10 +240,11 @@ class Cart extends Component {
           },
         )
         if (response.ok) {
+          this.setState({ quantity: quantity.toString() })
           this.getCart()
         }
       }
-    } else if (localStorage['userId']) {
+    } else if (userId) {
       const productDetails = {
         productId: id,
         quantity: parseInt(quantity),
@@ -226,7 +255,7 @@ class Cart extends Component {
         price: parseInt(productPrice),
         sizeFromClient: productSizes,
         total: parseInt(productPrice),
-        userId: localStorage['userId'],
+        userId: userId,
       }
       if (previousQuantity === 1) {
         this.setState({ alert: true })
@@ -247,6 +276,7 @@ class Cart extends Component {
           },
         )
         if (response.ok) {
+          this.setState({ quantity: quantity.toString() })
           this.getCart()
         }
       }
@@ -270,24 +300,24 @@ class Cart extends Component {
     }
   }
 
-  editSize = async (e, userId, productId) => {
-    this.setState({
-      sizeSelected: e.target.value,
-    })
-    let response = await fetch(
-      `http://localhost:3003/cart/edit-product-size/${userId}/${productId}`,
-      {
-        method: 'PUT',
-        body: JSON.stringify({
-          size: e.target.value,
-        }),
-        headers: {
-          'Content-Type': 'Application/json',
-        },
-      },
-    )
-    this.getCart()
-  }
+  // editSize = async (e, userId, productId) => {
+  //   this.setState({
+  //     sizeSelected: e.target.value,
+  //   })
+  //   let response = await fetch(
+  //     `http://localhost:3003/cart/edit-product-size/${userId}/${productId}`,
+  //     {
+  //       method: 'PUT',
+  //       body: JSON.stringify({
+  //         size: e.target.value,
+  //       }),
+  //       headers: {
+  //         'Content-Type': 'Application/json',
+  //       },
+  //     },
+  //   )
+  //   this.getCart()
+  // }
   render() {
     return (
       <Container style={{ marginTop: '2rem', marginBottom: '2rem' }}>
@@ -306,9 +336,7 @@ class Cart extends Component {
               <Col lg={8}>
                 <Card>
                   <Card.Body>
-                    <Card.Header>
-                      {this.state.allCart.totalItems} item(s)
-                    </Card.Header>
+                    <Card.Header>{this.state.itemsLength} item(s)</Card.Header>
                     {this.state.cart.map((item, key) => {
                       return (
                         <div>
@@ -325,54 +353,13 @@ class Cart extends Component {
                               <div>
                                 <div className="d-flex justify-content-between">
                                   <div>
-                                    <h5>{item.name}</h5>
-                                    {item.color === 'No color required' ? (
-                                      <></>
-                                    ) : (
-                                      <div>
-                                        <p class="mb-3 text-muted text-uppercase small">
-                                          Color -{item.color}
-                                        </p>
-                                      </div>
-                                    )}
-                                    <div className="d-flex justify-content-between">
-                                      {item.size === 'No size required' ? (
-                                        <div></div>
-                                      ) : (
-                                        <p class="mt-2 text-muted text-uppercase small">
-                                          Size: {item.size}
-                                        </p>
-                                      )}
-
-                                      {item.sizes.length !== 0 ? (
-                                        <Form>
-                                          <select
-                                            className="mx-3"
-                                            id="drop-down-form"
-                                            onChange={(e) =>
-                                              this.editSize(
-                                                e,
-                                                this.state.allCart.userId,
-                                                item.productId,
-                                              )
-                                            }
-                                          >
-                                            <option value="None">
-                                              Edit size
-                                            </option>
-                                            {item.sizes.map((size) => {
-                                              return (
-                                                <option value={size}>
-                                                  {size}
-                                                </option>
-                                              )
-                                            })}
-                                          </select>
-                                        </Form>
-                                      ) : (
-                                        <div></div>
-                                      )}
-                                    </div>
+                                    <h5 className="mt-4 mb-4">{item.name}</h5>
+                                    <h5 className="mt-4 mb-4 color-size-text">
+                                      Size : {this.state.size}
+                                    </h5>
+                                    <h5 className="mt-4 mb-4 color-size-text">
+                                      Color : {this.state.color}
+                                    </h5>
                                   </div>
                                   <div className="d-flex justify-content-between">
                                     <button
@@ -422,6 +409,60 @@ class Cart extends Component {
                                     </button>
                                   </div>
                                 </div>
+
+                                {item.stock.map((stc) => {
+                                  return (
+                                    <div>
+                                      <Row>
+                                        <Col>
+                                          <button
+                                            id="proceed-to-checkout"
+                                            onClick={(e) =>
+                                              this.getColor(
+                                                e,
+                                                stc.color,
+                                                item._id,
+                                                stc._id,
+                                              )
+                                            }
+                                          >
+                                            {stc.color}
+                                          </button>
+                                        </Col>
+                                      </Row>
+                                      <Row>
+                                        {stc.sizes.map((siz) => {
+                                          return (
+                                            <div>
+                                              {siz.quantity === '0' ? (
+                                                <button disabled>
+                                                  {siz.size}
+                                                </button>
+                                              ) : (
+                                                <Col>
+                                                  <button
+                                                    id="proceed-to-checkout"
+                                                    onClick={(e) =>
+                                                      this.getSize(
+                                                        e,
+                                                        siz.size,
+                                                        siz._id,
+                                                        siz.quantity,
+                                                      )
+                                                    }
+                                                    className="mt-4 mb-4"
+                                                  >
+                                                    {siz.size}
+                                                  </button>
+                                                </Col>
+                                              )}
+                                            </div>
+                                          )
+                                        })}
+                                      </Row>
+                                    </div>
+                                  )
+                                })}
                                 <div class="d-flex justify-content-between align-items-center">
                                   <div>
                                     <div
@@ -462,6 +503,12 @@ class Cart extends Component {
               <Checkout
                 total={this.state.finalTotal}
                 subTotal={this.state.subTotal}
+                productId={this.state.productId}
+                sizeId={this.state.sizeId}
+                quantity={this.state.quantity}
+                stockId={this.state.stockId}
+                size={this.state.size}
+                currentQuantity={this.state.currentQuantity}
               />
             ) : (
               <div></div>

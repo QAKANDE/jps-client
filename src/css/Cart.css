@@ -19,7 +19,7 @@
 }
 
 .breadcrumbs .breadcrumb li a:after {
-    content: "";
+    content: '';
     height: auto;
     width: auto;
     border-width: 8px;
@@ -31,7 +31,7 @@
 }
 
 .breadcrumbs .breadcrumb>li+li:before {
-    content: " ";
+    content: ' ';
 }
 
 #cart_items .cart_info {
@@ -43,7 +43,7 @@
     background: #fe980f;
     color: #fff;
     font-size: 16px;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: normal;
 }
 
@@ -75,7 +75,7 @@
 
 #cart_items .cart_info .cart_description h4 a {
     color: #363432;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 20px;
     font-weight: normal;
 }
@@ -153,4 +153,10 @@
     padding-bottom: 0.4rem;
     padding-top: 0.4rem;
     cursor: pointer;
+}
+
+.color-size-text {
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 700;
 }

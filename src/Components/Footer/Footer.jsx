@@ -22,9 +22,28 @@ class Footer extends Component {
               <Row className="pt-3 pb-3 d-flex justify-content-center">
                 <Col md={4}>
                   <div>
-                    <h5>How Can We Help ? </h5>
-                    <Link className="footer-link">Help</Link> <br></br>
-                    <Link className="footer-link">Returns</Link> <br></br>
+                    <h5>Terms and conditions </h5>
+                    <Link to="/terms-of-sales" className="footer-link">
+                      Terms of sales
+                    </Link>
+                    <br></br>
+                    <Link to="/terms-of-use" className="footer-link">
+                      Terms of use
+                    </Link>{' '}
+                    <br></br>
+                  </div>
+                </Col>
+                <Col md={4}>
+                  <div>
+                    <h5>Policies</h5>
+                    <Link to="/cookie-policy" className="footer-link">
+                      Cookie policy
+                    </Link>{' '}
+                    <br></br>
+                    <Link to="/privacy-policy" className="footer-link">
+                      Privacy policy
+                    </Link>{' '}
+                    <br></br>
                   </div>
                 </Col>
 
@@ -35,15 +54,15 @@ class Footer extends Component {
                       About JohnPaulStephen
                     </Link>{' '}
                     <br></br>
-                    <Link to="/aboutus" className="footer-link">
+                    {/* <Link to="/aboutus" className="footer-link">
                       Our Heritage
-                    </Link>{' '}
+                    </Link>{' '} */}
                     <br></br>
                   </div>
                 </Col>
               </Row>
               <hr></hr>
-              <div className="text-center">
+              {/* <div className="text-center">
                 <h5 className="mb-3">Shopping is safe with us.</h5>
                 <h5 className="mb-3">We accept : </h5>
                 <Row>
@@ -58,8 +77,8 @@ class Footer extends Component {
                     <img src={amex}></img>
                   </Col>
                 </Row>
-              </div>
-              <hr></hr>
+              </div> */}
+
               <div className="text-center">
                 <img src={logoTrademark} style={{ width: '50%' }} />
               </div>

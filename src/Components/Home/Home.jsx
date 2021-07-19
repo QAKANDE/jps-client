@@ -38,13 +38,15 @@ class Home extends Component {
       },
     })
     const products = await response.json()
+    console.log(products)
     this.setState({
       products,
     })
   }
 
   componentDidMount = async () => {
-    if (!localStorage['userId']) {
+    const userId = sessionStorage.getItem('userId')
+    if (!userId) {
       const guestResponse = await fetch(
         'http://localhost:3003/cart/guest/guest-token',
         {
@@ -58,12 +60,10 @@ class Home extends Component {
       this.setState({
         guestToken,
       })
-      localStorage['guestToken'] = this.state.guestToken
+      sessionStorage.setItem('guestToken', this.state.guestToken)
       this.getProducts()
-
-      console.log(window.history.back)
-    } else if (localStorage['userId']) {
-      localStorage.removeItem('guestToken')
+    } else if (userId) {
+      sessionStorage.removeItem('guestToken')
       this.getProducts()
     }
     // this.props.action(this.state.itemsLength)
@@ -77,20 +77,20 @@ class Home extends Component {
     productPrice,
     productSizes,
     productTotal,
-    productSizesAsString,
+    productStock,
   ) => {
     try {
-      if (localStorage['guestToken']) {
+      const guestToken = sessionStorage.getItem('guestToken')
+      const userId = sessionStorage.getItem('userId')
+      if (guestToken) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
           image: productImage,
           name: productName,
-          size: this.state.initialSize,
-          color: productColor,
           price: parseInt(productPrice),
-          sizeFromClient: productSizesAsString,
-          userId: localStorage['guestToken'],
+          stock: productStock,
+          userId: guestToken,
         }
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
@@ -103,30 +103,12 @@ class Home extends Component {
           },
         )
         if (response.ok) {
-          const createPriceResponse = await fetch(
-            'http://localhost:3003/payment/create-product-price',
-            {
-              method: 'POST',
-              body: JSON.stringify({
-                userId: localStorage['guestToken'],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: this.state.quantity,
-              }),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          )
-          if (createPriceResponse.ok) {
-            this.setState({ alert: true })
-            setTimeout(() => {
-              this.setState({
-                alert: false,
-              })
-            }, 1200)
-          }
+          this.setState({ alert: true })
+          setTimeout(() => {
+            this.setState({
+              alert: false,
+            })
+          }, 1200)
         } else {
           this.setState({ errorAlert: true })
           setTimeout(() => {
@@ -135,17 +117,15 @@ class Home extends Component {
             })
           }, 1200)
         }
-      } else if (localStorage['userId']) {
+      } else if (userId) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
           image: productImage,
           name: productName,
-          size: this.state.initialSize,
-          color: productColor,
           price: parseInt(productPrice),
-          sizeFromClient: productSizesAsString,
-          userId: localStorage['userId'],
+          stock: productStock,
+          userId: userId,
         }
         let response = await fetch(
           `http://localhost:3003/cart/check-out-as-guest`,
@@ -158,30 +138,12 @@ class Home extends Component {
           },
         )
         if (response.ok) {
-          const createPriceResponse = await fetch(
-            'http://localhost:3003/payment/create-product-price',
-            {
-              method: 'POST',
-              body: JSON.stringify({
-                userId: localStorage['userId'],
-                productName: productName,
-                productPrice: parseInt(productPrice * 100),
-                productId: id,
-                quantity: this.state.quantity,
-              }),
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            },
-          )
-          if (createPriceResponse.ok) {
-            this.setState({ alert: true })
-            setTimeout(() => {
-              this.setState({
-                alert: false,
-              })
-            }, 1200)
-          }
+          this.setState({ alert: true })
+          setTimeout(() => {
+            this.setState({
+              alert: false,
+            })
+          }, 1200)
         } else {
           this.setState({ errorAlert: true })
           setTimeout(() => {
@@ -202,6 +164,16 @@ class Home extends Component {
         <Jumbo />
         <Container>
           <div>
+            {this.state.alert === true ? (
+              <Alert id="alert">Item added to cart</Alert>
+            ) : (
+              <div></div>
+            )}
+            {this.state.errorAlert === true ? (
+              <Alert id="alert">Unable to add item to cart</Alert>
+            ) : (
+              <div></div>
+            )}
             <Products
               secondAction={this.getCartLength}
               productsAsProps={this.state.products}
@@ -213,7 +185,7 @@ class Home extends Component {
                 productSize,
                 productColor,
                 productPrice,
-                productSizes,
+                productStock,
               ) =>
                 this.addCart(
                   id,
@@ -223,7 +195,7 @@ class Home extends Component {
                   productSize,
                   productColor,
                   productPrice,
-                  productSizes,
+                  productStock,
                 )
               }
               addToWishListAsProps={(

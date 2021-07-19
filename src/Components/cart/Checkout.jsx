@@ -70,6 +70,12 @@ class Checkout extends Component {
               <CheckoutasGuest
                 total={this.props.total}
                 subTotal={this.props.subTotal}
+                productId={this.props.productId}
+                sizeId={this.props.sizeId}
+                quantity={this.props.quantity}
+                stockId={this.props.stockId}
+                size={this.props.size}
+                currentQuantity={this.props.currentQuantity}
               />
             </div>
           )}

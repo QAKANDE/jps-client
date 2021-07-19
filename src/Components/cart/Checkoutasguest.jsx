@@ -3,6 +3,7 @@ import { Form, Row, Col, Alert } from 'react-bootstrap'
 import '../../css/Signup.css'
 import { loadStripe } from '@stripe/stripe-js'
 import Paypalpayment from './Paypalpayment'
+import orderConfirmed from './OrderConfirmed'
 const stripeTestPromise = loadStripe(
   'pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf',
 )
@@ -586,6 +587,12 @@ class Checkoutasguest extends Component {
               city={this.state.deliverTo.county}
               postCode={this.state.deliverTo.postCode}
               email={this.state.deliverTo.email}
+              productId={this.props.productId}
+              sizeId={this.props.sizeId}
+              quantity={this.props.quantity}
+              stockId={this.props.stockId}
+              size={this.props.size}
+              currentQuantity={this.props.currentQuantity}
             />
           ) : (
             <div></div>

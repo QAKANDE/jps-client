@@ -7,17 +7,22 @@
     color: #fff;
     position: relative;
     height: 100vh;
+    width: auto;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
 }
 
 .jumbotron2 {
     font-family: 'Montserrat', sans-serif;
     padding: 150px 0;
-    background: url(C:\Users\quadr\OneDrive\Documents\GitHub\jps-client\src\assets\three2.png) center center;
+    background: url(https://res.cloudinary.com/quadri/image/upload/v1625316500/2D3A1123_gmbquq.jpg) center center;
     background-size: cover;
     text-align: left;
     color: #fff;
     position: relative;
     height: 100vh;
+    margin-bottom: 0 !important;
+    border-radius: 0 !important;
 }
 
 .jumbotron3 {

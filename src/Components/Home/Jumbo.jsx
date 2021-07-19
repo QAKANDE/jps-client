@@ -12,7 +12,7 @@ class Products extends Component {
   render() {
     return (
       <>
-        <section className="jumbotron px-5">
+        <section className="jumbotron ">
           <div id="jumbo-all-wrapper">
             <div id="jumbo-text-wrapper">
               <p id="affordable">A British brand with an African heritage</p>
@@ -28,14 +28,22 @@ class Products extends Component {
             </div>
           </div>
         </section>
-        <CardGroup id="jumbo-cards">
-          <Card>
-            <Card.Img variant="top" src={one} className="img-fluid" />
-          </Card>
-          <Card>
-            <Card.Img variant="top" src={two} className="img-fluid" />
-          </Card>
-        </CardGroup>
+        <section className="jumbotron2">
+          <div id="jumbo-all-wrapper">
+            <div id="jumbo-text-wrapper">
+              <p id="affordable">A British brand with an African heritage</p>
+            </div>
+            <div id="jumbo-text-wrapper">
+              <Link to="/allProducts" className="button">
+                SHOP NOW
+                <i
+                  className="fa fa-arrow-right mx-3 fa-1x"
+                  style={{ color: 'black' }}
+                ></i>
+              </Link>
+            </div>
+          </div>
+        </section>
       </>
     )
   }

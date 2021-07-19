@@ -7,6 +7,10 @@ class Paypalpayment extends Component {
   state = {
     total: this.props.total.toString(),
     orderConfirmed: false,
+    paypalDisplay: true,
+  }
+  componentDidMount = () => {
+    this.setState({ orderConfirmed: true })
   }
 
   createOrder(data, actions) {
@@ -23,6 +27,7 @@ class Paypalpayment extends Component {
   }
 
   onApprove(data, actions) {
+    // return (window.location.href = 'http://localhost:3000/order-confirmed')
     return this.setState({ orderConfirmed: true })
   }
   render() {
@@ -43,6 +48,12 @@ class Paypalpayment extends Component {
             email={this.props.email}
             total={this.props.total}
             subTotal={this.props.subTotal}
+            productId={this.props.productId}
+            sizeId={this.props.sizeId}
+            quantity={this.props.quantity}
+            stockId={this.props.stockId}
+            size={this.props.size}
+            currentQuantity={this.props.currentQuantity}
           />
         ) : (
           <div></div>
