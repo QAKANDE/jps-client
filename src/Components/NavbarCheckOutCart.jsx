@@ -1,45 +1,45 @@
-import React, { Component } from "react";
-import { Row, Col, Card } from "react-bootstrap";
+import React, { Component } from 'react'
+import { Row, Col, Card } from 'react-bootstrap'
 
 class NavbarCheckOutCart extends Component {
   state = {
     allCart: {},
     cart: [],
-    subTotal: "",
+    subTotal: '',
     tax: 30,
-    finalTotal: "",
+    finalTotal: '',
     shippingCost: 50,
     displayCheckOut: false,
-    quantity: "",
-    itemsLength: "",
-    userId: "",
-  };
+    quantity: '',
+    itemsLength: '',
+    userId: '',
+  }
 
   componentDidMount = async () => {
-    this.getCart();
-  };
+    this.getCart()
+  }
   getCart = async () => {
-    const cartt = [];
-    const total = [];
-    if (!localStorage["userId"]) {
+    const cartt = []
+    const total = []
+    if (!localStorage['userId']) {
       const response = await fetch(
-        `http://localhost:3003/cart/${localStorage["guestToken"]}`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/${localStorage['guestToken']}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-type": "application/json",
+            'Content-type': 'application/json',
           },
-        }
-      );
-      const cart = await response.json();
+        },
+      )
+      const cart = await response.json()
       cart.products.map((product) => {
-        cartt.push(product);
-        total.push(product.total);
-      });
-      const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
+        cartt.push(product)
+        total.push(product.total)
+      })
+      const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
       const finalTotal = parseInt(
-        subTotal + this.state.tax + this.state.shippingCost
-      );
+        subTotal + this.state.tax + this.state.shippingCost,
+      )
 
       this.setState({
         allCart: cart,
@@ -48,27 +48,27 @@ class NavbarCheckOutCart extends Component {
         finalTotal,
         itemsLength: cart.totalItems,
         userId: cart.userId,
-      });
-      console.log(this.state.allCart);
-    } else if (localStorage["userId"]) {
+      })
+      console.log(this.state.allCart)
+    } else if (localStorage['userId']) {
       const response = await fetch(
-        `http://localhost:3003/cart/${localStorage["userId"]}`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/${localStorage['userId']}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-type": "application/json",
+            'Content-type': 'application/json',
           },
-        }
-      );
-      const cart = await response.json();
+        },
+      )
+      const cart = await response.json()
       cart.products.map((product) => {
-        cartt.push(product);
-        total.push(product.total);
-      });
-      const subTotal = parseInt(total.reduce((a, b) => a + b, 0));
+        cartt.push(product)
+        total.push(product.total)
+      })
+      const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
       const finalTotal = parseInt(
-        subTotal + this.state.tax + this.state.shippingCost
-      );
+        subTotal + this.state.tax + this.state.shippingCost,
+      )
 
       this.setState({
         allCart: cart,
@@ -77,120 +77,120 @@ class NavbarCheckOutCart extends Component {
         finalTotal,
         itemsLength: cart.totalItems,
         userId: cart.userId,
-      });
-      console.log(this.state.allCart);
+      })
+      console.log(this.state.allCart)
     }
-  };
+  }
   increaseQuantity = async (
     id,
     productName,
     productPrice,
-    previousQuantity
+    previousQuantity,
   ) => {
-    const quantity = previousQuantity + 1;
+    const quantity = previousQuantity + 1
     const productDetails = {
       productId: id,
       quantity: quantity,
       name: productName,
       price: parseInt(productPrice),
-      userId: localStorage["guestToken"],
-    };
+      userId: localStorage['guestToken'],
+    }
     let response = await fetch(
-      `http://localhost:3003/cart/check-out-as-guest`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
       {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(productDetails),
         headers: {
-          "Content-Type": "Application/json",
+          'Content-Type': 'Application/json',
         },
-      }
-    );
+      },
+    )
     if (response.ok) {
       const createPriceResponse = await fetch(
-        "http://localhost:3003/payment/create-product-price",
+        'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price',
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
-            userId: localStorage["guestToken"],
+            userId: localStorage['guestToken'],
             productName: productName,
             productPrice: parseInt(productPrice * 100),
             productId: id,
             quantity: quantity,
           }),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        }
-      );
-      this.getCart();
+        },
+      )
+      this.getCart()
     }
-  };
+  }
 
   decreaseQuantity = async (
     id,
     productName,
     productPrice,
-    previousQuantity
+    previousQuantity,
   ) => {
     if (previousQuantity === 1) {
-      alert("Quantity cannot be less than 1");
+      alert('Quantity cannot be less than 1')
     } else {
-      const quantity = previousQuantity - 1;
+      const quantity = previousQuantity - 1
       const productDetails = {
         productId: id,
         quantity: quantity,
         name: productName,
         price: parseInt(productPrice),
-        userId: localStorage["guestToken"],
-      };
+        userId: localStorage['guestToken'],
+      }
       let response = await fetch(
-        `http://localhost:3003/cart/check-out-as-guest`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify(productDetails),
           headers: {
-            "Content-Type": "Application/json",
+            'Content-Type': 'Application/json',
           },
-        }
-      );
+        },
+      )
       if (response.ok) {
         const createPriceResponse = await fetch(
-          "http://localhost:3003/payment/create-product-price",
+          'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price',
           {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify({
-              userId: localStorage["guestToken"],
+              userId: localStorage['guestToken'],
               productName: productName,
               productPrice: parseInt(productPrice * 100),
               productId: id,
               quantity: quantity,
             }),
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-          }
-        );
-        this.getCart();
+          },
+        )
+        this.getCart()
       }
     }
-  };
+  }
 
   deleteItem = async (user, id) => {
     let response = await fetch(
-      `http://localhost:3003/cart/delete-item/${user}/${id}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/delete-item/${user}/${id}`,
       {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
-          "Content-Type": "Application/json",
+          'Content-Type': 'Application/json',
         },
-      }
-    );
+      },
+    )
     if (response.ok) {
-      this.getCart();
+      this.getCart()
     } else {
-      alert("some");
+      alert('some')
     }
-  };
+  }
   render() {
     return (
       <>
@@ -202,7 +202,7 @@ class NavbarCheckOutCart extends Component {
                   <Card.Header>{this.state.itemsLength} items</Card.Header>
                   {this.state.cart.map((item, key) => {
                     return (
-                      <Row style={{ paddingTop: "2rem" }} key={item._id}>
+                      <Row style={{ paddingTop: '2rem' }} key={item._id}>
                         <Col md={5} lg={3} xl={3}>
                           <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
                             <img className="img-fluid w-100" src={item.image} />
@@ -227,16 +227,16 @@ class NavbarCheckOutCart extends Component {
                                 <button
                                   id="quantity-increase"
                                   style={{
-                                    width: "40px",
-                                    height: "40px",
-                                    marginRight: "1rem",
+                                    width: '40px',
+                                    height: '40px',
+                                    marginRight: '1rem',
                                   }}
                                   onClick={() =>
                                     this.increaseQuantity(
                                       item.productId,
                                       item.name,
                                       item.price,
-                                      item.quantity
+                                      item.quantity,
                                     )
                                   }
                                 >
@@ -246,16 +246,16 @@ class NavbarCheckOutCart extends Component {
                                 <button
                                   id="quantity-decrease"
                                   style={{
-                                    width: "40px",
-                                    height: "40px",
-                                    marginLeft: "1rem",
+                                    width: '40px',
+                                    height: '40px',
+                                    marginLeft: '1rem',
                                   }}
                                   onClick={() =>
                                     this.decreaseQuantity(
                                       item.productId,
                                       item.name,
                                       item.price,
-                                      item.quantity
+                                      item.quantity,
                                     )
                                   }
                                 >
@@ -269,7 +269,7 @@ class NavbarCheckOutCart extends Component {
                                   onClick={() =>
                                     this.deleteItem(
                                       this.state.allCart.userId,
-                                      item._id
+                                      item._id,
                                     )
                                   }
                                 >
@@ -281,7 +281,7 @@ class NavbarCheckOutCart extends Component {
                           </div>
                         </Col>
                       </Row>
-                    );
+                    )
                   })}
                 </Card.Body>
               </Card>
@@ -299,8 +299,8 @@ class NavbarCheckOutCart extends Component {
           </Row>
         </section>
       </>
-    );
+    )
   }
 }
 
-export default NavbarCheckOutCart;
+export default NavbarCheckOutCart

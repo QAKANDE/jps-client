@@ -26,12 +26,15 @@ class Shopnow extends Component {
   }
 
   getProducts = async () => {
-    const response = await fetch('http://localhost:3003/product/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/',
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
     const products = await response.json()
     const JPS = products.filter(
       (prodName) => prodName.name === 'John Paul Stephen',
@@ -107,7 +110,7 @@ class Shopnow extends Component {
           userId: guestToken,
         }
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),
@@ -142,7 +145,7 @@ class Shopnow extends Component {
           userId: userId,
         }
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),

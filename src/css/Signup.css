@@ -33,3 +33,14 @@
     color: black;
     margin: 1rem 1rem;
 }
+
+#delivery-address-div {
+    margin-top: 4rem;
+}
+
+#delivery-address-text {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 25px;
+}

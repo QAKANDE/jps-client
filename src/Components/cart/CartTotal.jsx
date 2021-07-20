@@ -16,32 +16,6 @@ class CartTotal extends Component {
       checkOut: true,
     })
   }
-  checkOut = async () => {
-    const stripe = await stripeTestPromise
-    const res = await fetch(
-      'http://localhost:3001/payment/create-checkout-session',
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          userId: this.props.userId,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-
-    const session = await res.json()
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    })
-
-    if (result.error) {
-      console.log(result.error.message)
-    } else {
-      alert('sucess')
-    }
-  }
 
   render() {
     return (

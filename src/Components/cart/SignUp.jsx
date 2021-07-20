@@ -1,71 +1,37 @@
-import React, { Component } from "react";
-import { Form, Container, Row, Col, Alert } from "react-bootstrap";
-import CheckoutasGuest from "./Checkoutasguest";
-import "../../css/Signup.css";
+import React, { Component } from 'react'
+import { Form, Container, Row, Col, Alert } from 'react-bootstrap'
+import CheckoutasGuest from './Checkoutasguest'
+import '../../css/Signup.css'
 class SignUp extends Component {
   state = {
     details: {
-      name: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
+      name: '',
+      email: '',
+      phoneNumber: '',
+      password: '',
     },
     alert: false,
     errorAlert: false,
     displayCheckOut: false,
     signUpcompleted: false,
-  };
+  }
 
   updateDetails = (event) => {
-    let details = this.state.details;
-    let id = event.currentTarget.id;
-    details[id] = event.currentTarget.value;
+    let details = this.state.details
+    let id = event.currentTarget.id
+    details[id] = event.currentTarget.value
     this.setState({
       details,
-    });
-  };
+    })
+  }
 
   signUp = async (e) => {
-    e.preventDefault();
-    if (localStorage["userId"]) {
-      const res = await fetch("http://localhost:3003/users/register", {
-        method: "POST",
-        body: JSON.stringify({
-          userName: this.state.details.name,
-          email: this.state.details.email,
-          phoneNumber: this.state.details.phoneNumber,
-          password: this.state.details.password,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (res.status !== 400) {
-        this.setState({
-          alert: true,
-        });
-        setTimeout(() => {
-          this.setState({
-            alert: false,
-            displayCheckOut: true,
-            signUpcompleted: true,
-          });
-        }, 1200);
-      } else if (res.status === 400) {
-        this.setState({
-          errorAlert: true,
-        });
-        setTimeout(() => {
-          this.setState({
-            errorAlert: false,
-          });
-        }, 1200);
-      }
-    } else if (localStorage["guestToken"]) {
+    e.preventDefault()
+    if (localStorage['userId']) {
       const res = await fetch(
-        `http://localhost:3003/users/guest-token-already-exists/${localStorage["guestToken"]}`,
+        'https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/register',
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             userName: this.state.details.name,
             email: this.state.details.email,
@@ -73,34 +39,71 @@ class SignUp extends Component {
             password: this.state.details.password,
           }),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        }
-      );
-      console.log("signup", res);
+        },
+      )
       if (res.status !== 400) {
         this.setState({
           alert: true,
-        });
+        })
         setTimeout(() => {
           this.setState({
             alert: false,
             displayCheckOut: true,
             signUpcompleted: true,
-          });
-        }, 1200);
+          })
+        }, 1200)
       } else if (res.status === 400) {
         this.setState({
           errorAlert: true,
-        });
+        })
         setTimeout(() => {
           this.setState({
             errorAlert: false,
-          });
-        }, 1200);
+          })
+        }, 1200)
+      }
+    } else if (localStorage['guestToken']) {
+      const res = await fetch(
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/guest-token-already-exists/${localStorage['guestToken']}`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            userName: this.state.details.name,
+            email: this.state.details.email,
+            phoneNumber: this.state.details.phoneNumber,
+            password: this.state.details.password,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+
+      if (res.status !== 400) {
+        this.setState({
+          alert: true,
+        })
+        setTimeout(() => {
+          this.setState({
+            alert: false,
+            displayCheckOut: true,
+            signUpcompleted: true,
+          })
+        }, 1200)
+      } else if (res.status === 400) {
+        this.setState({
+          errorAlert: true,
+        })
+        setTimeout(() => {
+          this.setState({
+            errorAlert: false,
+          })
+        }, 1200)
       }
     }
-  };
+  }
   render() {
     return (
       <>
@@ -179,8 +182,8 @@ class SignUp extends Component {
           </div>
         )}
       </>
-    );
+    )
   }
 }
 
-export default SignUp;
+export default SignUp

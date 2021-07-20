@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
 import {
   Row,
   Col,
@@ -6,72 +6,72 @@ import {
   Carousel,
   CarouselItem,
   Form,
-} from "react-bootstrap";
-import Review from "./Review";
-import { addCart } from "../../Helpers/functions";
+} from 'react-bootstrap'
+import Review from './Review'
+import { addCart } from '../../Helpers/functions'
 
 class AccessoriesDetails extends Component {
   state = {
     details: {},
-    id: "",
+    id: '',
     quantity: 1,
     alert: false,
     errorAlert: false,
-    size: "No size required",
-    color: "No color required",
-  };
+    size: 'No size required',
+    color: 'No color required',
+  }
   componentDidMount = async () => {
-    const accessoryId = this.props.match.params.productId;
+    const accessoryId = this.props.match.params.productId
     const response = await fetch(
-      `http://localhost:3003/accessories/${accessoryId}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/accessories/${accessoryId}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
-    );
-    const details = await response.json();
+      },
+    )
+    const details = await response.json()
     this.setState({
       details,
       id: accessoryId,
-    });
-    this.getReviews();
-  };
+    })
+    this.getReviews()
+  }
 
   addCart = async (id, productName, productPrice) => {
     try {
-      if (!localStorage["userId"]) {
+      if (!localStorage['userId']) {
         const productDetails = {
           productId: id,
           quantity: this.state.quantity,
           name: productName,
           price: parseInt(productPrice),
-          userId: localStorage["guestToken"],
-        };
+          userId: localStorage['guestToken'],
+        }
         let response = await fetch(
           `http://localhost:3001/cart/check-out-as-guest`,
           {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(productDetails),
             headers: {
-              "Content-Type": "Application/json",
+              'Content-Type': 'Application/json',
             },
-          }
-        );
+          },
+        )
         if (response.ok) {
-          alert("success");
+          alert('success')
           const response = await fetch(
-            `http://localhost:3001/cart/${localStorage["guestToken"]}`,
+            `http://localhost:3001/cart/${localStorage['guestToken']}`,
             {
-              method: "GET",
+              method: 'GET',
               headers: {
-                "Content-type": "application/json",
+                'Content-type': 'application/json',
               },
-            }
-          );
-          const cart = await response.json();
-          this.props.secondAction(cart.totalItems);
+            },
+          )
+          const cart = await response.json()
+          this.props.secondAction(cart.totalItems)
           // this.setState({ alert: true })
           // setTimeout(() => {
           //     this.setState({
@@ -79,37 +79,37 @@ class AccessoriesDetails extends Component {
           //     });
           // }, 1200);
         } else {
-          this.setState({ errorAlert: true });
+          this.setState({ errorAlert: true })
           setTimeout(() => {
             this.setState({
               errorAlert: false,
-            });
-          }, 1200);
+            })
+          }, 1200)
         }
       }
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
   getReviews = async () => {
     const response = await fetch(
       `http://localhost:3001/reviews/${this.props.match.params.productId}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
-    );
-    const reviews = await response.json();
+      },
+    )
+    const reviews = await response.json()
     this.setState({
       reviews,
-    });
-    console.log("", this.state.reviews);
-  };
+    })
+    console.log('', this.state.reviews)
+  }
   render() {
     return (
-      <Container style={{ marginTop: "2rem", marginBottom: "3rem" }}>
+      <Container style={{ marginTop: '2rem', marginBottom: '3rem' }}>
         <Row>
           <Col md={4}>
             <div className="view-product">
@@ -135,7 +135,7 @@ class AccessoriesDetails extends Component {
                       this.state.details.name,
                       this.state.size,
                       this.state.color,
-                      this.state.details.price
+                      this.state.details.price,
                     )
                   }
                 >
@@ -151,8 +151,8 @@ class AccessoriesDetails extends Component {
         </Row>
         <Review id={this.props.match.params.productId} />
       </Container>
-    );
+    )
   }
 }
 
-export default AccessoriesDetails;
+export default AccessoriesDetails

@@ -9,12 +9,15 @@ class StockManager extends Component {
   }
 
   componentDidMount = async () => {
-    const response = await fetch('http://localhost:3003/product/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/',
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
     const products = await response.json()
 
     this.setState({

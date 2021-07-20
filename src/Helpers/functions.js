@@ -6,10 +6,10 @@ export const addCart = async(
     productSize,
     productColor,
     productPrice,
-    productSizes
+    productSizes,
 ) => {
     try {
-        if (localStorage["guestToken"]) {
+        if (localStorage['guestToken']) {
             const productDetails = {
                 productId: id,
                 quantity: quantity,
@@ -19,50 +19,50 @@ export const addCart = async(
                 color: productColor,
                 price: parseInt(productPrice),
                 sizeFromClient: productSizes,
-                userId: localStorage["guestToken"],
-            };
+                userId: localStorage['guestToken'],
+            }
             let response = await fetch(
-                `http://localhost:3003/cart/check-out-as-guest`, {
-                    method: "POST",
+                `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`, {
+                    method: 'POST',
                     body: JSON.stringify(productDetails),
                     headers: {
-                        "Content-Type": "Application/json",
+                        'Content-Type': 'Application/json',
                     },
-                }
-            );
+                },
+            )
             if (response.ok) {
                 const createPriceResponse = await fetch(
-                    "http://localhost:3003/payment/create-product-price", {
-                        method: "POST",
+                    'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price', {
+                        method: 'POST',
                         body: JSON.stringify({
-                            userId: localStorage["guestToken"],
+                            userId: localStorage['guestToken'],
                             productName: productName,
                             productPrice: parseInt(productPrice * 100),
                             productId: id,
                             quantity: this.state.quantity,
                         }),
                         headers: {
-                            "Content-Type": "application/json",
+                            'Content-Type': 'application/json',
                         },
-                    }
-                );
+                    },
+                )
                 if (createPriceResponse.ok) {
-                    this.setState({ alert: true });
+                    this.setState({ alert: true })
                     setTimeout(() => {
                         this.setState({
                             alert: false,
-                        });
-                    }, 1200);
+                        })
+                    }, 1200)
                 }
             } else {
-                this.setState({ errorAlert: true });
+                this.setState({ errorAlert: true })
                 setTimeout(() => {
                     this.setState({
                         errorAlert: false,
-                    });
-                }, 1200);
+                    })
+                }, 1200)
             }
-        } else if (localStorage["userId"]) {
+        } else if (localStorage['userId']) {
             const productDetails = {
                 productId: id,
                 quantity: this.state.quantity,
@@ -72,51 +72,51 @@ export const addCart = async(
                 color: productColor,
                 price: parseInt(productPrice),
                 sizeFromClient: productSizes,
-                userId: localStorage["userId"],
-            };
+                userId: localStorage['userId'],
+            }
             let response = await fetch(
-                `http://localhost:3003/cart/check-out-as-guest`, {
-                    method: "POST",
+                `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`, {
+                    method: 'POST',
                     body: JSON.stringify(productDetails),
                     headers: {
-                        "Content-Type": "Application/json",
+                        'Content-Type': 'Application/json',
                     },
-                }
-            );
+                },
+            )
             if (response.ok) {
                 const createPriceResponse = await fetch(
-                    "http://localhost:3003/payment/create-product-price", {
-                        method: "POST",
+                    'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price', {
+                        method: 'POST',
                         body: JSON.stringify({
-                            userId: localStorage["userId"],
+                            userId: localStorage['userId'],
                             productName: productName,
                             productPrice: parseInt(productPrice * 100),
                             productId: id,
                             quantity: this.state.quantity,
                         }),
                         headers: {
-                            "Content-Type": "application/json",
+                            'Content-Type': 'application/json',
                         },
-                    }
-                );
+                    },
+                )
                 if (createPriceResponse.ok) {
-                    this.setState({ alert: true });
+                    this.setState({ alert: true })
                     setTimeout(() => {
                         this.setState({
                             alert: false,
-                        });
-                    }, 1200);
+                        })
+                    }, 1200)
                 }
             } else {
-                this.setState({ errorAlert: true });
+                this.setState({ errorAlert: true })
                 setTimeout(() => {
                     this.setState({
                         errorAlert: false,
-                    });
-                }, 1200);
+                    })
+                }, 1200)
             }
         }
     } catch (err) {
-        console.log(err);
+        console.log(err)
     }
-};
+}

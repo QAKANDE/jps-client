@@ -49,12 +49,15 @@ class Cart extends Component {
     const userId = sessionStorage.getItem('userId')
 
     if (userId) {
-      const response = await fetch(`http://localhost:3003/cart/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
+      const response = await fetch(
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/${userId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+          },
         },
-      })
+      )
       const cart = await response.json()
       console.log(cart)
 
@@ -76,12 +79,15 @@ class Cart extends Component {
         stock: cart.stock,
       })
     } else if (guestToken) {
-      const response = await fetch(`http://localhost:3003/cart/${guestToken}`, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json',
+      const response = await fetch(
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/${guestToken}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json',
+          },
         },
-      })
+      )
       const cart = await response.json()
 
       cart.products.map((product) => {
@@ -91,7 +97,8 @@ class Cart extends Component {
       })
 
       const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
-      const finalTotal = parseInt(subTotal + this.state.shippingCost)
+      const finalTotal = subTotal + this.state.shippingCost
+      alert(finalTotal)
 
       this.setState({
         cart: cartt,
@@ -102,7 +109,6 @@ class Cart extends Component {
         stock: stock,
         id: cart._id,
       })
-      console.log('sstock', this.state.stock)
     }
   }
 
@@ -111,21 +117,6 @@ class Cart extends Component {
       displayCheckOut: true,
     })
   }
-
-  // getColor = (e, color, productId, stockId) => {
-  //   e.preventDefault()
-  //   this.setState({ color: color, productId: productId, stockId: stockId })
-  // }
-
-  // getSize = (e, size, sizeId, currentQuantity) => {
-  //   e.preventDefault()
-
-  //   this.setState({
-  //     size: size,
-  //     sizeId: sizeId,
-  //     currentQuantity: currentQuantity,
-  //   })
-  // }
 
   increaseQuantity = async (
     id,
@@ -154,7 +145,7 @@ class Cart extends Component {
         userId: guestToken,
       }
       let response = await fetch(
-        `http://localhost:3003/cart/check-out-as-guest`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
         {
           method: 'POST',
           body: JSON.stringify(productDetails),
@@ -182,7 +173,7 @@ class Cart extends Component {
         userId: userId,
       }
       let response = await fetch(
-        `http://localhost:3003/cart/check-out-as-guest`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
         {
           method: 'POST',
           body: JSON.stringify(productDetails),
@@ -233,7 +224,7 @@ class Cart extends Component {
         }, 1200)
       } else {
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),
@@ -269,7 +260,7 @@ class Cart extends Component {
         }, 1200)
       } else {
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),
@@ -289,15 +280,18 @@ class Cart extends Component {
   deleteItem = async (id) => {
     const guestToken = sessionStorage.getItem('guestToken')
 
-    let response = await fetch(`http://localhost:3003/cart/delete-item/${id}`, {
-      method: 'DELETE',
-      body: JSON.stringify({
-        userId: guestToken,
-      }),
-      headers: {
-        'Content-Type': 'Application/json',
+    let response = await fetch(
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/delete-item/${id}`,
+      {
+        method: 'DELETE',
+        body: JSON.stringify({
+          userId: guestToken,
+        }),
+        headers: {
+          'Content-Type': 'Application/json',
+        },
       },
-    })
+    )
     if (response.ok) {
       this.getCart()
     } else {
@@ -309,7 +303,7 @@ class Cart extends Component {
     e.preventDefault()
 
     let response = await fetch(
-      `http://localhost:3003/cart/edit-product-size/${userId}/${productId}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/edit-product-size/${userId}/${productId}`,
       {
         method: 'PUT',
         body: JSON.stringify({
@@ -326,7 +320,7 @@ class Cart extends Component {
     e.preventDefault()
 
     let response = await fetch(
-      `http://localhost:3003/cart/edit-product-color/${userId}/${productId}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/edit-product-color/${userId}/${productId}`,
       {
         method: 'PUT',
         body: JSON.stringify({

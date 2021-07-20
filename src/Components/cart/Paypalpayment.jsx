@@ -28,7 +28,6 @@ class Paypalpayment extends Component {
   }
 
   onApprove(data, actions) {
-    // return (window.location.href = 'http://localhost:3000/order-confirmed')
     return this.setState({ orderConfirmed: true })
   }
   render() {

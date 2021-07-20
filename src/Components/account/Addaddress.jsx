@@ -1,30 +1,30 @@
-import React, { Component } from "react";
-import { Container, Form } from "react-bootstrap";
+import React, { Component } from 'react'
+import { Container, Form } from 'react-bootstrap'
 
 class Addaddress extends Component {
   state = {
     addressDetails: {
-      addressLine1: "",
-      addressLine2: "",
-      country: "",
-      county: "",
-      postCode: "",
+      addressLine1: '',
+      addressLine2: '',
+      country: '',
+      county: '',
+      postCode: '',
     },
-  };
+  }
 
   updateAddressDetails = (e) => {
-    let addressDetails = this.state.addressDetails;
-    let id = e.currentTarget.id;
-    addressDetails[id] = e.currentTarget.value;
-    this.setState({ addressDetails });
-  };
+    let addressDetails = this.state.addressDetails
+    let id = e.currentTarget.id
+    addressDetails[id] = e.currentTarget.value
+    this.setState({ addressDetails })
+  }
 
   postAddressDetails = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const response = await fetch(
-      `http://localhost:3003/users/user-address/${localStorage["userId"]}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/user-address/${localStorage['userId']}`,
       {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({
           addressLine1: this.state.addressDetails.addressLine1,
           addressLine2: this.state.addressDetails.addressLine2,
@@ -33,24 +33,24 @@ class Addaddress extends Component {
           postCode: this.state.addressDetails.postCode,
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
-    );
+      },
+    )
     if (response.ok) {
-      alert("Address added");
+      alert('Address added')
       this.setState({
         addressDetails: {
-          addressLine1: "",
-          addressLine2: "",
-          country: "",
-          county: "",
-          postCode: "",
+          addressLine1: '',
+          addressLine2: '',
+          country: '',
+          county: '',
+          postCode: '',
         },
-      });
-      this.props.fireGetAddress();
+      })
+      this.props.fireGetAddress()
     }
-  };
+  }
   render() {
     return (
       <Container className="mt-5">
@@ -378,8 +378,8 @@ class Addaddress extends Component {
           </div>
         </Form>
       </Container>
-    );
+    )
   }
 }
 
-export default Addaddress;
+export default Addaddress

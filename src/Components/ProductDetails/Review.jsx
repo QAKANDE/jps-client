@@ -1,32 +1,32 @@
-import React, { Component } from "react";
-import { Row, Col, Form, Alert } from "react-bootstrap";
-import "../../css/Reviews.css";
-import BeautyStars from "beauty-stars";
+import React, { Component } from 'react'
+import { Row, Col, Form, Alert } from 'react-bootstrap'
+import '../../css/Reviews.css'
+import BeautyStars from 'beauty-stars'
 
 class Reviews extends Component {
   state = {
     reviewDetails: {
-      name: "",
-      email: "",
-      reviewText: "",
+      name: '',
+      email: '',
+      reviewText: '',
     },
     value: 1,
     reviews: [],
     alert: false,
-    ratingsWidth: "",
-  };
+    ratingsWidth: '',
+  }
   updateReview = (event) => {
-    event.preventDefault();
-    let reviewDetails = this.state.reviewDetails;
-    let id = event.currentTarget.id;
-    reviewDetails[id] = event.currentTarget.value;
+    event.preventDefault()
+    let reviewDetails = this.state.reviewDetails
+    let id = event.currentTarget.id
+    reviewDetails[id] = event.currentTarget.value
     this.setState({
       reviewDetails,
-    });
-  };
+    })
+  }
 
   componentDidMount = async () => {
-    this.getReviews();
+    this.getReviews()
     // const productId = this.props.id;
     // const response = await fetch(`http://localhost:3001/reviews/${productId}`, {
     //   method: "GET",
@@ -38,71 +38,77 @@ class Reviews extends Component {
     // this.setState({
     //   reviews,
     // });
-  };
+  }
 
   getReviews = async () => {
-    const productId = this.props.id;
-    const response = await fetch(`http://localhost:3003/reviews/${productId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
+    const productId = this.props.id
+    const response = await fetch(
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/reviews/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
-    const reviews = await response.json();
+    )
+    const reviews = await response.json()
     this.setState({
       reviews,
-    });
-  };
+    })
+  }
 
   postReview = async (event) => {
-    event.preventDefault();
-    const widthArr = [];
+    event.preventDefault()
+    const widthArr = []
     if (this.state.value === 1) {
-      widthArr.push("10%");
+      widthArr.push('10%')
     } else if (this.state.value === 2) {
-      widthArr.push("20%");
+      widthArr.push('20%')
     } else if (this.state.value === 3) {
-      widthArr.push("40%");
+      widthArr.push('40%')
     } else if (this.state.value === 4) {
-      widthArr.push("60%");
+      widthArr.push('60%')
     } else if (this.state.value === 5) {
-      widthArr.push("80%");
+      widthArr.push('80%')
     }
-    const productId = this.props.id;
-    let response = await fetch(`http://localhost:3003/reviews/new-review/`, {
-      method: "POST",
-      body: JSON.stringify({
-        productId: productId,
-        name: this.state.reviewDetails.name,
-        email: this.state.reviewDetails.email,
-        text: this.state.reviewDetails.reviewText,
-        width: widthArr[0],
-        ratings: this.state.value,
-      }),
-      headers: {
-        "Content-Type": "Application/json",
+    const productId = this.props.id
+    let response = await fetch(
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/reviews/new-review/`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          productId: productId,
+          name: this.state.reviewDetails.name,
+          email: this.state.reviewDetails.email,
+          text: this.state.reviewDetails.reviewText,
+          width: widthArr[0],
+          ratings: this.state.value,
+        }),
+        headers: {
+          'Content-Type': 'Application/json',
+        },
       },
-    });
+    )
     if (response.ok) {
       this.setState({
         alert: true,
         reviewDetails: {
-          name: "",
-          email: "",
-          reviewText: "",
+          name: '',
+          email: '',
+          reviewText: '',
         },
         value: 1,
-      });
+      })
       setTimeout(() => {
         this.setState({
           alert: false,
-        });
-      }, 1200);
-      this.getReviews();
+        })
+      }, 1200)
+      this.getReviews()
     } else {
-      alert("s");
+      alert('s')
     }
-  };
+  }
 
   render() {
     return (
@@ -134,20 +140,20 @@ class Reviews extends Component {
                         <p>Rating : {review.ratings}</p>
                       </div>
                       <div
-                        style={{ width: "100%", backgroundColor: "#f0f0e9" }}
+                        style={{ width: '100%', backgroundColor: '#f0f0e9' }}
                       >
                         <div
                           style={{
                             width: review.width,
-                            height: "30px",
-                            backgroundColor: "#fe980f",
+                            height: '30px',
+                            backgroundColor: '#fe980f',
                           }}
                         ></div>
                       </div>
                     </div>
                     <hr></hr>
                   </div>
-                );
+                )
               })}
             </div>
           )}
@@ -155,7 +161,7 @@ class Reviews extends Component {
           <div className="mt-5">
             <h5>Write Your Review</h5>
             <Form>
-              <Form.Group style={{ marginTop: "1rem" }}>
+              <Form.Group style={{ marginTop: '1rem' }}>
                 <Row>
                   <Col>
                     <Form.Label>Your Name</Form.Label>
@@ -196,8 +202,8 @@ class Reviews extends Component {
                 <BeautyStars
                   value={this.state.value}
                   onChange={(value) => this.setState({ value })}
-                  size={"20px"}
-                  activeColor={"#fe980f"}
+                  size={'20px'}
+                  activeColor={'#fe980f'}
                 />
                 <button onClick={(e) => this.postReview(e)} id="review-button">
                   Submit Review
@@ -214,8 +220,8 @@ class Reviews extends Component {
           )}
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default Reviews;
+export default Reviews

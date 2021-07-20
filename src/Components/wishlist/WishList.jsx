@@ -14,12 +14,15 @@ class WishList extends Component {
     const guestToken = sessionStorage.getItem('guestToken')
     const userId = sessionStorage.getItem('userId')
     if (userId) {
-      const response = await fetch(`http://localhost:3003/wishlist/${userId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/wishlist/${userId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-      })
+      )
       const wishList = await response.json()
       if (wishList.hasOwnProperty('message')) {
         this.setState({

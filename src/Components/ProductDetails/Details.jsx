@@ -1,17 +1,8 @@
 import React, { Component } from 'react'
-import hero2 from '../../assets/hero2.png'
 import '../../css/Details.css'
-import ProductDetailsCarousel from './ProductDetailsCarousel'
-import {
-  Row,
-  Col,
-  Container,
-  Carousel,
-  CarouselItem,
-  Form,
-  Alert,
-} from 'react-bootstrap'
-// import {addCart} from "../../Helpers/functions"
+
+import { Row, Col, Container, Alert } from 'react-bootstrap'
+
 import Review from './Review'
 
 class Details extends Component {
@@ -47,12 +38,15 @@ class Details extends Component {
     const sizeArr = []
     const desc = []
     const productId = this.props.match.params.productId
-    const response = await fetch(`http://localhost:3003/product/${productId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
     const details = await response.json()
 
     details.description.map((des) => {
@@ -74,7 +68,7 @@ class Details extends Component {
 
   getReviews = async () => {
     const response = await fetch(
-      `http://localhost:3003/reviews/${this.props.match.params.productId}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/reviews/${this.props.match.params.productId}`,
       {
         method: 'GET',
         headers: {
@@ -108,7 +102,7 @@ class Details extends Component {
           userId: guestToken,
         }
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),
@@ -143,7 +137,7 @@ class Details extends Component {
           userId: userId,
         }
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),
@@ -205,9 +199,7 @@ class Details extends Component {
           </Col>
           <Col sm={8}>
             <div className="product-information">
-              <h2 className="text-center" style={{ fontSize: '30px' }}>
-                {this.state.details.name}
-              </h2>
+              <h2 className="text-center">{this.state.details.name}</h2>
               <div className="d-flex justify-content-center mt-4 mb-4">
                 <div id="details-description">
                   <p
@@ -229,6 +221,7 @@ class Details extends Component {
                         : 'inactiveDesctiption-details'
                     }
                     style={{ cursor: 'pointer', fontWeight: '500' }}
+                    id="details-para"
                   >
                     DETAILS
                   </p>

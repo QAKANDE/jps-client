@@ -1,57 +1,57 @@
-import React, { Component } from "react";
-import { Container, Form, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import "../../css/Login.css";
+import React, { Component } from 'react'
+import { Container, Form, Alert } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import '../../css/Login.css'
 
 class ForgottenPassword extends Component {
   state = {
-    email: "",
+    email: '',
     emailSentAlert: false,
     emailSentErrorAlert: false,
     noEmail: false,
-  };
+  }
   updateResetPassword = (e) => {
     this.setState({
       email: e.currentTarget.value,
-    });
-  };
+    })
+  }
 
   postEmail = async (e) => {
-    e.preventDefault();
-    if (this.state.email === "") {
+    e.preventDefault()
+    if (this.state.email === '') {
       this.setState({
         noEmail: true,
-      });
+      })
     } else {
       const response = await fetch(
-        `http://localhost:3003/users/send-reset-password-to-email/${this.state.email} `,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/send-reset-password-to-email/${this.state.email} `,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        }
-      );
-      const messageFromApi = await response.json();
-      if (messageFromApi.message === "Email sent successfully") {
-        this.setState({ emailSentAlert: true });
+        },
+      )
+      const messageFromApi = await response.json()
+      if (messageFromApi.message === 'Email sent successfully') {
+        this.setState({ emailSentAlert: true })
         setTimeout(() => {
           this.setState({
             emailSentAlert: false,
-            email: "",
-          });
-        }, 1200);
-      } else if (messageFromApi.message === "User does not exist") {
-        this.setState({ emailSentErrorAlert: true });
+            email: '',
+          })
+        }, 1200)
+      } else if (messageFromApi.message === 'User does not exist') {
+        this.setState({ emailSentErrorAlert: true })
         setTimeout(() => {
           this.setState({
             emailSentErrorAlert: false,
-            email: "",
-          });
-        }, 1200);
+            email: '',
+          })
+        }, 1200)
       }
     }
-  };
+  }
   render() {
     return (
       <Container>
@@ -76,10 +76,10 @@ class ForgottenPassword extends Component {
           </h5>
           <h5 className="d-flex justify-content-center">
             Enter Your Email Below To Reset Your Password, An Email With Details
-            Will Be Sent To You Shortly.{" "}
+            Will Be Sent To You Shortly.{' '}
           </h5>
           <Form>
-            <Form.Group style={{ marginTop: "3rem" }}>
+            <Form.Group style={{ marginTop: '3rem' }}>
               <Form.Control
                 htmlFor="email"
                 className="mb-3"
@@ -103,14 +103,14 @@ class ForgottenPassword extends Component {
             </button>
           </div>
           <div className="d-flex justify-content-center mb-5 mt-4">
-            <Link to={"/login"} id="loginFromRecoverPassword">
+            <Link to={'/login'} id="loginFromRecoverPassword">
               <a>Login Here</a>
             </Link>
           </div>
         </div>
       </Container>
-    );
+    )
   }
 }
 
-export default ForgottenPassword;
+export default ForgottenPassword

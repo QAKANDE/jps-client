@@ -35,20 +35,23 @@ class Login extends Component {
 
   postLoginDetails = async (e) => {
     e.preventDefault()
-    const response = await fetch('http://localhost:3003/users/login', {
-      method: 'POST',
-      body: JSON.stringify({
-        email: this.state.loginDetails.email,
-        password: this.state.loginDetails.password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/login',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          email: this.state.loginDetails.email,
+          password: this.state.loginDetails.password,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
     const token = await response.json()
     if (token) {
       const authorize = await fetch(
-        `http://localhost:3003/users/authorizeuser/${this.state.loginDetails.email}`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/authorizeuser/${this.state.loginDetails.email}`,
         {
           method: 'GET',
           headers: {

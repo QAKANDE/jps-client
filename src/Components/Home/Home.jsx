@@ -41,12 +41,15 @@ class Home extends Component {
   }
 
   getProducts = async () => {
-    const response = await fetch('http://localhost:3003/product/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/',
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
     const products = await response.json()
     console.log(products)
     this.setState({
@@ -67,7 +70,7 @@ class Home extends Component {
     if (!userId && !guestToken) {
       const guestToken = cryptoRandomString({ length: 24, type: 'hex' })
       // const guestResponse = await fetch(
-      //   'http://localhost:3003/cart/guest/guest-token',
+      //   'https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/guest/guest-token',
       //   {
       //     method: 'GET',
       //     headers: {
@@ -111,7 +114,7 @@ class Home extends Component {
           userId: guestToken,
         }
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),
@@ -146,7 +149,7 @@ class Home extends Component {
           userId: userId,
         }
         let response = await fetch(
-          `http://localhost:3003/cart/check-out-as-guest`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
           {
             method: 'POST',
             body: JSON.stringify(productDetails),

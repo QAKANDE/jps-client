@@ -53,12 +53,14 @@
     text-align: center;
     cursor: pointer;
     font-weight: 300;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
 }
 
 .inactivedescription-details {
     border-bottom: none;
     text-align: center;
     cursor: pointer;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
 }
 
 #description-text {
@@ -255,4 +257,29 @@
     color: #ffffff;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
+}
+
+@media screen and (max-width: 700px) {
+    #details-description {
+        width: auto;
+        flex-direction: column;
+        margin-right: 4rem;
+    }
+    .product-information {
+        padding-bottom: 60px;
+        padding-left: 60px;
+        padding-top: 60px;
+    }
+    .product-information h2 {
+        text-align: center;
+        color: #363432;
+        font-size: 20px;
+        margin-right: 4rem;
+    }
+    #details-para {
+        margin-top: 2rem;
+    }
+    #description-text {
+        margin-right: 4rem;
+    }
 }

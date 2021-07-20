@@ -1,81 +1,81 @@
-import React, { Component } from "react";
-import { Container, Form, Alert } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react'
+import { Container, Form, Alert } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 
 class UpdatePassword extends Component {
   state = {
-    password: "",
+    password: '',
     passwordUpdatedAlert: false,
     passwordUpdatedError: false,
     noPassword: false,
     tokenUsedError: false,
-  };
+  }
   updateResetPassword = (e) => {
     this.setState({
       password: e.currentTarget.value,
-    });
-  };
+    })
+  }
 
   updatePassword = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    if (this.state.password === "") {
+    if (this.state.password === '') {
       this.setState({
         noPassword: true,
-      });
+      })
     } else {
-      const token = this.props.match.params.token;
-      const email = this.props.match.params.email;
+      const token = this.props.match.params.token
+      const email = this.props.match.params.email
       const response = await fetch(
-        `http://localhost:3003/users/reset-password/${token}/${email} `,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/reset-password/${token}/${email} `,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             password: this.state.password,
           }),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        }
-      );
-      const messageFromApi = await response.json();
-      if (messageFromApi.message === "Password updated") {
+        },
+      )
+      const messageFromApi = await response.json()
+      if (messageFromApi.message === 'Password updated') {
         const deleteToken = await fetch(
-          `http://localhost:3003/users/delete-reset-token/${email}`,
+          `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/delete-reset-token/${email}`,
           {
-            method: "DELETE",
+            method: 'DELETE',
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-          }
-        );
-        this.setState({ passwordUpdatedAlert: true });
+          },
+        )
+        this.setState({ passwordUpdatedAlert: true })
         setTimeout(() => {
           this.setState({
             passwordUpdatedAlert: false,
-            password: "",
-          });
-        }, 1200);
-        window.location.href = `http://localhost:3000/`;
-      } else if (messageFromApi.message === "An error occured") {
-        this.setState({ passwordUpdatedError: true });
+            password: '',
+          })
+        }, 1200)
+        window.location.href = `http://localhost:3000/`
+      } else if (messageFromApi.message === 'An error occured') {
+        this.setState({ passwordUpdatedError: true })
         setTimeout(() => {
           this.setState({
             passwordUpdatedError: false,
-            email: "",
-          });
-        }, 1200);
-      } else if (messageFromApi.message === "Invalid token") {
-        this.setState({ tokenUsedError: true });
+            email: '',
+          })
+        }, 1200)
+      } else if (messageFromApi.message === 'Invalid token') {
+        this.setState({ tokenUsedError: true })
         setTimeout(() => {
           this.setState({
             tokenUsedError: false,
-            email: "",
-          });
-        }, 1200);
+            email: '',
+          })
+        }, 1200)
       }
     }
-  };
+  }
   render() {
     return (
       <Container>
@@ -100,7 +100,7 @@ class UpdatePassword extends Component {
           </h3>
 
           <Form>
-            <Form.Group style={{ marginTop: "3rem" }}>
+            <Form.Group style={{ marginTop: '3rem' }}>
               <Form.Control
                 htmlFor="password"
                 className="mb-3"
@@ -125,8 +125,8 @@ class UpdatePassword extends Component {
           </div>
         </div>
       </Container>
-    );
+    )
   }
 }
 
-export default UpdatePassword;
+export default UpdatePassword

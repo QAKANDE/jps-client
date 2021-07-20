@@ -37,7 +37,20 @@ class Checkout extends Component {
   render() {
     return (
       <>
-        <Container style={{ marginTop: '3rem' }}>
+        <Container>
+          <CheckoutasGuest
+            total={this.props.total}
+            subTotal={this.props.subTotal}
+            productId={this.props.productId}
+            sizeId={this.props.sizeId}
+            quantity={this.props.quantity}
+            stockId={this.props.stockId}
+            size={this.props.size}
+            currentQuantity={this.props.currentQuantity}
+            id={this.props.id}
+          />
+        </Container>
+        {/* <Container style={{ marginTop: '3rem' }}>
           <div className="text-center">
             <h5
               style={{
@@ -80,7 +93,7 @@ class Checkout extends Component {
               />
             </div>
           )}
-        </Container>
+        </Container> */}
       </>
     )
   }

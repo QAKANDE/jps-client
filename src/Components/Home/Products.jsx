@@ -40,7 +40,7 @@ class Products extends Component {
     }
     if (localStorage['userId']) {
       let response = await fetch(
-        `http://localhost:3003/wishlist/${localStorage['userId']}`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/wishlist/${localStorage['userId']}`,
         {
           method: 'POST',
           body: JSON.stringify(productDetails),
@@ -119,7 +119,7 @@ class Products extends Component {
                   </div>
                   <div className="choose">
                     <ul className="nav nav-pills nav-justified">
-                      <li
+                      {/* <li
                         onClick={() =>
                           this.addToWishList(
                             prod._id,
@@ -133,7 +133,7 @@ class Products extends Component {
                       >
                         <FontAwesomeIcon icon={faHeart} className="fa-1x" />
                         Add to wishlist
-                      </li>
+                      </li> */}
                       <li className="">
                         <Link to={`/details/${prod._id}`}>
                           <FontAwesomeIcon

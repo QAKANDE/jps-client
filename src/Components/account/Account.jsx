@@ -1,64 +1,63 @@
-import React, { Component } from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import React, { Component } from 'react'
+import { Container, Row, Col, Card } from 'react-bootstrap'
 
-import RecentOrders from "./RecentOrders";
-import Addaddress from "./Addaddress";
-import { Link } from "react-router-dom";
-import "../../css/Account.css";
+import RecentOrders from './RecentOrders'
+import Addaddress from './Addaddress'
+import { Link } from 'react-router-dom'
+import '../../css/Account.css'
 
 class Account extends Component {
   state = {
     userDetails: {},
     userAddress: {},
-  };
+  }
 
   componentDidMount = async () => {
-    this.getUserDetails();
-    this.getUserAddress();
-  };
+    this.getUserDetails()
+    this.getUserAddress()
+  }
 
   getUserDetails = async () => {
     const response = await fetch(
-      `http://localhost:3003/users/${localStorage["userId"]}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/${localStorage['userId']}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
-    );
-    const userDetails = await response.json();
-    this.setState({ userDetails });
-  };
+      },
+    )
+    const userDetails = await response.json()
+    this.setState({ userDetails })
+  }
 
   getUserAddress = async () => {
     const response = await fetch(
-      `http://localhost:3003/users/user-address/${localStorage["userId"]}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/user-address/${localStorage['userId']}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
-    );
+      },
+    )
 
-    const userAddress = await response.json();
+    const userAddress = await response.json()
     this.setState({
       userAddress,
-    });
-  
-  };
+    })
+  }
   render() {
     return (
       <>
         <Container className="pt-5">
-          {JSON.stringify(this.state.userDetails) === "{}" ? (
+          {JSON.stringify(this.state.userDetails) === '{}' ? (
             <div
               className="text-center"
-              style={{ marginTop: "9rem", marginBottom: "9rem" }}
+              style={{ marginTop: '9rem', marginBottom: '9rem' }}
             >
               <h3>
-                You Are Not Logged In, Please Login Or Signup{" "}
+                You Are Not Logged In, Please Login Or Signup{' '}
                 <Link to="/login" id="login-link">
                   here
                 </Link>
@@ -84,7 +83,7 @@ class Account extends Component {
                     </Card.Body>
                   </Card>
                 </Col>
-                {this.state.userAddress.hasOwnProperty("message") ? (
+                {this.state.userAddress.hasOwnProperty('message') ? (
                   <Col md={8}>
                     <Card>
                       <Card.Body>
@@ -171,7 +170,7 @@ class Account extends Component {
                   </Col>
                 )}
               </Row>
-              {this.state.userAddress.hasOwnProperty("message") ? (
+              {this.state.userAddress.hasOwnProperty('message') ? (
                 <div>
                   <Addaddress fireGetAddress={() => this.getUserAddress()} />
                 </div>
@@ -183,8 +182,8 @@ class Account extends Component {
           )}
         </Container>
       </>
-    );
+    )
   }
 }
 
-export default Account;
+export default Account

@@ -10,7 +10,7 @@ class OrderConfirmed extends Component {
   //   const quantity = quantityInDatabaseInInteger - currentQuantityInInteger
 
   //   const response = await fetch(
-  //     'http://localhost:3003/product/update-stock-quantity',
+  //     'https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/update-stock-quantity',
   //     {
   //       method: 'PUT',
   //       body: JSON.stringify({
@@ -30,7 +30,7 @@ class OrderConfirmed extends Component {
 
   sendEmailDetails = async () => {
     const response = await fetch(
-      'http://localhost:3003/cart/transactional-email-customer',
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/transactional-email-customer',
       {
         method: 'POST',
         body: JSON.stringify({
@@ -45,7 +45,7 @@ class OrderConfirmed extends Component {
   }
   sendEmailDetailsToSales = async () => {
     const response = await fetch(
-      'http://localhost:3003/cart/transactional-email-to-sales',
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/transactional-email-to-sales',
       {
         method: 'POST',
         body: JSON.stringify({
@@ -59,7 +59,7 @@ class OrderConfirmed extends Component {
   }
   componentDidMount = async () => {
     const response = await fetch(
-      'http://localhost:3003/payment/send-royal-mail-order',
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/send-royal-mail-order',
       {
         method: 'POST',
         body: JSON.stringify({

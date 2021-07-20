@@ -14,7 +14,7 @@ class RecentOrders extends Component {
 
   componentDidMount = async () => {
     const response = await fetch(
-      `http://localhost:3003/users/user-order/${localStorage['userId']}`,
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/users/user-order/${localStorage['userId']}`,
       {
         method: 'GET',
         headers: {
@@ -52,7 +52,7 @@ class RecentOrders extends Component {
         userId: localStorage['userId'],
       }
       let response = await fetch(
-        `http://localhost:3003/cart/check-out-as-guest`,
+        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/check-out-as-guest`,
         {
           method: 'POST',
           body: JSON.stringify(productDetails),
@@ -63,7 +63,7 @@ class RecentOrders extends Component {
       )
       if (response.ok) {
         const createPriceResponse = await fetch(
-          'http://localhost:3003/payment/create-product-price',
+          'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price',
           {
             method: 'POST',
             body: JSON.stringify({

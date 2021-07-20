@@ -17,12 +17,15 @@ class UpdateInventory extends Component {
     const stockk = []
     const productId = this.props.match.params.productId
     const sizes = []
-    const response = await fetch(`http://localhost:3003/product/${productId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
+    const response = await fetch(
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/${productId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    })
+    )
     const details = await response.json()
     details.stock.map((stck) => {
       return stockk.push(stck)
@@ -41,7 +44,7 @@ class UpdateInventory extends Component {
     e.preventDefault()
     alert(this.state.size)
     // const response = await fetch(
-    //   `http://localhost:3003/update-stock-quantity`,
+    //   `https://mr-oyebode-backend-yqavh.ondigitalocean.app/update-stock-quantity`,
     //   {
     //     method: 'PUT',
     //     body: JSON.stringify({
