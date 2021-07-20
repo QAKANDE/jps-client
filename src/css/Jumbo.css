@@ -1,7 +1,7 @@
 .jumbotron {
     font-family: 'Montserrat', sans-serif;
     padding: 150px 0;
-    background: url(C:\Users\quadr\OneDrive\Documents\GitHub\jps-client\src\assets\JumboImage.jpeg) center center;
+    background: url('https://res.cloudinary.com/quadri/image/upload/v1626783949/JumboImage_umjik9.jpg') center center;
     background-size: cover;
     text-align: left;
     color: #fff;
