@@ -98,7 +98,6 @@ class Cart extends Component {
 
       const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
       const finalTotal = subTotal + this.state.shippingCost
-      alert(finalTotal)
 
       this.setState({
         cart: cartt,
