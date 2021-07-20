@@ -35,23 +35,6 @@ class Checkoutasguest extends Component {
     })
   }
 
-  // confirmBillAddress = () => {
-  //   this.setState({
-  //     checkBox: true,
-  //   })
-  // }
-
-  // sendUserOrderDetails = async () => {
-  //   const response = await fetch(
-  //     `http://localhost:3003/users/user-order/${localStorage['userId']}`,
-  //     {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     },
-  //   )
-  // }
   isValidEmail = (email) => {
     var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     if (email.match(mailformat)) {

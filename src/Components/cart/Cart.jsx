@@ -433,7 +433,7 @@ class Cart extends Component {
                                 <Row>
                                   {item.stock.map((stc) => {
                                     return (
-                                      <Col md={4}>
+                                      <Col md={3}>
                                         <button
                                           id="color-button"
                                           onClick={(e) =>
@@ -513,7 +513,7 @@ class Cart extends Component {
                                       M
                                     </button>
                                   </Col>
-                                  <Col>
+                                  {/* <Col>
                                     <button
                                       id="color-button"
                                       className="mt-3"
@@ -528,7 +528,7 @@ class Cart extends Component {
                                     >
                                       S
                                     </button>
-                                  </Col>
+                                  </Col> */}
                                 </Row>
 
                                 <div class="d-flex justify-content-between align-items-center">
@@ -540,7 +540,7 @@ class Cart extends Component {
                                       <FontAwesomeIcon icon={faTrash} />
                                     </div>
                                   </div>
-                                  <p class="mb-0">£ {item.price}</p>
+                                  <h2 class="mb-0">£ {item.price}</h2>
                                 </div>
                               </div>
                             </Col>

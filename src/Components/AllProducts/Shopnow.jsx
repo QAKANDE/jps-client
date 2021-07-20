@@ -48,7 +48,7 @@ class Shopnow extends Component {
       return this.setState({ duduDaraImages: j.imageUrl, duduDara: j })
     })
     const makorira = products.filter(
-      (prodName) => prodName.name === 'Má Korira / Don’t Hate ',
+      (prodName) => prodName.name === 'Má Korira / Don’t Hate',
     )
     makorira.map((j) => {
       return this.setState({ makoriraImages: j.imageUrl, makorira: j })
