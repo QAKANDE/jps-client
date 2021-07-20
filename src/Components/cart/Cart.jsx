@@ -59,7 +59,6 @@ class Cart extends Component {
         },
       )
       const cart = await response.json()
-      console.log(cart)
 
       cart.products.map((product) => {
         cartt.push(product)
@@ -67,13 +66,13 @@ class Cart extends Component {
       })
 
       const subTotal = parseInt(total.reduce((a, b) => a + b, 0))
-      const finalTotal = parseInt(subTotal + this.state.shippingCost)
+      const finalTotal = subTotal + this.state.shippingCost
 
       this.setState({
         allCart: cart,
         cart: cartt,
         subTotal,
-        finalTotal,
+        finalTotal: finalTotal.toFixed(2),
         itemsLength: cart.totalItems,
         userId: cart.userId,
         stock: cart.stock,
@@ -102,7 +101,7 @@ class Cart extends Component {
       this.setState({
         cart: cartt,
         subTotal,
-        finalTotal,
+        finalTotal: finalTotal.toFixed(2),
         itemsLength: cart.totalItems,
         userId: cart.userId,
         stock: stock,
