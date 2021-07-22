@@ -48,3 +48,19 @@
     color: #ffff;
     text-decoration: underline;
 }
+
+.paypal-wrapper {
+    margin-top: 5rem;
+    margin-left: 17rem;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 700px) {
+    .paypal-wrapper {
+        margin-top: 5rem;
+        margin-left: 5rem;
+        display: flex;
+        justify-content: center;
+    }
+}

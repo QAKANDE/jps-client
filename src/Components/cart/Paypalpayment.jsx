@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import OrderConfirmed from './OrderConfirmed'
+
 import ReactDOM from 'react-dom'
 // const PayPalButton = window.paypal.Buttons.driver('react', { React, ReactDOM })
+import '../../css/orderConfirmed.css'
 
 class Paypalpayment extends Component {
   state = {
@@ -79,7 +80,7 @@ class Paypalpayment extends Component {
     let buttons
     buttons = window.paypal.Button.render(
       {
-        env: 'sandbox',
+        env: 'production',
         payment: function (data, actions) {
           return actions.request
             .post(
@@ -106,7 +107,7 @@ class Paypalpayment extends Component {
           }
         },
       },
-      '#paypal-button',
+      '#paypal-button-container',
     )
   }
 
@@ -129,33 +130,13 @@ class Paypalpayment extends Component {
   render() {
     return (
       <div>
-        <div className=" mt-5 mb-5">
-          <div id="paypal-button"></div>
+        <div className="paypal-wrapper" style={{ width: '50%' }}>
+          <div id="#paypal-button-container"></div>
           {/* <PayPalButton
             createOrder={(data, actions) => this.createOrder(data, actions)}
             onApprove={(data, actions) => this.onApprove(data, actions)}
           /> */}
         </div>
-        {/* {this.state.orderConfirmed === true ? (
-          <OrderConfirmed
-            fullName={this.props.fullName}
-            addressLine1={this.props.addressLine1}
-            city={this.props.city}
-            postCode={this.props.postCode}
-            email={this.props.email}
-            total={this.props.total}
-            subTotal={this.props.subTotal}
-            productId={this.props.productId}
-            sizeId={this.props.sizeId}
-            quantity={this.props.quantity}
-            stockId={this.props.stockId}
-            size={this.props.size}
-            currentQuantity={this.props.currentQuantity}
-            id={this.props.id}
-          />
-        ) : (
-          <div></div>
-        )} */}
       </div>
     )
   }

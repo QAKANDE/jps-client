@@ -98,6 +98,16 @@ class Checkoutasguest extends Component {
       const details = await response.json()
       if (details.message === 'Success') {
         this.setState({
+          deliverTo: {
+            title: '',
+            firstName: '',
+            lastName: '',
+            addressLine1: '',
+            postCode: '',
+            county: '',
+            country: '',
+            email: '',
+          },
           showPayPal: true,
         })
       } else {
@@ -489,6 +499,11 @@ class Checkoutasguest extends Component {
           ) : (
             <div></div>
           )}
+          <div className="text-center">
+            <button onClick={(e) => this.checkOut(e)} id="check-out">
+              Proceed to payment
+            </button>
+          </div>
           {this.state.showPayPal === true ? (
             <Paypalpayment
               total={this.props.total}
@@ -515,11 +530,6 @@ class Checkoutasguest extends Component {
           ) : (
             <div></div>
           )}
-          <div className="text-center">
-            <button onClick={(e) => this.checkOut(e)} id="check-out">
-              Proceed to payment
-            </button>
-          </div>
         </Form>
       </div>
     )
