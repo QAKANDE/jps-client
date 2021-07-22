@@ -87,7 +87,7 @@ class OrderConfirmed extends Component {
   render() {
     return (
       <div className="container">
-        {this.state.success === false ? (
+        {this.state.success === true ? (
           <div id="order-complete">
             <h5 className="text-center pt-5">
               Dear Customer, thank you for your order.
@@ -96,7 +96,7 @@ class OrderConfirmed extends Component {
               Your order details will be sent to the email you provided shortly.
             </h5>
             <h5 className="text-center pb-5">
-              You can continue shopping{' '}
+              You can continue shopping
               <Link className="continue-shopping-link" to="/allProducts">
                 here
               </Link>
