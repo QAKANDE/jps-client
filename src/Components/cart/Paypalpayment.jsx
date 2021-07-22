@@ -103,7 +103,7 @@ class Paypalpayment extends Component {
             },
           )
           if (response) {
-            window.location.href = 'www.johnpaulstephen.com/order-confirmed'
+            window.location.href = '/order-confirmed'
           }
         },
       },
