@@ -6,11 +6,7 @@ import { Row, Col, Container, Card, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Alert } from 'react-bootstrap'
-import { loadStripe } from '@stripe/stripe-js'
-
-const stripeTestPromise = loadStripe(
-  'pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf',
-)
+import { Link } from 'react-router-dom'
 
 class Cart extends Component {
   state = {
@@ -344,168 +340,174 @@ class Cart extends Component {
             <h3>Your Cart Is Empty, Please Add Items To Cart</h3>
           </div>
         ) : (
-          <section>
-            <Row>
-              <Col lg={8}>
-                <Card>
-                  <Card.Body>
-                    <Card.Header>{this.state.itemsLength} item(s)</Card.Header>
-                    {this.state.cart.map((item, key) => {
-                      return (
-                        <div>
-                          <Row style={{ paddingTop: '2rem' }} key={item._id}>
-                            <Col md={5} lg={3} xl={3}>
-                              <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
-                                <img
-                                  className="img-fluid w-100"
-                                  src={item.image}
-                                />
-                              </div>
-                            </Col>
-                            <Col md={7} lg={9} xl={9}>
-                              <div>
-                                <div className="d-flex justify-content-between">
-                                  <div>
-                                    <h5 className="mt-4 mb-4">{item.name}</h5>
-                                    <h5 className="mt-4 mb-4 color-size-text">
-                                      Size: {item.size}
-                                    </h5>
-                                    <h5 className="mt-4 mb-4 color-size-text">
-                                      Color : {item.color}
-                                    </h5>
-                                  </div>
-                                  <div className="d-flex justify-content-between">
-                                    <button
-                                      id="quantity-increase"
-                                      style={{
-                                        width: '40px',
-                                        height: '40px',
-                                        marginRight: '1rem',
-                                      }}
-                                      onClick={() =>
-                                        this.increaseQuantity(
-                                          item.productId,
-                                          item.name,
-                                          item.quantity,
-                                          item.image,
-                                          this.state.sizeSelected,
-                                          item.color,
-                                          item.price,
-                                          item.total,
-                                        )
-                                      }
-                                    >
-                                      +
-                                    </button>
-                                    <h5>{item.quantity}</h5>
-                                    <button
-                                      id="quantity-decrease"
-                                      style={{
-                                        width: '40px',
-                                        height: '40px',
-                                        marginLeft: '1rem',
-                                      }}
-                                      onClick={() =>
-                                        this.decreaseQuantity(
-                                          item.productId,
-                                          item.name,
-                                          item.quantity,
-                                          item.image,
-                                          this.state.sizeSelected,
-                                          item.color,
-                                          item.price,
-                                          item.total,
-                                        )
-                                      }
-                                    >
-                                      -
-                                    </button>
-                                  </div>
+          <div>
+            <Link id="continue-shopping-link" to="/allProducts">
+              Continue shopping
+            </Link>
+            <section>
+              <Row>
+                <Col lg={8}>
+                  <Card>
+                    <Card.Body>
+                      <Card.Header>
+                        {this.state.itemsLength} item(s)
+                      </Card.Header>
+                      {this.state.cart.map((item, key) => {
+                        return (
+                          <div>
+                            <Row style={{ paddingTop: '2rem' }} key={item._id}>
+                              <Col md={5} lg={3} xl={3}>
+                                <div className="view zoom overlay z-depth-1 rounded mb-3 mb-md-0">
+                                  <img
+                                    className="img-fluid w-100"
+                                    src={item.image}
+                                  />
                                 </div>
-                                <Row>
-                                  {item.stock.map((stc) => {
-                                    return (
-                                      <Col md={3}>
-                                        <button
-                                          id="color-button"
-                                          onClick={(e) =>
-                                            this.editColor(
-                                              e,
-                                              this.state.allCart.userId,
-                                              item._id,
-                                              stc.color,
-                                            )
-                                          }
-                                          className="mt-3"
-                                        >
-                                          {stc.color}
-                                        </button>
-                                      </Col>
-                                    )
-                                  })}
-                                </Row>
-                                <Row className="mt-5 mb-5" md={4}>
-                                  <Col>
-                                    <button
-                                      id="color-button"
-                                      onClick={(e) =>
-                                        this.editSize(
-                                          e,
-                                          this.state.allCart.userId,
-                                          item._id,
-                                          'XXL',
-                                        )
-                                      }
-                                    >
-                                      XXL
-                                    </button>
-                                  </Col>
-                                  <Col>
-                                    <button
-                                      id="color-button"
-                                      onClick={(e) =>
-                                        this.editSize(
-                                          e,
-                                          this.state.allCart.userId,
-                                          item._id,
-                                          'XL',
-                                        )
-                                      }
-                                    >
-                                      XL
-                                    </button>
-                                  </Col>
-                                  <Col>
-                                    <button
-                                      id="color-button"
-                                      onClick={(e) =>
-                                        this.editSize(
-                                          e,
-                                          this.state.allCart.userId,
-                                          item._id,
-                                          'L',
-                                        )
-                                      }
-                                    >
-                                      L
-                                    </button>
-                                  </Col>
-                                  <Col>
-                                    <button
-                                      id="color-button"
-                                      onClick={(e) =>
-                                        this.editSize(
-                                          e,
-                                          this.state.allCart.userId,
-                                          item._id,
-                                          'M',
-                                        )
-                                      }
-                                    >
-                                      M
-                                    </button>
-                                  </Col>
-                                  {/* <Col>
+                              </Col>
+                              <Col md={7} lg={9} xl={9}>
+                                <div>
+                                  <div className="d-flex justify-content-between">
+                                    <div>
+                                      <h5 className="mt-4 mb-4">{item.name}</h5>
+                                      <h5 className="mt-4 mb-4 color-size-text">
+                                        Size: {item.size}
+                                      </h5>
+                                      <h5 className="mt-4 mb-4 color-size-text">
+                                        Color : {item.color}
+                                      </h5>
+                                    </div>
+                                    <div className="d-flex justify-content-between">
+                                      <button
+                                        id="quantity-increase"
+                                        style={{
+                                          width: '40px',
+                                          height: '40px',
+                                          marginRight: '1rem',
+                                        }}
+                                        onClick={() =>
+                                          this.increaseQuantity(
+                                            item.productId,
+                                            item.name,
+                                            item.quantity,
+                                            item.image,
+                                            this.state.sizeSelected,
+                                            item.color,
+                                            item.price,
+                                            item.total,
+                                          )
+                                        }
+                                      >
+                                        +
+                                      </button>
+                                      <h5>{item.quantity}</h5>
+                                      <button
+                                        id="quantity-decrease"
+                                        style={{
+                                          width: '40px',
+                                          height: '40px',
+                                          marginLeft: '1rem',
+                                        }}
+                                        onClick={() =>
+                                          this.decreaseQuantity(
+                                            item.productId,
+                                            item.name,
+                                            item.quantity,
+                                            item.image,
+                                            this.state.sizeSelected,
+                                            item.color,
+                                            item.price,
+                                            item.total,
+                                          )
+                                        }
+                                      >
+                                        -
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <Row>
+                                    {item.stock.map((stc) => {
+                                      return (
+                                        <Col md={3}>
+                                          <button
+                                            id="color-button"
+                                            onClick={(e) =>
+                                              this.editColor(
+                                                e,
+                                                this.state.allCart.userId,
+                                                item._id,
+                                                stc.color,
+                                              )
+                                            }
+                                            className="mt-3"
+                                          >
+                                            {stc.color}
+                                          </button>
+                                        </Col>
+                                      )
+                                    })}
+                                  </Row>
+                                  <Row className="mt-5 mb-5" md={4}>
+                                    <Col>
+                                      <button
+                                        id="color-button"
+                                        onClick={(e) =>
+                                          this.editSize(
+                                            e,
+                                            this.state.allCart.userId,
+                                            item._id,
+                                            'XXL',
+                                          )
+                                        }
+                                      >
+                                        XXL
+                                      </button>
+                                    </Col>
+                                    <Col>
+                                      <button
+                                        id="color-button"
+                                        onClick={(e) =>
+                                          this.editSize(
+                                            e,
+                                            this.state.allCart.userId,
+                                            item._id,
+                                            'XL',
+                                          )
+                                        }
+                                      >
+                                        XL
+                                      </button>
+                                    </Col>
+                                    <Col>
+                                      <button
+                                        id="color-button"
+                                        onClick={(e) =>
+                                          this.editSize(
+                                            e,
+                                            this.state.allCart.userId,
+                                            item._id,
+                                            'L',
+                                          )
+                                        }
+                                      >
+                                        L
+                                      </button>
+                                    </Col>
+                                    <Col>
+                                      <button
+                                        id="color-button"
+                                        onClick={(e) =>
+                                          this.editSize(
+                                            e,
+                                            this.state.allCart.userId,
+                                            item._id,
+                                            'M',
+                                          )
+                                        }
+                                      >
+                                        M
+                                      </button>
+                                    </Col>
+                                    {/* <Col>
                                     <button
                                       id="color-button"
                                       className="mt-3"
@@ -521,55 +523,58 @@ class Cart extends Component {
                                       S
                                     </button>
                                   </Col> */}
-                                </Row>
+                                  </Row>
 
-                                <div class="d-flex justify-content-between align-items-center">
-                                  <div>
-                                    <div
-                                      onClick={() => this.deleteItem(item._id)}
-                                      id="delete-item-div"
-                                    >
-                                      <FontAwesomeIcon icon={faTrash} />
+                                  <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                      <div
+                                        onClick={() =>
+                                          this.deleteItem(item._id)
+                                        }
+                                        id="delete-item-div"
+                                      >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                      </div>
                                     </div>
+                                    <h2 class="mb-0">£ {item.price}</h2>
                                   </div>
-                                  <h2 class="mb-0">£ {item.price}</h2>
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        </div>
-                      )
-                    })}
-                  </Card.Body>
-                </Card>
-              </Col>
-              <Col lg={4}>
-                <CartTotal
+                              </Col>
+                            </Row>
+                          </div>
+                        )
+                      })}
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col lg={4}>
+                  <CartTotal
+                    subTotal={this.state.subTotal}
+                    finalTotal={this.state.finalTotal}
+                    tax={this.state.tax}
+                    shippingCost={this.state.shippingCost}
+                    action={this.displayCheckOut}
+                    userId={this.state.userId}
+                  />
+                </Col>
+              </Row>
+              {this.state.displayCheckOut === true ? (
+                <Checkout
+                  total={this.state.finalTotal}
                   subTotal={this.state.subTotal}
-                  finalTotal={this.state.finalTotal}
-                  tax={this.state.tax}
-                  shippingCost={this.state.shippingCost}
-                  action={this.displayCheckOut}
-                  userId={this.state.userId}
+                  productId={this.state.productId}
+                  sizeId={this.state.sizeId}
+                  quantity={this.state.quantity}
+                  stockId={this.state.stockId}
+                  size={this.state.size}
+                  currentQuantity={this.state.currentQuantity}
+                  id={this.state.id}
                 />
-              </Col>
-            </Row>
-            {this.state.displayCheckOut === true ? (
-              <Checkout
-                total={this.state.finalTotal}
-                subTotal={this.state.subTotal}
-                productId={this.state.productId}
-                sizeId={this.state.sizeId}
-                quantity={this.state.quantity}
-                stockId={this.state.stockId}
-                size={this.state.size}
-                currentQuantity={this.state.currentQuantity}
-                id={this.state.id}
-              />
-            ) : (
-              <div></div>
-            )}
-          </section>
+              ) : (
+                <div></div>
+              )}
+            </section>
+          </div>
         )}
       </Container>
     )

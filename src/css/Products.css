@@ -266,20 +266,16 @@
 }
 
 .add-to-cart {
-    background: #f5f5ed;
-    border: 0 none;
-    border-radius: 0;
-    color: #696763;
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    margin-bottom: 25px;
-}
-
-.add-to-cart:hover {
-    background: #fe980f;
-    border: 0 none;
-    border-radius: 0;
-    color: #ffffff;
+    background-color: #fe980f;
+    box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
+    border: 0;
+    color: black;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding: 1rem 1rem;
+    margin: 1rem 0rem 3rem 0rem;
+    outline: none;
 }
 
 .add-to {
@@ -288,11 +284,13 @@
 
 .add-to-cart i {
     margin-right: 5px;
+    color: black;
 }
 
 .add-to-cart:hover {
     background: #fe980f;
-    color: #ffffff;
+    color: black;
+    border-radius: 0px;
 }
 
 .choose {

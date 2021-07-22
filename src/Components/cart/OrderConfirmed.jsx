@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import '../../css/orderConfirmed.css'
+import { Link } from 'react-router-dom'
 
 class OrderConfirmed extends Component {
   state = { success: false, error: false }
@@ -28,14 +29,16 @@ class OrderConfirmed extends Component {
   //   const details = await response.json()
   // }
 
-  sendEmailDetails = async () => {
+  sendEmailDetails = async (id, email, orderId) => {
     const response = await fetch(
       'https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/transactional-email-customer',
       {
         method: 'POST',
         body: JSON.stringify({
           customerEmail: this.props.email,
-          id: this.props.id,
+          id: id,
+          customerEmail: email,
+          orderId: orderId,
         }),
         headers: {
           'Content-type': 'application/json',
@@ -43,13 +46,13 @@ class OrderConfirmed extends Component {
       },
     )
   }
-  sendEmailDetailsToSales = async () => {
+  sendEmailDetailsToSales = async (id) => {
     const response = await fetch(
       'https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/transactional-email-to-sales',
       {
         method: 'POST',
         body: JSON.stringify({
-          id: this.props.id,
+          id: id,
         }),
         headers: {
           'Content-type': 'application/json',
@@ -63,18 +66,7 @@ class OrderConfirmed extends Component {
       {
         method: 'POST',
         body: JSON.stringify({
-          fullName: this.props.fullName,
-          addressLine1: this.props.addressLine1,
-          city: this.props.city,
-          postCode: this.props.postCode,
-          email: this.props.email,
-          subTotal: parseInt(this.props.subTotal),
-          total: parseInt(this.props.total),
-          billingAddressFullName: this.props.fullName,
-          billingAddressaddressLine1: this.props.addressLine1,
-          billingAddresscity: this.props.city,
-          billingAddresspostCode: this.props.postCode,
-          billingAddressemail: this.props.email,
+          id: sessionStorage.getItem('guestToken'),
         }),
         headers: {
           'Content-type': 'application/json',
@@ -83,9 +75,9 @@ class OrderConfirmed extends Component {
     )
     const details = await response.json()
 
-    if (details.failedOrders.length === 0) {
-      this.sendEmailDetails()
-      this.sendEmailDetailsToSales()
+    if (details.details.failedOrders.length === 0) {
+      this.sendEmailDetailsToSales(details.cartId)
+      this.sendEmailDetails(details.cartId, details.custEmail, details.orderId)
       this.setState({ success: true })
     } else {
       this.setState({ error: true })
@@ -94,14 +86,36 @@ class OrderConfirmed extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.success === true ? (
+      <div className="container">
+        {this.state.success === false ? (
           <div id="order-complete">
             <h5 className="text-center pt-5">
-              Dear Mr Quadri Akande, thank you for your order.
+              Dear Customer, thank you for your order.
+            </h5>
+            <h5 className="text-center pb-3">
+              Your order details will be sent to the email you provided shortly.
             </h5>
             <h5 className="text-center pb-5">
-              Your order details will be sent to your email shortly.
+              You can continue shopping{' '}
+              <Link className="continue-shopping-link" to="/allProducts">
+                here
+              </Link>
+            </h5>
+          </div>
+        ) : (
+          <div className="lds-hourglass"></div>
+        )}
+        {this.state.error === true ? (
+          <div id="order-complete">
+            <h5 className="text-center pt-5">
+              Dear Customer, there was an error placing your order.
+            </h5>
+            <h5 className="text-center pb-5">
+              Please continue shopping
+              <Link className="continue-shopping-link" to="/allProducts">
+                here
+              </Link>
+              .
             </h5>
           </div>
         ) : (

@@ -89,11 +89,25 @@ class Products extends Component {
                       <img src={prod.imageUrl[0].url} alt="" />
                       <h2>£ {prod.price}</h2>
                       <p>{prod.name}</p>
-                      <a href="#" className="btn btn-default add-to-cart">
+                      <button
+                        onClick={() =>
+                          this.props.addToCartAsProps(
+                            prod._id,
+                            prod.imageUrl[0].url,
+                            prod.name,
+                            prod.color,
+                            prod.price,
+                            prod.sizes,
+                            prod.total,
+                            prod.stock,
+                          )
+                        }
+                        className="add-to-cart"
+                      >
                         <i className="fa fa-shopping-cart"></i>Add to cart
-                      </a>
+                      </button>
                     </div>
-                    <div className="product-overlay">
+                    {/* <div className="product-overlay">
                       <div className="overlay-content">
                         <h2>£ {prod.price}</h2>
                         <p>{prod.name}</p>
@@ -115,7 +129,7 @@ class Products extends Component {
                           <i className="fa fa-shopping-cart"></i>Add to cart
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="choose">
                     <ul className="nav nav-pills nav-justified">

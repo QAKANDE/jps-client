@@ -7,6 +7,7 @@ import {
   faStar,
   faCrosshairs,
   faShoppingCart,
+  faHome,
   faLock,
 } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
@@ -96,11 +97,11 @@ class NavSocialMedia extends Component {
                         Wishlist
                       </Link>
                     </li> */}
-                    {/* <li>
-                      <Link to="/checkout">
-                        <FontAwesomeIcon icon={faCrosshairs} /> Checkout
+                    <li>
+                      <Link to="/">
+                        <FontAwesomeIcon icon={faHome} /> Home
                       </Link>
-                    </li> */}
+                    </li>
                     <li>
                       <Link to="/cart">
                         <FontAwesomeIcon

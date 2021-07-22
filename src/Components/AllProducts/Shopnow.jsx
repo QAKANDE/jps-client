@@ -200,29 +200,20 @@ class Shopnow extends Component {
                       <img src={jps.url} alt="" />
                       <h2>£ {this.state.JPS.price}</h2>
                       <p>{this.state.JPS.name}</p>
-                      <a href="#" className="btn btn-default add-to-cart">
+                      <button
+                        onClick={() =>
+                          this.addCart(
+                            this.state.JPS._id,
+                            jps.url,
+                            this.state.JPS.name,
+                            this.state.JPS.price,
+                            this.state.JPS.stock,
+                          )
+                        }
+                        className="add-to-cart"
+                      >
                         <i className="fa fa-shopping-cart"></i>Add to cart
-                      </a>
-                    </div>
-                    <div className="product-overlay">
-                      <div className="overlay-content">
-                        <h2>£ {this.state.JPS.price}</h2>
-                        <p>{this.state.JPS.name}</p>
-                        <button
-                          onClick={() =>
-                            this.addCart(
-                              this.state.JPS._id,
-                              jps.url,
-                              this.state.JPS.name,
-                              this.state.JPS.price,
-                              this.state.JPS.stock,
-                            )
-                          }
-                          className="btn btn-default add-to-cart"
-                        >
-                          <i className="fa fa-shopping-cart"></i>Add to cart
-                        </button>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -243,29 +234,20 @@ class Shopnow extends Component {
                       <img src={jps.url} alt="" />
                       <h2>£ {this.state.duduDara.price}</h2>
                       <p>{this.state.duduDara.name}</p>
-                      <a href="#" className="btn btn-default add-to-cart">
+                      <button
+                        onClick={() =>
+                          this.addCart(
+                            this.state.duduDara._id,
+                            jps.url,
+                            this.state.duduDara.name,
+                            this.state.duduDara.price,
+                            this.state.duduDara.stock,
+                          )
+                        }
+                        className="add-to-cart"
+                      >
                         <i className="fa fa-shopping-cart"></i>Add to cart
-                      </a>
-                    </div>
-                    <div className="product-overlay">
-                      <div className="overlay-content">
-                        <h2>£ {this.state.duduDara.price}</h2>
-                        <p>{this.state.duduDara.name}</p>
-                        <button
-                          onClick={() =>
-                            this.addCart(
-                              this.state.duduDara._id,
-                              jps.url,
-                              this.state.duduDara.name,
-                              this.state.duduDara.price,
-                              this.state.duduDara.stock,
-                            )
-                          }
-                          className="btn btn-default add-to-cart"
-                        >
-                          <i className="fa fa-shopping-cart"></i>Add to cart
-                        </button>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -286,29 +268,20 @@ class Shopnow extends Component {
                       <img src={jps.url} alt="" />
                       <h2>£ {this.state.makorira.price}</h2>
                       <p>{this.state.makorira.name}</p>
-                      <a href="#" className="btn btn-default add-to-cart">
+                      <button
+                        onClick={() =>
+                          this.addCart(
+                            this.state.makorira._id,
+                            jps.url,
+                            this.state.makorira.name,
+                            this.state.makorira.price,
+                            this.state.makorira.stock,
+                          )
+                        }
+                        className="add-to-cart"
+                      >
                         <i className="fa fa-shopping-cart"></i>Add to cart
-                      </a>
-                    </div>
-                    <div className="product-overlay">
-                      <div className="overlay-content">
-                        <h2>£ {this.state.makorira.price}</h2>
-                        <p>{this.state.makorira.name}</p>
-                        <button
-                          onClick={() =>
-                            this.addCart(
-                              this.state.makorira._id,
-                              jps.url,
-                              this.state.makorira.name,
-                              this.state.makorira.price,
-                              this.state.makorira.stock,
-                            )
-                          }
-                          className="btn btn-default add-to-cart"
-                        >
-                          <i className="fa fa-shopping-cart"></i>Add to cart
-                        </button>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -329,29 +302,20 @@ class Shopnow extends Component {
                       <img src={jps.url} alt="" />
                       <h2>£ {this.state.whatWillYouBeKnownFor.price}</h2>
                       <p>{this.state.whatWillYouBeKnownFor.name}</p>
-                      <a href="#" className="btn btn-default add-to-cart">
+                      <button
+                        onClick={() =>
+                          this.addCart(
+                            this.state.whatWillYouBeKnownFor._id,
+                            jps.url,
+                            this.state.whatWillYouBeKnownFor.name,
+                            this.state.whatWillYouBeKnownFor.price,
+                            this.state.whatWillYouBeKnownFor.stock,
+                          )
+                        }
+                        className="add-to-cart"
+                      >
                         <i className="fa fa-shopping-cart"></i>Add to cart
-                      </a>
-                    </div>
-                    <div className="product-overlay">
-                      <div className="overlay-content">
-                        <h2>£ {this.state.whatWillYouBeKnownFor.price}</h2>
-                        <p>{this.state.whatWillYouBeKnownFor.name}</p>
-                        <button
-                          onClick={() =>
-                            this.addCart(
-                              this.state.whatWillYouBeKnownFor._id,
-                              jps.url,
-                              this.state.whatWillYouBeKnownFor.name,
-                              this.state.whatWillYouBeKnownFor.price,
-                              this.state.whatWillYouBeKnownFor.stock,
-                            )
-                          }
-                          className="btn btn-default add-to-cart"
-                        >
-                          <i className="fa fa-shopping-cart"></i>Add to cart
-                        </button>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -372,29 +336,20 @@ class Shopnow extends Component {
                       <img src={jps.url} alt="" />
                       <h2>£ {this.state.ourThing.price}</h2>
                       <p>{this.state.ourThing.name}</p>
-                      <a href="#" className="btn btn-default add-to-cart">
+                      <button
+                        onClick={() =>
+                          this.addCart(
+                            this.state.ourThing._id,
+                            jps.url,
+                            this.state.ourThing.name,
+                            this.state.ourThing.price,
+                            this.state.ourThing.stock,
+                          )
+                        }
+                        className="add-to-cart"
+                      >
                         <i className="fa fa-shopping-cart"></i>Add to cart
-                      </a>
-                    </div>
-                    <div className="product-overlay">
-                      <div className="overlay-content">
-                        <h2>£ {this.state.ourThing.price}</h2>
-                        <p>{this.state.ourThing.name}</p>
-                        <button
-                          onClick={() =>
-                            this.addCart(
-                              this.state.ourThing._id,
-                              jps.url,
-                              this.state.ourThing.name,
-                              this.state.ourThing.price,
-                              this.state.ourThing.stock,
-                            )
-                          }
-                          className="btn btn-default add-to-cart"
-                        >
-                          <i className="fa fa-shopping-cart"></i>Add to cart
-                        </button>
-                      </div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -415,11 +370,22 @@ class Shopnow extends Component {
                       <img src={jps.url} alt="" />
                       <h2>£ {this.state.outOfFashion.price}</h2>
                       <p>{this.state.outOfFashion.name}</p>
-                      <a href="#" className="btn btn-default add-to-cart">
+                      <button
+                        onClick={() =>
+                          this.addCart(
+                            this.state.outOfFashion._id,
+                            jps.url,
+                            this.state.outOfFashion.name,
+                            this.state.outOfFashion.price,
+                            this.state.outOfFashion.stock,
+                          )
+                        }
+                        className="add-to-cart"
+                      >
                         <i className="fa fa-shopping-cart"></i>Add to cart
-                      </a>
+                      </button>
                     </div>
-                    <div className="product-overlay">
+                    {/* <div className="product-overlay">
                       <div className="overlay-content">
                         <h2>£ {this.state.outOfFashion.price}</h2>
                         <p>{this.state.outOfFashion.name}</p>
@@ -438,7 +404,7 @@ class Shopnow extends Component {
                           <i className="fa fa-shopping-cart"></i>Add to cart
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               )

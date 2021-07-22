@@ -21,6 +21,7 @@ class Checkoutasguest extends Component {
     showPayPal: false,
     formError: false,
     emailError: false,
+    errorSendingForm: false,
   }
 
   updateDeliverTo = (event) => {
@@ -60,19 +61,51 @@ class Checkoutasguest extends Component {
       this.setState({ emailError: true })
       setTimeout(() => this.setState({ emailError: false }), 1500)
     } else {
-      this.setState({
-        showPayPal: true,
-        deliverTo: {
-          title: '',
-          firstName: '',
-          lastName: '',
-          addressLine1: '',
-          postCode: '',
-          county: '',
-          country: '',
-          email: '',
+      const response = await fetch(
+        'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/order-address',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            userId: sessionStorage.getItem('guestToken'),
+            fullName:
+              this.state.deliverTo.title +
+              ' ' +
+              this.state.deliverTo.firstName +
+              ' ' +
+              this.state.deliverTo.lastName,
+            addressLine1: this.state.deliverTo.addressLine1,
+            city: this.state.deliverTo.county,
+            postCode: this.state.deliverTo.postCode,
+            email: this.state.deliverTo.email,
+            subTotal: parseInt(this.props.subTotal),
+            total: parseInt(this.props.total),
+            billingAddressFullName:
+              this.state.deliverTo.title +
+              ' ' +
+              this.state.deliverTo.firstName +
+              ' ' +
+              this.state.deliverTo.lastName,
+            billingAddressaddressLine1: this.state.deliverTo.addressLine1,
+            billingAddresscity: this.state.deliverTo.county,
+            billingAddresspostCode: this.state.deliverTo.postCode,
+            billingAddressemail: this.state.deliverTo.email,
+          }),
+          headers: {
+            'Content-type': 'application/json',
+          },
         },
-      })
+      )
+      const details = await response.json()
+      if (details.message === 'Success') {
+        this.setState({
+          showPayPal: true,
+        })
+      } else {
+        this.setState({
+          errorSendingForm: true,
+        })
+        setTimeout(() => this.setState({ errorSendingForm: false }), 1500)
+      }
     }
   }
 

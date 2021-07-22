@@ -173,3 +173,20 @@
     width: 100%;
     outline: none;
 }
+
+#continue-shopping-link {
+    color: #fe980f;
+    font-size: 1rem;
+    font-weight: bolder;
+    text-decoration: underline;
+    margin-bottom: 3rem !important;
+    font-style: italic;
+}
+
+#continue-shopping-link:hover {
+    color: black;
+    font-size: 1rem;
+    font-weight: bolder;
+    text-decoration: underline;
+    margin-bottom: 3rem !important;
+}
