@@ -88,6 +88,10 @@
     padding: 5px 10px;
 }
 
+#price-text {
+    color: #fe980f;
+}
+
 .item-control i:hover {
     background: #ccccc6;
 }

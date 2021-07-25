@@ -112,18 +112,15 @@ class Details extends Component {
           },
         )
         if (response.ok) {
-          this.setState({ alert: true })
+          this.props.show()
           setTimeout(() => {
-            this.setState({
-              alert: false,
-            })
+            this.props.close()
           }, 1200)
+          this.props.getCart()
         } else {
-          this.setState({ errorAlert: true })
+          this.props.showErrorModal()
           setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            })
+            this.props.closeErrorModal()
           }, 1200)
         }
       } else if (userId) {
@@ -147,18 +144,15 @@ class Details extends Component {
           },
         )
         if (response.ok) {
-          this.setState({ alert: true })
+          this.props.show()
           setTimeout(() => {
-            this.setState({
-              alert: false,
-            })
+            this.props.close()
           }, 1200)
+          this.props.getCart()
         } else {
-          this.setState({ errorAlert: true })
+          this.props.showErrorModal()
           setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            })
+            this.props.closeErrorModal()
           }, 1200)
         }
       }
@@ -169,28 +163,6 @@ class Details extends Component {
   render() {
     return (
       <Container style={{ marginTop: '2rem', marginBottom: '3rem' }}>
-        {this.state.alert === true ? (
-          <Alert id="alert">Item added to cart</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.errorAlert === true ? (
-          <Alert id="alert">Unable to add item to cart</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.wishListAlert === true ? (
-          <Alert id="alert">Item added to wishlist</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.wishListErrorAlert === true ? (
-          <Alert id="alert">
-            Unable to add item to wishlist. Please make sure you are signed in.
-          </Alert>
-        ) : (
-          <div></div>
-        )}
         <Row>
           <Col md={4}>
             <div className="view-product">
@@ -199,8 +171,8 @@ class Details extends Component {
           </Col>
           <Col sm={8}>
             <div className="product-information">
-              <h2 className="text-center">{this.state.details.name}</h2>
-              <div className="d-flex justify-content-center mt-4 mb-4">
+              <h1 className="text-center">{this.state.details.name}</h1>
+              <div className="d-flex justify-content-center mt-5 mb-5">
                 <div id="details-description">
                   <p
                     onClick={() => this.showDescription()}
@@ -261,13 +233,13 @@ class Details extends Component {
               ) : (
                 <div></div>
               )}
-
-              <span>
-                <span>£ {this.state.details.price}</span>
+              <h1 className="text-center mt-5" id="price-text">
+                £ {this.state.details.price}
+              </h1>
+              <div className="d-flex justify-content-center">
                 <button
                   type="button"
-                  className="btn btn-fefault"
-                  id="cart"
+                  className="add-to-cart"
                   onClick={() =>
                     this.addCart(
                       this.state.details._id,
@@ -281,11 +253,11 @@ class Details extends Component {
                   <i className="fa fa-shopping-cart"></i>
                   Add to cart
                 </button>
-              </span>
+              </div>
             </div>
           </Col>
         </Row>
-        <Review id={this.props.match.params.productId} />
+        {/* <Review id={this.props.match.params.productId} /> */}
       </Container>
     )
   }

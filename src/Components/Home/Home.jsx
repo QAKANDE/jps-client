@@ -1,7 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import Jumbo from './Jumbo'
 import Products from './Products'
 import cryptoRandomString from 'crypto-random-string'
+import Notification from './Notification'
 import Accessories from './Accessories'
 import {
   Alert,
@@ -23,7 +24,7 @@ class Home extends Component {
     products: [],
     accessories: [],
     quantity: 1,
-    alert: false,
+    alert: true,
     errorAlert: false,
     wishListAlert: false,
     wishListErrorAlert: false,
@@ -38,6 +39,14 @@ class Home extends Component {
     this.setState({
       itemsLength: token,
     })
+  }
+
+  add_to_cart_modal = createRef()
+  triggerModal = () => {
+    this.add_to_cart_modal.current.handleShow()
+  }
+  closeModal = () => {
+    this.add_to_cart_modal.current.handleClose()
   }
 
   getProducts = async () => {
@@ -57,34 +66,23 @@ class Home extends Component {
     })
   }
 
-  handleClose = () => {
-    // localStorage.removeItem('show_status')
-    this.setState({ showModal: false })
-  }
-  handleShow = () => this.setState({ showModal: true })
+  // handleClose = () => {
+  //   // localStorage.removeItem('show_status')
+  //   this.setState({ showModal: false })
+  // }
+  // handleShow = () => this.setState({ showModal: true })
 
   componentDidMount = async () => {
     this.getProducts()
     const userId = sessionStorage.getItem('userId')
     const guestToken = sessionStorage.getItem('guestToken')
+    sessionStorage.setItem('cart_items', 0)
     if (!userId && !guestToken) {
       const guestToken = cryptoRandomString({ length: 24, type: 'hex' })
-      // const guestResponse = await fetch(
-      //   'https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/guest/guest-token',
-      //   {
-      //     method: 'GET',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //   },
-      // )
-      // const guestToken = await guestResponse.json()
-      // this.setState({
-      //   guestToken: guestToken.id,
-      // })
       sessionStorage.setItem('guestToken', guestToken)
     } else if (userId) {
       sessionStorage.removeItem('guestToken')
+
       this.getProducts()
     }
     // this.props.action(this.state.itemsLength)
@@ -103,6 +101,7 @@ class Home extends Component {
     try {
       const guestToken = sessionStorage.getItem('guestToken')
       const userId = sessionStorage.getItem('userId')
+      const cart_items = sessionStorage.getItem('cart_items')
       if (guestToken) {
         const productDetails = {
           productId: id,
@@ -124,18 +123,15 @@ class Home extends Component {
           },
         )
         if (response.ok) {
-          this.setState({ alert: true })
+          this.props.show()
           setTimeout(() => {
-            this.setState({
-              alert: false,
-            })
+            this.props.close()
           }, 1200)
+          this.props.getCart()
         } else {
-          this.setState({ errorAlert: true })
+          this.props.showErrorModal()
           setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            })
+            this.props.closeErrorModal()
           }, 1200)
         }
       } else if (userId) {
@@ -159,18 +155,15 @@ class Home extends Component {
           },
         )
         if (response.ok) {
-          this.setState({ alert: true })
+          this.props.show()
           setTimeout(() => {
-            this.setState({
-              alert: false,
-            })
+            this.props.close()
           }, 1200)
+          this.props.getCart()
         } else {
-          this.setState({ errorAlert: true })
+          this.props.showErrorModal()
           setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            })
+            this.props.closeErrorModal()
           }, 1200)
         }
       }
@@ -225,16 +218,6 @@ class Home extends Component {
         </Modal> */}
         <Container>
           <div>
-            {this.state.alert === true ? (
-              <Alert id="alert">Item added to cart</Alert>
-            ) : (
-              <div></div>
-            )}
-            {this.state.errorAlert === true ? (
-              <Alert id="alert">Unable to add item to cart</Alert>
-            ) : (
-              <div></div>
-            )}
             <Products
               secondAction={this.getCartLength}
               productsAsProps={this.state.products}
@@ -276,16 +259,6 @@ class Home extends Component {
               }
             />
           </div>
-          {this.state.alert === true ? (
-            <Alert id="alert">Item added to cart</Alert>
-          ) : (
-            <div></div>
-          )}
-          {this.state.errorAlert === true ? (
-            <Alert id="alert">Unable to add item to cart</Alert>
-          ) : (
-            <div></div>
-          )}
         </Container>
       </div>
     )

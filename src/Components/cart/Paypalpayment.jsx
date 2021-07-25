@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-
 import ReactDOM from 'react-dom'
-// const PayPalButton = window.paypal.Buttons.driver('react', { React, ReactDOM })
 import '../../css/orderConfirmed.css'
+// const PayPalButton = window.paypal.Buttons.driver('react', { React, ReactDOM })
 
 class Paypalpayment extends Component {
   state = {
@@ -75,66 +74,81 @@ class Paypalpayment extends Component {
   //   }
   // }
 
-  componentDidMount = async (props) => {
-    const total = this.state.total
-    let buttons
-    buttons = window.paypal.Button.render(
-      {
-        env: 'production',
-        payment: function (data, actions) {
-          return actions.request
-            .post(
-              'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/my-api/create-payment/',
-              {
-                total: total,
-              },
-            )
-            .then(function (res) {
-              return res.id
-            })
-        },
+  // componentDidMount = async (props) => {
+  //   const total = this.state.total
+  //   let buttons
+  //   buttons = window.paypal.Button.render(
+  //     {
+  //       env: 'sandbox',
+  //       payment: function (data, actions) {
+  //         return actions.request
+  //           .post('https://mr-oyebode-backend-yqavh.ondigitalocean.apppayment/my-api/create-payment/', {
+  //             total: total,
+  //           })
+  //           .then(function (res) {
+  //             return res.id
+  //           })
+  //       },
 
-        onAuthorize: async function (data, actions) {
-          const response = actions.request.post(
-            'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/my-api/execute-payment/',
-            {
-              paymentID: data.paymentID,
-              payerID: data.payerID,
-            },
-          )
-          if (response) {
-            window.location.href = '/order-confirmed'
-          }
+  //       onAuthorize: async function (data, actions) {
+  //         const response = actions.request.post(
+  //           'https://mr-oyebode-backend-yqavh.ondigitalocean.apppayment/my-api/execute-payment/',
+  //           {
+  //             paymentID: data.paymentID,
+  //             payerID: data.payerID,
+  //           },
+  //         )
+  //         if (response) {
+  //           window.location.href = '/order-confirmed'
+  //         }
+  //       },
+  //     },
+  //     '#paypal-button',
+  //   )
+  // }
+
+  componentDidMount = () => {
+    const value = this.state.total
+    window.paypal
+      .Buttons({
+        createOrder(data, actions) {
+          return actions.order.create({
+            intent: 'capture',
+            purchase_units: [
+              {
+                description: 'John Paul Stephen',
+                amount: {
+                  currency_code: 'GBP',
+                  value: value,
+                },
+              },
+            ],
+          })
         },
-      },
-      '#paypal-button-container',
-    )
+        onApprove(data, actions) {
+          window.location.href = '/order-confirmed'
+        },
+        onCancel(data) {
+          window.location.href = '/cart'
+        },
+        onError(err) {
+          alert('An error making this payment occured')
+          window.location.href = '/cart'
+        },
+      })
+      .render('#paypal-button-container')
   }
 
-  // createOrder(data, actions) {
-  //   const value = this.state.total
-  //   return actions.order.create({
-  //     purchase_units: [
-  //       {
-  //         amount: {
-  //           value: value,
-  //         },
-  //       },
-  //     ],
-  //   })
-  // }
-
-  // onApprove(data, actions) {
-  //   return this.setState({ orderConfirmed: true })
-  // }
   render() {
     return (
       <div>
         <div className="paypal-wrapper" style={{ width: '50%' }}>
-          <div id="#paypal-button-container"></div>
+          <div id="paypal-button-container"></div>
           {/* <PayPalButton
             createOrder={(data, actions) => this.createOrder(data, actions)}
             onApprove={(data, actions) => this.onApprove(data, actions)}
+            onCancel={(data) => this.onCancel(data)}
+            onError={(err) => this.onError(err)}
           /> */}
         </div>
       </div>

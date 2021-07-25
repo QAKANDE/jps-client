@@ -16,6 +16,7 @@ import LittleCart from '../LittleCart'
 class NavSocialMedia extends Component {
   state = {
     displayLittleCart: false,
+    cartLength: sessionStorage.getItem('cart_items'),
   }
 
   displayCart = () => {
@@ -97,23 +98,23 @@ class NavSocialMedia extends Component {
                         Wishlist
                       </Link>
                     </li> */}
-                    <li>
-                      <Link to="/">
+                    <Link to="/" style={{ color: '#696763' }}>
+                      <li>
                         <FontAwesomeIcon icon={faHome} /> Home
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/cart">
+                      </li>
+                    </Link>
+                    <Link to="/cart" style={{ color: '#696763' }}>
+                      <li>
                         <FontAwesomeIcon
                           icon={faShoppingCart}
                           className="navbar-icon"
                         />{' '}
                         Cart
-                      </Link>
-                    </li>
-                    <span className="badge badge-warning" id="lblCartCount">
-                      {this.props.itemsLength}
-                    </span>
+                      </li>
+                      <span className="badge badge-warning" id="lblCartCount">
+                        {this.props.cartLength}
+                      </span>
+                    </Link>
                     {/* <li>
                       <Link to={'/login'}>
                         <FontAwesomeIcon

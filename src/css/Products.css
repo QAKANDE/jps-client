@@ -15,7 +15,7 @@
 }
 
 #featured-text h2 {
-    font-size: 18px;
+    font-size: 27px;
     font-weight: 700;
     margin: 0 auto 30px;
     text-align: center;
@@ -188,7 +188,7 @@
 
 .productinfo p {
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 400;
     color: #696763;
 }
@@ -309,6 +309,17 @@
 /* .choose ul li a i {
     margin-right: 5px;
 } */
+
+#more-details {
+    color: #b3afa8;
+    font-size: 18px;
+}
+
+#more-details:hover {
+    background: none;
+    color: #fe980f;
+    text-decoration: none;
+}
 
 .choose ul li a:hover {
     background: none;

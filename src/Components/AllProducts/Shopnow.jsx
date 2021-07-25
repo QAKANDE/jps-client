@@ -23,9 +23,11 @@ class Shopnow extends Component {
     alert: false,
     errorAlert: false,
     quantity: 1,
+    products: [],
   }
 
   getProducts = async () => {
+    const restructure = []
     const response = await fetch(
       'https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/',
       {
@@ -36,6 +38,8 @@ class Shopnow extends Component {
       },
     )
     const products = await response.json()
+
+    this.setState({ products: products })
     const JPS = products.filter(
       (prodName) => prodName.name === 'John Paul Stephen',
     )
@@ -120,18 +124,15 @@ class Shopnow extends Component {
           },
         )
         if (response.ok) {
-          this.setState({ alert: true })
+          this.props.show()
           setTimeout(() => {
-            this.setState({
-              alert: false,
-            })
+            this.props.close()
           }, 1200)
+          this.props.getCart()
         } else {
-          this.setState({ errorAlert: true })
+          this.props.showErrorModal()
           setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            })
+            this.props.closeErrorModal()
           }, 1200)
         }
       } else if (userId) {
@@ -155,18 +156,15 @@ class Shopnow extends Component {
           },
         )
         if (response.ok) {
-          this.setState({ alert: true })
+          this.props.show()
           setTimeout(() => {
-            this.setState({
-              alert: false,
-            })
+            this.props.close()
           }, 1200)
+          this.props.getCart()
         } else {
-          this.setState({ errorAlert: true })
+          this.props.showErrorModal()
           setTimeout(() => {
-            this.setState({
-              errorAlert: false,
-            })
+            this.props.closeErrorModal()
           }, 1200)
         }
       }
@@ -177,16 +175,85 @@ class Shopnow extends Component {
   render() {
     return (
       <div className="container" id="shop-now">
-        {this.state.alert === true ? (
-          <Alert id="alert">Item added to cart</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.errorAlert === true ? (
-          <Alert id="alert">Unable to add item to cart</Alert>
-        ) : (
-          <div></div>
-        )}
+        <div id="featured-text">
+          <h2>our products</h2>
+        </div>
+        <CardDeck>
+          {this.state.JPSImages.map((jps, index) => {
+            return (
+              <div className="product-image-wrapper col-sm-4">
+                <div className="single-products">
+                  <div className="productinfo text-center">
+                    <img src={jps.url} alt="" />
+                    <h2>£ {this.state.JPS.price}</h2>
+                    <p>{this.state.JPS.name}</p>
+                    <button
+                      onClick={() =>
+                        this.addCart(
+                          this.state.JPS._id,
+                          jps.url,
+                          this.state.JPS.name,
+                          this.state.JPS.price,
+                          this.state.JPS.stock,
+                        )
+                      }
+                      className="add-to-cart"
+                    >
+                      <i className="fa fa-shopping-cart"></i>Add to cart
+                    </button>
+                  </div>
+                </div>
+                <div className="choose">
+                  <div className="d-flex justify-content-center">
+                    <Link
+                      to={`/details/${this.state.JPS._id}`}
+                      id="more-details"
+                    >
+                      <FontAwesomeIcon icon={faPlusSquare} className="fa-1x" />
+                      More details
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+          {this.state.products.slice(1).map((pro) => {
+            return (
+              <div className="product-image-wrapper col-sm-4">
+                <div className="single-products">
+                  <div className="productinfo text-center">
+                    <img src={pro.imageUrl[0].url} alt="" />
+                    <h2>£ {pro.price}</h2>
+                    <p>{pro.name}</p>
+                    <button
+                      onClick={() =>
+                        this.addCart(
+                          pro._id,
+                          pro.imageUrl[0].url,
+                          pro.name,
+                          pro.price,
+                          pro.stock,
+                        )
+                      }
+                      className="add-to-cart"
+                    >
+                      <i className="fa fa-shopping-cart"></i>Add to cart
+                    </button>
+                  </div>
+                </div>
+                <div className="choose">
+                  <div className="d-flex justify-content-center">
+                    <Link to={`/details/${pro._id}`} id="more-details">
+                      <FontAwesomeIcon icon={faPlusSquare} className="fa-1x" />
+                      More details
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </CardDeck>
+        {/* 
         <div>
           <div id="featured-text">
             <h2>John Paul Stephen</h2>
@@ -220,8 +287,8 @@ class Shopnow extends Component {
               )
             })}
           </CardDeck>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <div id="featured-text">
             <h2>Dúdú Dára/Black is Good</h2>
           </div>
@@ -254,8 +321,8 @@ class Shopnow extends Component {
               )
             })}
           </CardDeck>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <div id="featured-text">
             <h2>Má Korira/Don’t Hate</h2>
           </div>
@@ -288,8 +355,8 @@ class Shopnow extends Component {
               )
             })}
           </CardDeck>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <div id="featured-text">
             <h2>What Will You Be Known For</h2>
           </div>
@@ -322,8 +389,8 @@ class Shopnow extends Component {
               )
             })}
           </CardDeck>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <div id="featured-text">
             <h2>Our Thing Our Belief Our Heritage</h2>
           </div>
@@ -356,71 +423,7 @@ class Shopnow extends Component {
               )
             })}
           </CardDeck>
-        </div>
-        <div>
-          <div id="featured-text">
-            <h2>Out of Fashion</h2>
-          </div>
-          <CardDeck>
-            {this.state.outOfFashionImages.map((jps, index) => {
-              return (
-                <div className="product-image-wrapper col-sm-4">
-                  <div className="single-products">
-                    <div className="productinfo text-center">
-                      <img src={jps.url} alt="" />
-                      <h2>£ {this.state.outOfFashion.price}</h2>
-                      <p>{this.state.outOfFashion.name}</p>
-                      <button
-                        onClick={() =>
-                          this.addCart(
-                            this.state.outOfFashion._id,
-                            jps.url,
-                            this.state.outOfFashion.name,
-                            this.state.outOfFashion.price,
-                            this.state.outOfFashion.stock,
-                          )
-                        }
-                        className="add-to-cart"
-                      >
-                        <i className="fa fa-shopping-cart"></i>Add to cart
-                      </button>
-                    </div>
-                    {/* <div className="product-overlay">
-                      <div className="overlay-content">
-                        <h2>£ {this.state.outOfFashion.price}</h2>
-                        <p>{this.state.outOfFashion.name}</p>
-                        <button
-                          onClick={() =>
-                            this.addCart(
-                              this.state.outOfFashion._id,
-                              jps.url,
-                              this.state.outOfFashion.name,
-                              this.state.outOfFashion.price,
-                              this.state.outOfFashion.stock,
-                            )
-                          }
-                          className="btn btn-default add-to-cart"
-                        >
-                          <i className="fa fa-shopping-cart"></i>Add to cart
-                        </button>
-                      </div>
-                    </div> */}
-                  </div>
-                </div>
-              )
-            })}
-          </CardDeck>
-        </div>
-        {this.state.alert === true ? (
-          <Alert id="alert">Item added to cart</Alert>
-        ) : (
-          <div></div>
-        )}
-        {this.state.errorAlert === true ? (
-          <Alert id="alert">Unable to add item to cart</Alert>
-        ) : (
-          <div></div>
-        )}
+        </div> */}
       </div>
     )
   }

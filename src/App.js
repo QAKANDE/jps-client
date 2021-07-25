@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
+import './App.css'
 import Home from './Components/Home/Home'
 import NavSocialMedia from './Components/navbar/NavSocialMedia'
 import Cart from './Components/cart/Cart'
@@ -22,30 +23,143 @@ import CookiePolicy from './Components/Footer/CookiePolicy'
 import TermsOfSales from './Components/Footer/TermsOfSales'
 import PrivacyPolicy from './Components/Footer/PrivacyPolicy'
 import TermsOfUse from './Components/Footer/TermsOfUse'
+import Notification from './Components/Home/Notification'
 import { LastLocationProvider } from 'react-router-last-location'
+import { Modal } from 'react-bootstrap'
 
-function App() {
-    return ( <
-        div className = "App" >
-        <
-        Router > { ' ' } <
-        NavSocialMedia / >
-        <
-        Route path = "/"
-        exact render = {
-            (props) => < Home {...props }
-            />} / >
+class App extends Component {
+    state = {
+        show: false,
+        showErrorModal: false,
+        cartCounter: 0,
+    }
+    handleClose = () => {
+        this.setState({ show: false })
+    }
+    handleShow = () => {
+        this.setState({ show: true })
+    }
+    handleCloseErrorModal = () => {
+        this.setState({ showErrorModal: false })
+    }
+    handleShowErrorModal = () => {
+        this.setState({ showErrorModal: true })
+    }
+
+    increaseCartCounter = () => {
+        this.setState({ cartCounter: this.state.cartCounter + 1 })
+    }
+    decreaseCartCounter = () => {
+        this.setState({ cartCounter: this.state.cartCounter - 1 })
+    }
+
+    getCart = async() => {
+        const guestToken = sessionStorage.getItem('guestToken')
+        const response = await fetch(
+            `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/${guestToken}`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+            },
+        )
+        const cart = await response.json()
+        if (cart.length !== 0) {
+            this.setState({ cartCounter: cart.totalItems })
+        } else {
+            this.setState({ cartCounter: 0 })
+        }
+    }
+
+    componentDidMount = async() => {
+        this.getCart()
+    }
+
+    render() {
+        return ( <
+            div className = "App" >
             <
+            Modal show = { this.state.showErrorModal }
+            onHide = {
+                () => this.handleCloseErrorModal() } >
+            <
+            Modal.Body id = "modal-body" >
+            <
+            div >
+            <
+            p className = "text-center"
+            id = "cart-text" > { ' ' }
+            Unable to add item to cart { ' ' } <
+            /p>{' '} <
+            /div>{' '} <
+            /Modal.Body>{' '} <
+            /Modal>{' '} <
+            Modal show = { this.state.show }
+            onHide = {
+                () => this.handleClose() } >
+            <
+            Modal.Body id = "modal-body" >
+            <
+            div >
+            <
+            p className = "text-center"
+            id = "cart-text" >
+            Your item has been added to cart { ' ' } <
+            /p>{' '} <
+            /div>{' '} <
+            /Modal.Body>{' '} <
+            /Modal>{' '} <
+            Router > { ' ' } <
+            NavSocialMedia cartLength = { this.state.cartCounter }
+            />{' '} <
+            Route path = "/"
+            exact render = {
+                (props) => ( <
+                    Home {...props }
+                    show = {
+                        () => this.handleShow() }
+                    close = {
+                        () => this.handleClose() }
+                    showErrorModal = {
+                        () => this.handleShowErrorModal() }
+                    closeErrorModal = {
+                        () => this.handleCloseErrorModal() }
+                    getCart = {
+                        () => this.getCart() }
+                    />
+                )
+            }
+            />{' '} <
             Route path = "/cart"
-            exact component = { Cart }
+            exact render = {
+                (props) => ( <
+                    Cart {...props }
+                    getCart = {
+                        () => this.getCart() }
+                    />
+                )
+            }
             />{' '} <
             Route path = "/details/:productId"
-            exact component = { Details }
+            exact render = {
+                (props) => ( <
+                    Details {...props }
+                    show = {
+                        () => this.handleShow() }
+                    close = {
+                        () => this.handleClose() }
+                    showErrorModal = {
+                        () => this.handleShowErrorModal() }
+                    closeErrorModal = {
+                        () => this.handleCloseErrorModal() }
+                    getCart = {
+                        () => this.getCart() }
+                    />
+                )
+            }
             />{' '} <
-            Route
-            path = "/accessorydetails/:productId"
-            exact
-            component = { AccessoriesDetails }
+            Route path = "/accessorydetails/:productId"
+            exact component = { AccessoriesDetails }
             />{' '} <
             Route path = "/paymentsuccessful"
             exact component = { PaymentSuccess }
@@ -60,15 +174,28 @@ function App() {
             exact component = { WishList }
             />{' '} <
             Route path = "/allProducts"
-            exact component = { AllProductsWrapper }
+            exact render = {
+                (props) => ( <
+                    AllProductsWrapper {...props }
+                    show = {
+                        () => this.handleShow() }
+                    close = {
+                        () => this.handleClose() }
+                    showErrorModal = {
+                        () => this.handleShowErrorModal() }
+                    closeErrorModal = {
+                        () => this.handleCloseErrorModal() }
+                    getCart = {
+                        () => this.getCart() }
+                    />
+                )
+            }
             />{' '} <
             Route path = "/forgotPassword"
             exact component = { ForgottenPassword }
             />{' '} <
-            Route
-            path = "/updatePassword/:token/:email"
-            exact
-            component = { UpdatePassword }
+            Route path = "/updatePassword/:token/:email"
+            exact component = { UpdatePassword }
             />{' '} <
             Route path = "/aboutus"
             exact component = { AboutUs }
@@ -91,15 +218,14 @@ function App() {
             Route path = "/privacy-policy"
             exact component = { PrivacyPolicy }
             />{' '} <
-            Route
-            path = "/update-inventory/:productId"
-            exact
-            component = { UpdateInventory }
+            Route path = "/update-inventory/:productId"
+            exact component = { UpdateInventory }
             />{' '} <
             Footer / > { ' ' } <
-            /Router>{' '} < /
-            div >
+            /Router>{' '} <
+            /div>
         )
     }
+}
 
-    export default App
+export default App

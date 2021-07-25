@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import solo1 from '../../assets/solo1.jpg'
 import solo2 from '../../assets/solo2.jpg'
+import AddToCartModal from './AddToCartModal'
 
 import {
   Row,
@@ -31,48 +32,49 @@ class Products extends Component {
     })
     alert(this.state.tShirt)
   }
-  addToWishList = async (id, productImage, productName, productPrice) => {
-    const productDetails = {
-      productId: id,
-      image: productImage,
-      name: productName,
-      price: parseInt(productPrice),
-    }
-    if (localStorage['userId']) {
-      let response = await fetch(
-        `https://mr-oyebode-backend-yqavh.ondigitalocean.app/wishlist/${localStorage['userId']}`,
-        {
-          method: 'POST',
-          body: JSON.stringify(productDetails),
-          headers: {
-            'Content-Type': 'Application/json',
-          },
-        },
-      )
-      if (response.ok) {
-        this.setState({ wishListAlert: true })
-        setTimeout(() => {
-          this.setState({
-            wishListAlert: false,
-          })
-        }, 1200)
-      } else {
-        this.setState({ wishListErrorAlert: true })
-        setTimeout(() => {
-          this.setState({
-            wishListErrorAlert: false,
-          })
-        }, 1200)
-      }
-    } else if (localStorage['guestToken']) {
-      this.setState({ wishListErrorAlert: true })
-      setTimeout(() => {
-        this.setState({
-          wishListErrorAlert: false,
-        })
-      }, 1200)
-    }
-  }
+
+  // addToWishList = async (id, productImage, productName, productPrice) => {
+  //   const productDetails = {
+  //     productId: id,
+  //     image: productImage,
+  //     name: productName,
+  //     price: parseInt(productPrice),
+  //   }
+  //   if (localStorage['userId']) {
+  //     let response = await fetch(
+  //       `https://mr-oyebode-backend-yqavh.ondigitalocean.app/wishlist/${localStorage['userId']}`,
+  //       {
+  //         method: 'POST',
+  //         body: JSON.stringify(productDetails),
+  //         headers: {
+  //           'Content-Type': 'Application/json',
+  //         },
+  //       },
+  //     )
+  //     if (response.ok) {
+  //       this.setState({ wishListAlert: true })
+  //       setTimeout(() => {
+  //         this.setState({
+  //           wishListAlert: false,
+  //         })
+  //       }, 1200)
+  //     } else {
+  //       this.setState({ wishListErrorAlert: true })
+  //       setTimeout(() => {
+  //         this.setState({
+  //           wishListErrorAlert: false,
+  //         })
+  //       }, 1200)
+  //     }
+  //   } else if (localStorage['guestToken']) {
+  //     this.setState({ wishListErrorAlert: true })
+  //     setTimeout(() => {
+  //       this.setState({
+  //         wishListErrorAlert: false,
+  //       })
+  //     }, 1200)
+  //   }
+  // }
   render() {
     return (
       <>
@@ -131,39 +133,23 @@ class Products extends Component {
                       </div>
                     </div> */}
                   </div>
+
                   <div className="choose">
-                    <ul className="nav nav-pills nav-justified">
-                      {/* <li
-                        onClick={() =>
-                          this.addToWishList(
-                            prod._id,
-                            prod.imageUrl,
-                            prod.name,
-                            prod.price,
-                          )
-                        }
-                        style={{ cursor: 'pointer' }}
-                        id="add-to-wishlist"
-                      >
-                        <FontAwesomeIcon icon={faHeart} className="fa-1x" />
-                        Add to wishlist
-                      </li> */}
-                      <li className="">
-                        <Link to={`/details/${prod._id}`}>
-                          <FontAwesomeIcon
-                            icon={faPlusSquare}
-                            className="fa-1x"
-                          />
-                          More details
-                        </Link>
-                      </li>
-                    </ul>
+                    <div className="d-flex justify-content-center">
+                      <Link to={`/details/${prod._id}`} id="more-details">
+                        <FontAwesomeIcon
+                          icon={faPlusSquare}
+                          className="fa-1x "
+                        />
+                        More details
+                      </Link>
+                    </div>
                   </div>
                 </div>
               )
             })}
           </CardDeck>
-          {this.state.wishListAlert === true ? (
+          {/* {this.state.wishListAlert === true ? (
             <Alert id="alert">Item added to wishlist</Alert>
           ) : (
             <div></div>
@@ -175,7 +161,7 @@ class Products extends Component {
             </Alert>
           ) : (
             <div></div>
-          )}
+          )} */}
         </Container>
       </>
     )

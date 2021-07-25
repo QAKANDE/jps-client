@@ -288,6 +288,7 @@ class Cart extends Component {
     )
     if (response.ok) {
       this.getCart()
+      this.props.getCart()
     } else {
       alert('some')
     }
