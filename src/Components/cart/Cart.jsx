@@ -309,7 +309,25 @@ class Cart extends Component {
     }
   }
 
-  deleteItem = async (id) => {
+  deleteStripePrice = async (id) => {
+    const guestToken = sessionStorage.getItem('guestToken')
+
+    let response = await fetch(
+      `https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/delete-stripe-price`,
+      {
+        method: 'DELETE',
+        body: JSON.stringify({
+          userId: guestToken,
+          productId: id,
+        }),
+        headers: {
+          'Content-Type': 'Application/json',
+        },
+      },
+    )
+  }
+
+  deleteItem = async (id, productId) => {
     const guestToken = sessionStorage.getItem('guestToken')
 
     let response = await fetch(
@@ -325,6 +343,7 @@ class Cart extends Component {
       },
     )
     if (response.ok) {
+      this.deleteStripePrice(productId)
       this.getCart()
       this.props.getCart()
     } else {
@@ -568,7 +587,10 @@ class Cart extends Component {
                                     <div>
                                       <div
                                         onClick={() =>
-                                          this.deleteItem(item._id)
+                                          this.deleteItem(
+                                            item._id,
+                                            item.productId,
+                                          )
                                         }
                                         id="delete-item-div"
                                       >

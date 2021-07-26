@@ -91,7 +91,7 @@ class Home extends Component {
   createProductPrice = async (productName, productPrice, id) => {
     const guestToken = sessionStorage.getItem('guestToken')
     const createPriceResponse = await fetch(
-      'https://mr-oyebode-backend-yqavh.ondigitalocean.apppayment/create-product-price',
+      'http://localhost:3003/payment/create-product-price',
       {
         method: 'POST',
         body: JSON.stringify({
