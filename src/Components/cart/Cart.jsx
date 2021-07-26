@@ -5,8 +5,12 @@ import Checkout from '../../Components/cart/Checkout'
 import { Row, Col, Container, Card, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { Alert } from 'react-bootstrap'
+import { Alert, Modal } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { loadStripe } from '@stripe/stripe-js'
+const stripePromise = loadStripe(
+  'pk_test_51HrjVqFcebO7I650cr4OP6bitBa3ExCpu3Fc3IkYuA36TjnMdbPDmsTz6PejmS9LRDMRwpdB4fKqeTCqjZaDK8Xp003k14DkTf',
+)
 
 class Cart extends Component {
   state = {
@@ -31,6 +35,7 @@ class Cart extends Component {
     stockId: '',
     currentQuantity: '',
     id: '',
+    showSizeError: false,
   }
 
   componentDidMount = async () => {
@@ -107,9 +112,38 @@ class Cart extends Component {
   }
 
   displayCheckOut = () => {
-    this.setState({
-      displayCheckOut: true,
-    })
+    const filterSize = this.state.cart.filter(
+      (pr) => pr.color === 'None selected' || pr.size === 'None selected',
+    )
+    if (filterSize.length !== 0) {
+      this.setState({ showSizeError: true })
+      setTimeout(() => this.setState({ showSizeError: false }), 1500)
+    } else {
+      this.setState({
+        displayCheckOut: true,
+      })
+    }
+  }
+
+  handleSizeModal = () => {
+    this.setState({ showSizeError: false })
+  }
+
+  createProductPrice = async (productName, productPrice, id, quantity) => {
+    const guestToken = sessionStorage.getItem('guestToken')
+    const createPriceResponse = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.apppayment/create-product-price',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: guestToken,
+          productName: productName,
+          productPrice: parseInt(productPrice * 100),
+          productId: id,
+          quantity: quantity,
+        }),
+      },
+    )
   }
 
   increaseQuantity = async (
@@ -150,6 +184,7 @@ class Cart extends Component {
       )
       if (response.ok) {
         this.setState({ quantity: quantity.toString() })
+        this.createProductPrice(productName, productPrice, id, quantity)
         this.getCart()
       }
     } else if (userId) {
@@ -178,6 +213,7 @@ class Cart extends Component {
       )
       if (response.ok) {
         this.setState({ quantity: quantity.toString() })
+        this.createProductPrice(productName, productPrice, id, quantity)
         this.getCart()
       }
     }
@@ -229,6 +265,7 @@ class Cart extends Component {
         )
         if (response.ok) {
           this.setState({ quantity: quantity.toString() })
+          this.createProductPrice(id, quantity)
           this.getCart()
         }
       }
@@ -265,6 +302,7 @@ class Cart extends Component {
         )
         if (response.ok) {
           this.setState({ quantity: quantity.toString() })
+          this.createProductPrice(id, quantity)
           this.getCart()
         }
       }
@@ -556,6 +594,8 @@ class Cart extends Component {
                     shippingCost={this.state.shippingCost}
                     action={this.displayCheckOut}
                     userId={this.state.userId}
+                    size={this.state.size}
+                    color={this.state.color}
                   />
                 </Col>
               </Row>
@@ -577,6 +617,16 @@ class Cart extends Component {
             </section>
           </div>
         )}
+        <Modal
+          show={this.state.showSizeError}
+          onHide={() => this.handleSizeModal()}
+        >
+          <Modal.Body id="modal-body">
+            <p className="text-center" id="cart-text">
+              Please select product size or color
+            </p>
+          </Modal.Body>
+        </Modal>
       </Container>
     )
   }

@@ -78,6 +78,7 @@ class OrderConfirmed extends Component {
     if (details.details.failedOrders.length === 0) {
       this.sendEmailDetailsToSales(details.cartId)
       this.sendEmailDetails(details.cartId, details.custEmail, details.orderId)
+      this.props.getCart()
       this.setState({ success: true })
     } else {
       this.setState({ error: true })

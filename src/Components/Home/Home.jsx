@@ -60,7 +60,7 @@ class Home extends Component {
       },
     )
     const products = await response.json()
-    console.log(products)
+
     this.setState({
       products,
     })
@@ -86,6 +86,26 @@ class Home extends Component {
       this.getProducts()
     }
     // this.props.action(this.state.itemsLength)
+  }
+
+  createProductPrice = async (productName, productPrice, id) => {
+    const guestToken = sessionStorage.getItem('guestToken')
+    const createPriceResponse = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.apppayment/create-product-price',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: guestToken,
+          productName: productName,
+          productPrice: parseInt(productPrice * 100),
+          productId: id,
+          quantity: this.state.quantity,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
   }
 
   addCart = async (
@@ -123,6 +143,7 @@ class Home extends Component {
           },
         )
         if (response.ok) {
+          this.createProductPrice(productName, productPrice, id)
           this.props.show()
           setTimeout(() => {
             this.props.close()

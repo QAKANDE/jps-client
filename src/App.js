@@ -201,7 +201,14 @@ class App extends Component {
             exact component = { AboutUs }
             />{' '} <
             Route path = "/order-confirmed"
-            exact component = { OrderConfirmed }
+            exact render = {
+                (props) => ( <
+                    OrderConfirmed {...props }
+                    getCart = {
+                        () => this.getCart() }
+                    />
+                )
+            }
             />{' '} <
             Route path = "/stock-manager"
             exact component = { StockManager }

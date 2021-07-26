@@ -42,6 +42,24 @@ class Checkoutasguest extends Component {
     }
   }
 
+  createStripeSession = async () => {
+    const guestToken = sessionStorage.getItem('guestToken')
+    const response = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-checkout-session',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: guestToken,
+        }),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      },
+    )
+    const details = await response.json()
+    window.location.href = details.url
+  }
+
   checkOut = async (e) => {
     e.preventDefault()
     if (
@@ -108,8 +126,8 @@ class Checkoutasguest extends Component {
             country: '',
             email: '',
           },
-          showPayPal: true,
         })
+        this.createStripeSession()
       } else {
         this.setState({
           errorSendingForm: true,

@@ -274,7 +274,7 @@
         padding-left: 60px;
         padding-top: 60px;
     }
-    .product-information h2 {
+    .product-information h1 {
         text-align: center;
         color: #363432;
         font-size: 20px;
@@ -285,5 +285,8 @@
     }
     #description-text {
         margin-right: 4rem;
+    }
+    #price-text {
+        font-size: 30px;
     }
 }

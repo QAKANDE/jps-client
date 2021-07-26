@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 import solo1 from '../../assets/solo1.jpg'
 import solo2 from '../../assets/solo2.jpg'
-import AddToCartModal from './AddToCartModal'
+import { Modal } from 'react-bootstrap'
 
 import {
   Row,
@@ -24,6 +24,8 @@ class Products extends Component {
     sizes: [],
     products: [],
     wishListAlert: false,
+    show: false,
+    imageUrl: '',
   }
 
   displayTShirtsOnly = (event) => {
@@ -31,6 +33,26 @@ class Products extends Component {
       tShirt: true,
     })
     alert(this.state.tShirt)
+  }
+  handleShow = async (title, color) => {
+    const response = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/product/color-code-image',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          title: title,
+          color: color,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+    const details = await response.text()
+    this.setState({ show: true, imageUrl: details })
+  }
+  handleClose = () => {
+    this.setState({ show: false, imageUrl: '' })
   }
 
   // addToWishList = async (id, productImage, productName, productPrice) => {
@@ -91,6 +113,27 @@ class Products extends Component {
                       <img src={prod.imageUrl[0].url} alt="" />
                       <h2>£ {prod.price}</h2>
                       <p>{prod.name}</p>
+                      <div className="d-flex justify-content-center">
+                        <Row id="color-code-wrapper">
+                          {prod.stock.map((colorCode) => {
+                            return (
+                              <Col
+                                style={{ backgroundColor: colorCode.colorCode }}
+                                id="color-code"
+                                className="mx-2"
+                                onClick={() =>
+                                  this.handleShow(
+                                    prod.name,
+                                    colorCode.colorCode,
+                                  )
+                                }
+                              >
+                                &nbsp;
+                              </Col>
+                            )
+                          })}
+                        </Row>
+                      </div>
                       <button
                         onClick={() =>
                           this.props.addToCartAsProps(
@@ -135,7 +178,7 @@ class Products extends Component {
                   </div>
 
                   <div className="choose">
-                    <div className="d-flex justify-content-center">
+                    <div className="d-flex justify-content-between">
                       <Link to={`/details/${prod._id}`} id="more-details">
                         <FontAwesomeIcon
                           icon={faPlusSquare}
@@ -143,25 +186,29 @@ class Products extends Component {
                         />
                         More details
                       </Link>
+                      <Link to to="/allProducts" id="more-details">
+                        <FontAwesomeIcon
+                          icon={faPlusSquare}
+                          className="fa-1x "
+                        />
+                        View all products
+                      </Link>
                     </div>
                   </div>
                 </div>
               )
             })}
           </CardDeck>
-          {/* {this.state.wishListAlert === true ? (
-            <Alert id="alert">Item added to wishlist</Alert>
-          ) : (
-            <div></div>
-          )}
-          {this.state.wishListErrorAlert === true ? (
-            <Alert id="alert">
-              Unable to add item to wishlist. Please make sure you are signed
-              in.
-            </Alert>
-          ) : (
-            <div></div>
-          )} */}
+          <Modal show={this.state.show} onHide={() => this.handleClose()}>
+            <Modal.Body>
+              <div>
+                <p id="modal-cancel-div" onClick={() => this.handleClose()}>
+                  X
+                </p>
+              </div>
+              <img src={this.state.imageUrl} id="modal-image" />
+            </Modal.Body>
+          </Modal>
         </Container>
       </>
     )

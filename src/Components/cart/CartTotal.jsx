@@ -12,9 +12,15 @@ class CartTotal extends Component {
   }
 
   displayCheckOut = () => {
-    this.setState({
-      checkOut: true,
-    })
+    if (this.props.size === 'None selected') {
+      alert('size')
+    } else if (this.props.color === 'None selected') {
+      alert('color')
+    } else {
+      this.setState({
+        checkOut: true,
+      })
+    }
   }
 
   render() {

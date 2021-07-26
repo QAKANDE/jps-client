@@ -238,7 +238,6 @@ class Details extends Component {
               </h1>
               <div className="d-flex justify-content-center">
                 <button
-                  type="button"
                   className="add-to-cart"
                   onClick={() =>
                     this.addCart(
