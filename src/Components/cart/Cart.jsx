@@ -19,7 +19,7 @@ class Cart extends Component {
     subTotal: '',
     tax: 30,
     finalTotal: '',
-    shippingCost: 4.99,
+    shippingCost: 4.95,
     displayCheckOut: false,
     quantity: '1',
     itemsLength: '',
