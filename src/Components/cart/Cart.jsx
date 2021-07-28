@@ -129,19 +129,29 @@ class Cart extends Component {
     this.setState({ showSizeError: false })
   }
 
-  createProductPrice = async (productName, productPrice, id, quantity) => {
+  createProductPrice = async (
+    productName,
+    productPrice,
+    id,
+    quantity,
+    userId,
+  ) => {
     const guestToken = sessionStorage.getItem('guestToken')
+
     const createPriceResponse = await fetch(
       'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price',
       {
         method: 'POST',
         body: JSON.stringify({
-          userId: guestToken,
           productName: productName,
           productPrice: parseInt(productPrice * 100),
           productId: id,
           quantity: quantity,
+          userId: userId,
         }),
+        headers: {
+          'Content-Type': 'Application/json',
+        },
       },
     )
   }
@@ -184,7 +194,13 @@ class Cart extends Component {
       )
       if (response.ok) {
         this.setState({ quantity: quantity.toString() })
-        this.createProductPrice(productName, productPrice, id, quantity)
+        this.createProductPrice(
+          productName,
+          productPrice,
+          id,
+          quantity,
+          guestToken,
+        )
         this.getCart()
       }
     } else if (userId) {
@@ -213,7 +229,7 @@ class Cart extends Component {
       )
       if (response.ok) {
         this.setState({ quantity: quantity.toString() })
-        this.createProductPrice(productName, productPrice, id, quantity)
+        this.createProductPrice(productName, productPrice, id, quantity, userId)
         this.getCart()
       }
     }
@@ -265,7 +281,13 @@ class Cart extends Component {
         )
         if (response.ok) {
           this.setState({ quantity: quantity.toString() })
-          this.createProductPrice(id, quantity)
+          this.createProductPrice(
+            productName,
+            productPrice,
+            id,
+            quantity,
+            guestToken,
+          )
           this.getCart()
         }
       }
