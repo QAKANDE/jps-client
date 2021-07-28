@@ -132,7 +132,7 @@ class Cart extends Component {
   createProductPrice = async (productName, productPrice, id, quantity) => {
     const guestToken = sessionStorage.getItem('guestToken')
     const createPriceResponse = await fetch(
-      'https://mr-oyebode-backend-yqavh.ondigitalocean.apppayment/create-product-price',
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price',
       {
         method: 'POST',
         body: JSON.stringify({

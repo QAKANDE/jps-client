@@ -29,7 +29,7 @@ class OrderConfirmed extends Component {
   //   const details = await response.json()
   // }
 
-  sendEmailDetails = async (id, email, orderId) => {
+  sendEmailDetails = async (id, email, orderId, userId) => {
     const response = await fetch(
       'https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/transactional-email-customer',
       {
@@ -39,6 +39,7 @@ class OrderConfirmed extends Component {
           id: id,
           customerEmail: email,
           orderId: orderId,
+          userId: userId,
         }),
         headers: {
           'Content-type': 'application/json',
@@ -77,7 +78,12 @@ class OrderConfirmed extends Component {
 
     if (details.details.failedOrders.length === 0) {
       this.sendEmailDetailsToSales(details.cartId)
-      this.sendEmailDetails(details.cartId, details.custEmail, details.orderId)
+      this.sendEmailDetails(
+        details.cartId,
+        details.custEmail,
+        details.orderId,
+        sessionStorage.getItem('guestToken'),
+      )
       this.props.getCart()
       this.setState({ success: true })
     } else {
