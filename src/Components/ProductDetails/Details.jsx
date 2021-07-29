@@ -65,6 +65,25 @@ class Details extends Component {
 
     this.getReviews()
   }
+  createProductPrice = async (productName, productPrice, id) => {
+    const guestToken = sessionStorage.getItem('guestToken')
+    const createPriceResponse = await fetch(
+      'https://mr-oyebode-backend-yqavh.ondigitalocean.app/payment/create-product-price',
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          userId: guestToken,
+          productName: productName,
+          productPrice: parseInt(productPrice * 100),
+          productId: id,
+          quantity: this.state.quantity,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+  }
 
   getReviews = async () => {
     const response = await fetch(
@@ -112,6 +131,7 @@ class Details extends Component {
           },
         )
         if (response.ok) {
+          this.createProductPrice(productName, productPrice, id)
           this.props.show()
           setTimeout(() => {
             this.props.close()
@@ -144,6 +164,7 @@ class Details extends Component {
           },
         )
         if (response.ok) {
+          this.createProductPrice(productName, productPrice, id)
           this.props.show()
           setTimeout(() => {
             this.props.close()

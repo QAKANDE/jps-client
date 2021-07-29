@@ -127,6 +127,7 @@ class Checkoutasguest extends Component {
             email: '',
           },
         })
+
         this.createStripeSession()
       } else {
         this.setState({

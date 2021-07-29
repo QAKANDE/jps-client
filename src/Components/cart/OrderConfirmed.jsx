@@ -85,6 +85,7 @@ class OrderConfirmed extends Component {
         sessionStorage.getItem('guestToken'),
       )
       this.props.getCart()
+      window.location.reload()
       this.setState({ success: true })
     } else {
       this.setState({ error: true })

@@ -36,6 +36,7 @@ class Cart extends Component {
     currentQuantity: '',
     id: '',
     showSizeError: false,
+    quantityModal: false,
   }
 
   componentDidMount = async () => {
@@ -127,6 +128,9 @@ class Cart extends Component {
 
   handleSizeModal = () => {
     this.setState({ showSizeError: false })
+  }
+  handleHideQuantity = () => {
+    this.setState({ quantityModal: false })
   }
 
   createProductPrice = async (
@@ -262,10 +266,10 @@ class Cart extends Component {
         userId: guestToken,
       }
       if (previousQuantity === 1) {
-        this.setState({ alert: true })
+        this.setState({ quantityModal: true })
         setTimeout(() => {
           this.setState({
-            alert: false,
+            quantityModal: false,
           })
         }, 1200)
       } else {
@@ -449,12 +453,39 @@ class Cart extends Component {
                                   <div className="d-flex justify-content-between">
                                     <div>
                                       <h5 className="mt-4 mb-4">{item.name}</h5>
-                                      <h5 className="mt-4 mb-4 color-size-text">
-                                        Size: {item.size}
-                                      </h5>
-                                      <h5 className="mt-4 mb-4 color-size-text">
+                                      {item.color === 'None selected' ? (
+                                        <div>
+                                          <h5 className="mt-4 mb-4 color-size-text">
+                                            Please select preferred color
+                                          </h5>
+                                        </div>
+                                      ) : (
+                                        <div className="d-flex justify-content-between mt-3 mb-5">
+                                          <div
+                                            style={{
+                                              backgroundColor: item.color,
+                                            }}
+                                            id="selected-code"
+                                          >
+                                            &nbsp;
+                                          </div>
+                                        </div>
+                                      )}
+                                      {item.size === 'None selected' ? (
+                                        <div>
+                                          <h5 className="mt-4 mb-4 color-size-text">
+                                            Please select preferred size
+                                          </h5>
+                                        </div>
+                                      ) : (
+                                        <h5 className="mt-4 mb-4 color-size-text">
+                                          {item.size}
+                                        </h5>
+                                      )}
+
+                                      {/* <h5 className="mt-4 mb-4 color-size-text">
                                         Color : {item.color}
-                                      </h5>
+                                      </h5> */}
                                     </div>
                                     <div className="d-flex justify-content-between">
                                       <button
@@ -504,31 +535,48 @@ class Cart extends Component {
                                       </button>
                                     </div>
                                   </div>
-                                  <Row>
+                                  <Row id="color-row" md={4}>
                                     {item.stock.map((stc) => {
                                       return (
-                                        <Col md={3}>
-                                          <button
-                                            id="color-button"
+                                        <Col id="color-selector">
+                                          <div
+                                            style={{
+                                              backgroundColor: stc.colorCode,
+                                            }}
+                                            id="cart-color-code"
+                                            className="mx-2"
                                             onClick={(e) =>
                                               this.editColor(
                                                 e,
                                                 this.state.allCart.userId,
                                                 item._id,
-                                                stc.color,
+                                                stc.colorCode,
                                               )
                                             }
-                                            className="mt-3"
-                                          >
-                                            {stc.color}
-                                          </button>
+                                          ></div>
                                         </Col>
+                                        // <Col md={3}>
+                                        //   <button
+                                        //     id="color-button"
+                                        //     onClick={(e) =>
+                                        //       this.editColor(
+                                        //         e,
+                                        //         this.state.allCart.userId,
+                                        //         item._id,
+                                        //         stc.color,
+                                        //       )
+                                        //     }
+                                        //     className="mt-3"
+                                        //   >
+                                        //     {stc.color}
+                                        //   </button>
+                                        // </Col>
                                       )
                                     })}
                                   </Row>
                                   <Row className="mt-5 mb-5" md={4}>
                                     <Col>
-                                      <button
+                                      <div
                                         id="color-button"
                                         onClick={(e) =>
                                           this.editSize(
@@ -539,11 +587,11 @@ class Cart extends Component {
                                           )
                                         }
                                       >
-                                        XXL
-                                      </button>
+                                        <p>XXL</p>
+                                      </div>
                                     </Col>
                                     <Col>
-                                      <button
+                                      <div
                                         id="color-button"
                                         onClick={(e) =>
                                           this.editSize(
@@ -555,10 +603,10 @@ class Cart extends Component {
                                         }
                                       >
                                         XL
-                                      </button>
+                                      </div>
                                     </Col>
                                     <Col>
-                                      <button
+                                      <div
                                         id="color-button"
                                         onClick={(e) =>
                                           this.editSize(
@@ -570,10 +618,10 @@ class Cart extends Component {
                                         }
                                       >
                                         L
-                                      </button>
+                                      </div>
                                     </Col>
                                     <Col>
-                                      <button
+                                      <div
                                         id="color-button"
                                         onClick={(e) =>
                                           this.editSize(
@@ -585,7 +633,7 @@ class Cart extends Component {
                                         }
                                       >
                                         M
-                                      </button>
+                                      </div>
                                     </Col>
                                     {/* <Col>
                                     <button
@@ -668,6 +716,16 @@ class Cart extends Component {
           <Modal.Body id="modal-body">
             <p className="text-center" id="cart-text">
               Please select product size or color
+            </p>
+          </Modal.Body>
+        </Modal>
+        <Modal
+          show={this.state.quantityModal}
+          onHide={() => this.handleHideQuantity()}
+        >
+          <Modal.Body id="modal-body">
+            <p className="text-center" id="cart-text">
+              Item quantity cannot be less than 1.
             </p>
           </Modal.Body>
         </Modal>
