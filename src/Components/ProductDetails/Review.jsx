@@ -146,7 +146,7 @@ class Reviews extends Component {
                           style={{
                             width: review.width,
                             height: '30px',
-                            backgroundColor: '#fe980f',
+                            backgroundColor: '#00001a',
                           }}
                         ></div>
                       </div>
@@ -203,7 +203,7 @@ class Reviews extends Component {
                   value={this.state.value}
                   onChange={(value) => this.setState({ value })}
                   size={'20px'}
-                  activeColor={'#fe980f'}
+                  activeColor={'#00001a'}
                 />
                 <button onClick={(e) => this.postReview(e)} id="review-button">
                   Submit Review

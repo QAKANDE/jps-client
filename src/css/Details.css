@@ -28,7 +28,7 @@
 }
 
 .view-product h3 {
-    background: #fe980f;
+    background: #00001a;
     bottom: 0;
     color: #ffffff;
     font-family: 'Roboto', sans-serif;
@@ -47,8 +47,8 @@
 }
 
 .activeDesctiption-details {
-    border-bottom: 5px solid #fe980f;
-    border-top: 5px solid #fe980f;
+    border-bottom: 5px solid #00001a;
+    border-top: 5px solid #00001a;
     padding: 0.5rem 0.5rem;
     text-align: center;
     cursor: pointer;
@@ -82,14 +82,14 @@
 }
 
 .item-control i {
-    background: #fe980f;
+    background: #00001a;
     color: #ffffff;
     font-size: 20px;
     padding: 5px 10px;
 }
 
 #price-text {
-    color: #fe980f;
+    color: #00001a;
 }
 
 .item-control i:hover {
@@ -131,7 +131,7 @@
 }
 
 .product-information span span {
-    color: #fe980f;
+    color: #00001a;
     float: left;
     font-family: 'Roboto', sans-serif;
     font-size: 30px;
@@ -164,7 +164,7 @@
 }
 
 #cart {
-    background: #fe980f;
+    background: #00001a;
     border: 0 none;
     border-radius: 0;
     color: #ffffff;
@@ -208,13 +208,13 @@
 }
 
 #reviews ul li a i {
-    color: #fe980f;
+    color: #00001a;
     padding-right: 8px;
 }
 
 #reviews ul li a:hover {
     background: #fff;
-    color: #fe980f;
+    color: #00001a;
 }
 
 #reviews p {
@@ -255,7 +255,7 @@
 }
 
 #reviews button {
-    background: #fe980f;
+    background: #00001a;
     border: 0 none;
     border-radius: 0;
     color: #ffffff;

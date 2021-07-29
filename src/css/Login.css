@@ -13,7 +13,7 @@
 }
 
 .or {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;
@@ -24,7 +24,7 @@
     margin-top: 75px;
     text-align: center;
     width: 50px;
-    /* background: #fe980f;
+    /* background: #00001a;
     border-radius: 40px;
     color: black;
     font-size: 16px;
@@ -36,7 +36,7 @@
 }
 
 #login-button {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;
@@ -50,7 +50,7 @@
 }
 
 #signup-button {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;
@@ -64,7 +64,7 @@
 }
 
 #forgot-password-link {
-    color: #fe980f;
+    color: #00001a;
     font-weight: 500;
 }
 
@@ -74,7 +74,7 @@
 }
 
 #forgotPasswordbtn {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;
@@ -88,7 +88,7 @@
 }
 
 #loginFromRecoverPassword {
-    color: #fe980f;
+    color: #00001a;
 }
 
 #loginFromRecoverPassword:hover {
@@ -97,7 +97,7 @@
 }
 
 #updatePasswordBtn {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;

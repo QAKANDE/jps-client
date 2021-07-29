@@ -13,7 +13,7 @@
 }
 
 .breadcrumbs .breadcrumb li a {
-    background: #fe980f;
+    background: #00001a;
     color: #ffffff;
     padding: 3px 7px;
 }
@@ -24,7 +24,7 @@
     width: auto;
     border-width: 8px;
     border-style: solid;
-    border-color: transparent transparent transparent #fe980f;
+    border-color: transparent transparent transparent #00001a;
     position: absolute;
     top: 11px;
     left: 48px;
@@ -40,7 +40,7 @@
 }
 
 #cart_items .cart_info .cart_menu {
-    background: #fe980f;
+    background: #00001a;
     color: #fff;
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
@@ -94,16 +94,16 @@
 }
 
 #cart_items .cart_info .cart_total_price {
-    color: #fe980f;
+    color: #00001a;
     font-size: 24px;
 }
 
 #quantity-increase {
     margin-right: 1.5rem;
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
-    color: black;
+    color: white;
     border-radius: 20px;
     font-size: 1rem;
     font-weight: bolder;
@@ -116,10 +116,10 @@
 #quantity-decrease {
     margin-left: 1.5rem;
     margin-right: 1.5rem;
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
-    color: black;
+    color: white;
     border-radius: 20px;
     font-size: 1rem;
     font-weight: bolder;
@@ -141,10 +141,10 @@
 
 #delete-item-div {
     margin-right: 1.5rem;
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
-    color: black;
+    color: white;
     border-radius: 60px;
     font-size: 1rem;
     font-weight: bolder;
@@ -162,10 +162,10 @@
 }
 
 #color-button {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
-    color: black;
+    color: white;
     border-radius: 20px;
     font-size: 1rem;
     font-weight: bolder;
@@ -175,7 +175,7 @@
 }
 
 #continue-shopping-link {
-    color: #fe980f;
+    color: #00001a;
     font-size: 1rem;
     font-weight: bolder;
     text-decoration: underline;

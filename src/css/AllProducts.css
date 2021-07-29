@@ -1,5 +1,5 @@
 #all-products-accessory-carousel-button {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;
@@ -14,7 +14,7 @@
 
 #all-products-accessory-carousel-button:hover {
     background: #fff;
-    color: #fe980f;
+    color: #00001a;
 }
 
 #all-products-add-to-wishlist {
@@ -27,12 +27,12 @@
 
 #all-products-add-to-wishlist:hover {
     background: none;
-    color: #fe980f;
+    color: #00001a;
 }
 
 #search-btn {
     margin-left: 1.5rem;
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;
@@ -48,7 +48,7 @@
 
 #view-all-products {
     margin-left: 1.5rem;
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
     color: black;
@@ -63,7 +63,7 @@
 }
 
 #drop-down-form {
-    background-color: #fe980f;
+    background-color: #00001a;
     border: 0;
     border-radius: 20px;
     font-weight: bolder;

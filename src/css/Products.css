@@ -143,7 +143,7 @@
 }
 
 #alert {
-    background-color: #fe980f !important;
+    background-color: #00001a !important;
     color: black !important;
 }
 
@@ -172,7 +172,7 @@
 }
 
 .productinfo h2 {
-    color: #fe980f;
+    color: #00001a;
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     font-weight: 700;
@@ -255,7 +255,7 @@
 
 .product-overlay .add-to-cart:hover {
     background: #fff;
-    color: #fe980f;
+    color: #00001a;
 }
 
 .product-overlay p {
@@ -266,10 +266,10 @@
 }
 
 .add-to-cart {
-    background-color: #fe980f;
+    background-color: #00001a;
     box-shadow: 0 3px 6px -2px rgb(0, 0, 0, 0.3);
     border: 0;
-    color: black;
+    color: white;
     border-radius: 20px;
     font-size: 1rem;
     font-weight: bolder;
@@ -284,12 +284,12 @@
 
 .add-to-cart i {
     margin-right: 5px;
-    color: black;
+    color: white;
 }
 
 .add-to-cart:hover {
-    background: #fe980f;
-    color: black;
+    background: #00001a;
+    color: white;
     border-radius: 0px;
 }
 
@@ -317,13 +317,13 @@
 
 #more-details:hover {
     background: none;
-    color: #fe980f;
+    color: #00001a;
     text-decoration: none;
 }
 
 .choose ul li a:hover {
     background: none;
-    color: #fe980f;
+    color: #00001a;
 }
 
 #add-to-wishlist {
@@ -336,7 +336,7 @@
 
 #add-to-wishlist:hover {
     background: none;
-    color: #fe980f;
+    color: #00001a;
 }
 
 .nav-pills li a:hover {

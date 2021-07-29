@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&family=Poppins&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&family=Poppins&display=swap');
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
     position: relative;
     font-weight: 400px;
 }
@@ -35,7 +35,7 @@ div,
 p,
 button,
 li {
-    font-family: "Poppins", sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 #root button {
@@ -57,7 +57,7 @@ a#scrollUp {
     bottom: 0px;
     right: 10px;
     padding: 5px 10px;
-    background: #fe980f;
+    background: #00001a;
     color: #fff;
     -webkit-animation: bounce 2s ease infinite;
     animation: bounce 2s ease infinite;

@@ -1,6 +1,6 @@
 #order-complete {
-    background-color: #fe980f;
-    color: black;
+    background-color: #00001a;
+    color: white;
     margin: 7rem 0rem 7rem 0rem;
 }
 
@@ -20,8 +20,8 @@
     height: 0;
     margin: 8px;
     box-sizing: border-box;
-    border: 32px solid #fe980f;
-    border-color: #fe980f transparent #fe980f transparent;
+    border: 32px solid #00001a;
+    border-color: #00001a transparent #00001a transparent;
     animation: lds-hourglass 1.2s infinite;
 }
 
