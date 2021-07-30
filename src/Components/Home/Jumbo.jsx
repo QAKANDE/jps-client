@@ -13,7 +13,18 @@ class Products extends Component {
     return (
       <>
         <section className="jumbotron">
-          <div id="jumbo-all-wrapper">
+          <div id="caption-wrapper">
+            <div id="caption-second-wrapper">
+              <p id="affordable">A British brand with an African heritage</p>
+            </div>
+          </div>
+          <div id="shop-now-wrapper">
+            <Link to="/allProducts" className="button">
+              SHOP NOW
+              <i className="fa fa-arrow-right mx-3 fa-1x" id="arrow-icon"></i>
+            </Link>
+          </div>
+          {/* <div id="jumbo-all-wrapper">
             <div id="jumbo-text-wrapper">
               <p id="affordable">A British brand with an African heritage</p>
             </div>
@@ -26,7 +37,7 @@ class Products extends Component {
                 ></i>
               </Link>
             </div>
-          </div>
+          </div> */}
         </section>
       </>
     )

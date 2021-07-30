@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import { Card } from 'react-bootstrap'
 import '../../css/CartTotal.css'
 import { loadStripe } from '@stripe/stripe-js'

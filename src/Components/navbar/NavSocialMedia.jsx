@@ -73,7 +73,7 @@ class NavSocialMedia extends Component {
               <div className="col-md-4 clearfix">
                 <div className="logo pull-left">
                   <Link to={'/'}>
-                    <img src={jpglogo} alt="logo" id="logo" />
+                    <img src={jpglogo} alt="logo" id="logo-image" />
                   </Link>
                 </div>
               </div>

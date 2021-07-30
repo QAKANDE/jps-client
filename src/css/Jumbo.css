@@ -1,5 +1,4 @@
 .jumbotron {
-    font-family: 'Montserrat', sans-serif;
     padding: 150px 0;
     background: url('https://res.cloudinary.com/quadri/image/upload/v1626783949/JumboImage_umjik9.jpg') center center;
     background-size: cover;
@@ -7,7 +6,7 @@
     color: #fff;
     position: relative;
     height: 100vh;
-    width: auto;
+    width: 100%;
     margin-bottom: 0 !important;
     border-radius: 0 !important;
 }
@@ -33,52 +32,296 @@
 #affordable {
     margin-top: 0.5rem;
     font-family: serif;
-    font-size: 43px;
+    font-size: 40px;
     font-weight: 900;
     font-style: italic;
-    color: black;
+    color: #fff;
 }
 
-#jumbo-text-wrapper {
+#caption-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: left;
+    margin-top: 23rem;
+    margin-left: 0.5rem;
 }
 
-#jumbo-all-wrapper {
-    margin-top: 24rem;
+#caption-second-wrapper {
+    background-color: #00001a;
+    padding: 1rem 1rem;
+}
+
+#shop-now-wrapper {
+    margin-left: 0.5rem;
+    margin-top: 1rem;
 }
 
 .button {
     display: inline-block;
-    border: 2px solid #000;
+    border: 2px solid white;
     padding: 10px 20px;
     font-weight: 900;
-    color: #000;
+    color: white;
     text-decoration: none;
+    background-color: #00001a;
     transition: 0.3s;
+}
+
+.button:hover>#arrow-icon {
+    color: #00001a;
 }
 
 .button:hover {
     background: #fff;
-    color: #000;
+    color: #00001a;
     text-decoration: none;
+    border: 2px solid #00001a;
 }
 
-@media screen and (max-width: 700px) {
+
+/* @media screen and (max-width: 700px) {
     #affordable {
-        margin-top: 0.5rem;
         font-family: serif;
-        font-size: 33px;
+        font-size: 29px;
         font-weight: 900;
         font-style: italic;
-        color: black;
+        color: white;
     }
-    #jumbo-text-wrapper {
-        display: flex;
-        justify-content: center;
+    #caption-wrapper {
+        display: block;
+        margin-top: 28rem;
+        width: 100%;
     }
-    #jumbo-all-wrapper {
-        margin-top: 14rem;
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+} */
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    #affordable {
+        font-family: serif;
+        font-size: 49px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 48rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 29px;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+    #affordable {
+        font-family: serif;
+        font-size: 20px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 18rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 15px;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    #affordable {
+        font-family: serif;
+        font-size: 49px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 33rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 29px;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+    #affordable {
+        font-family: serif;
+        font-size: 29px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 23rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 15px;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
+    #affordable {
+        font-family: serif;
+        font-size: 29px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 29rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 20px;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) and (-webkit-min-device-pixel-ratio: 2) {
+    #affordable {
+        font-family: serif;
+        font-size: 41px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 45rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 30px;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+}
+
+@media screen and (min-device-width: 320px) and (max-device-height: 640px) and (-webkit-device-pixel-ratio: 3) {
+    #affordable {
+        font-family: serif;
+        font-size: 21px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 20rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 15px;
+    }
+    .jumbotron {
+        height: 100vh;
+        width: 100%;
+    }
+}
+
+@media screen and (min-device-width: 280px) and (max-device-height: 653px) and (-webkit-device-pixel-ratio: 3) {
+    #affordable {
+        font-family: serif;
+        font-size: 21px;
+        font-weight: 900;
+        font-style: italic;
+        color: white;
+    }
+    #caption-wrapper {
+        display: block;
+        margin-top: 20rem;
+        width: auto;
+    }
+    #caption-second-wrapper {
+        background-color: #00001a;
+        padding: 1rem 1rem;
+    }
+    #shop-now-wrapper {
+        margin-left: 0.5rem;
+        margin-top: 1rem;
+        font-size: 15px;
     }
     .jumbotron {
         height: 100vh;

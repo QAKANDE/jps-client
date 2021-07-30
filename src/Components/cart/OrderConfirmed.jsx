@@ -60,6 +60,7 @@ class OrderConfirmed extends Component {
         },
       },
     )
+    this.props.getCart()
   }
   componentDidMount = async () => {
     const response = await fetch(
@@ -84,8 +85,6 @@ class OrderConfirmed extends Component {
         details.orderId,
         sessionStorage.getItem('guestToken'),
       )
-      this.props.getCart()
-      window.location.reload()
       this.setState({ success: true })
     } else {
       this.setState({ error: true })
