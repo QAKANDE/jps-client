@@ -65,10 +65,10 @@ class App extends Component {
         )
         const cart = await response.json()
 
-        if (cart.cart.products.length !== 0) {
-            this.setState({ cartCounter: cart.cart.totalItems })
-        } else if (cart.cart === 'No items in cart') {
+        if (cart.cart === 'No items in cart') {
             this.setState({ cartCounter: 0 })
+        } else {
+            this.setState({ cartCounter: cart.cart.totalItems })
         }
     }
 

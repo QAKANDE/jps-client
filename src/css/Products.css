@@ -373,17 +373,30 @@
     font-weight: 800;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (min-device-width: 320px) and (max-device-height: 568px) and (-webkit-device-pixel-ratio: 2) {
     #more-details {
-        font-size: 13px;
+        font-size: 10px;
     }
 }
 
-@media screen and (max-width: 1366px) {
+@media screen and (min-device-width: 375px) and (max-device-height: 667px) and (-webkit-device-pixel-ratio: 3) {
+    #more-details {
+        font-size: 15px;
+    }
+}
+
+@media screen and (min-device-width: 375px) and (max-device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+    #more-details {
+        font-size: 14px;
+    }
+}
+
+
+/* @media screen and (max-width: 1366px) {
     #more-details {
         font-size: 20px;
     }
-}
+} */
 
 @media screen and (min-device-width: 768px) and (max-device-height: 1024px) and (-webkit-device-pixel-ratio: 2) {
     #more-details {
