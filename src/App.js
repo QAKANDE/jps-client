@@ -56,7 +56,7 @@ class App extends Component {
     getCart = async() => {
         const guestToken = sessionStorage.getItem('guestToken')
         const response = await fetch(
-            `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/${guestToken}`, {
+            `https://mr-oyebode-backend-yqavh.ondigitalocean.app/cart/cart-count/${guestToken}`, {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
@@ -64,8 +64,9 @@ class App extends Component {
             },
         )
         const cart = await response.json()
-        if (cart.products.length !== 0) {
-            this.setState({ cartCounter: cart.totalItems })
+
+        if (cart.cart.products.length !== 0) {
+            this.setState({ cartCounter: cart.cart.totalItems })
         } else {
             this.setState({ cartCounter: 0 })
         }
@@ -81,8 +82,7 @@ class App extends Component {
             <
             Modal show = { this.state.showErrorModal }
             onHide = {
-                () => this.handleCloseErrorModal()
-            } >
+                () => this.handleCloseErrorModal() } >
             <
             Modal.Body id = "modal-body" >
             <
@@ -91,14 +91,13 @@ class App extends Component {
             p className = "text-center"
             id = "cart-text" > { ' ' }
             Unable to add item to cart { ' ' } <
-            /p>{' '} < /
-            div > { ' ' } <
-            /Modal.Body>{' '} < /
-            Modal > { ' ' } <
+            /p>{' '} <
+            /div>{' '} <
+            /Modal.Body>{' '} <
+            /Modal>{' '} <
             Modal show = { this.state.show }
             onHide = {
-                () => this.handleClose()
-            } >
+                () => this.handleClose() } >
             <
             Modal.Body id = "modal-body" >
             <
@@ -107,10 +106,10 @@ class App extends Component {
             p className = "text-center"
             id = "cart-text" >
             Your item has been added to cart { ' ' } <
-            /p>{' '} < /
-            div > { ' ' } <
-            /Modal.Body>{' '} < /
-            Modal > { ' ' } <
+            /p>{' '} <
+            /div>{' '} <
+            /Modal.Body>{' '} <
+            /Modal>{' '} <
             Router > { ' ' } <
             NavSocialMedia cartLength = { this.state.cartCounter }
             />{' '} <
@@ -119,20 +118,15 @@ class App extends Component {
                 (props) => ( <
                     Home {...props }
                     show = {
-                        () => this.handleShow()
-                    }
+                        () => this.handleShow() }
                     close = {
-                        () => this.handleClose()
-                    }
+                        () => this.handleClose() }
                     showErrorModal = {
-                        () => this.handleShowErrorModal()
-                    }
+                        () => this.handleShowErrorModal() }
                     closeErrorModal = {
-                        () => this.handleCloseErrorModal()
-                    }
+                        () => this.handleCloseErrorModal() }
                     getCart = {
-                        () => this.getCart()
-                    }
+                        () => this.getCart() }
                     />
                 )
             }
@@ -142,8 +136,7 @@ class App extends Component {
                 (props) => ( <
                     Cart {...props }
                     getCart = {
-                        () => this.getCart()
-                    }
+                        () => this.getCart() }
                     />
                 )
             }
@@ -153,20 +146,15 @@ class App extends Component {
                 (props) => ( <
                     Details {...props }
                     show = {
-                        () => this.handleShow()
-                    }
+                        () => this.handleShow() }
                     close = {
-                        () => this.handleClose()
-                    }
+                        () => this.handleClose() }
                     showErrorModal = {
-                        () => this.handleShowErrorModal()
-                    }
+                        () => this.handleShowErrorModal() }
                     closeErrorModal = {
-                        () => this.handleCloseErrorModal()
-                    }
+                        () => this.handleCloseErrorModal() }
                     getCart = {
-                        () => this.getCart()
-                    }
+                        () => this.getCart() }
                     />
                 )
             }
@@ -191,20 +179,15 @@ class App extends Component {
                 (props) => ( <
                     AllProductsWrapper {...props }
                     show = {
-                        () => this.handleShow()
-                    }
+                        () => this.handleShow() }
                     close = {
-                        () => this.handleClose()
-                    }
+                        () => this.handleClose() }
                     showErrorModal = {
-                        () => this.handleShowErrorModal()
-                    }
+                        () => this.handleShowErrorModal() }
                     closeErrorModal = {
-                        () => this.handleCloseErrorModal()
-                    }
+                        () => this.handleCloseErrorModal() }
                     getCart = {
-                        () => this.getCart()
-                    }
+                        () => this.getCart() }
                     />
                 )
             }
@@ -223,8 +206,7 @@ class App extends Component {
                 (props) => ( <
                     OrderConfirmed {...props }
                     getCart = {
-                        () => this.getCart()
-                    }
+                        () => this.getCart() }
                     />
                 )
             }
@@ -248,8 +230,8 @@ class App extends Component {
             exact component = { UpdateInventory }
             />{' '} <
             Footer / > { ' ' } <
-            /Router>{' '} < /
-            div >
+            /Router>{' '} <
+            /div>
         )
     }
 }
