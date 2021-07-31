@@ -72,9 +72,9 @@ class App extends Component {
         }
     }
 
-    componentDidMount = async() => {
-        this.getCart()
-    }
+    // componentDidMount = async() => {
+    //     this.getCart()
+    // }
 
     render() {
         return ( <
