@@ -13,11 +13,11 @@ class Products extends Component {
     return (
       <>
         <section className="jumbotron">
-          <div id="caption-wrapper">
+          {/* <div id="caption-wrapper">
             <div id="caption-second-wrapper">
               <p id="affordable">A British brand with an African heritage</p>
             </div>
-          </div>
+          </div> */}
           <div id="shop-now-wrapper">
             <Link to="/allProducts" className="button">
               SHOP NOW

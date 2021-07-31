@@ -372,3 +372,28 @@
     color: #00001a;
     font-weight: 800;
 }
+
+@media screen and (max-width: 700px) {
+    #more-details {
+        font-size: 13px;
+    }
+}
+
+
+/* @media screen and (max-width: 1024px) {
+    #more-details {
+        font-size: 13px;
+    }
+} */
+
+@media screen and (max-width: 1366px) {
+    #more-details {
+        font-size: 20px;
+    }
+}
+
+@media screen and (min-device-width: 768px) and (max-device-height: 1024px) and (-webkit-device-pixel-ratio: 2) {
+    #more-details {
+        font-size: 17px;
+    }
+}

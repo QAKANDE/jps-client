@@ -107,7 +107,7 @@ class Products extends Component {
           <CardDeck>
             {this.props.productsAsProps.map((prod) => {
               return (
-                <div className="product-image-wrapper col-sm-4">
+                <div className="product-image-wrapper col-sm-4 col-md-6">
                   <div className="single-products">
                     <div className="productinfo text-center">
                       <img src={prod.imageUrl[0].url} alt="" />
