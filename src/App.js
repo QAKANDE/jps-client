@@ -67,14 +67,14 @@ class App extends Component {
 
         if (cart.cart.products.length !== 0) {
             this.setState({ cartCounter: cart.cart.totalItems })
-        } else {
+        } else if (cart.cart === 'No items in cart') {
             this.setState({ cartCounter: 0 })
         }
     }
 
-    // componentDidMount = async() => {
-    //     this.getCart()
-    // }
+    componentDidMount = async() => {
+        this.getCart()
+    }
 
     render() {
         return ( <
