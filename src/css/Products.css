@@ -379,13 +379,6 @@
     }
 }
 
-
-/* @media screen and (max-width: 1024px) {
-    #more-details {
-        font-size: 13px;
-    }
-} */
-
 @media screen and (max-width: 1366px) {
     #more-details {
         font-size: 20px;
