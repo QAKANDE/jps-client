@@ -583,21 +583,6 @@ class Cart extends Component {
                                             e,
                                             this.state.allCart.userId,
                                             item._id,
-                                            'XXL',
-                                          )
-                                        }
-                                      >
-                                        <p>XXL</p>
-                                      </div>
-                                    </Col>
-                                    <Col>
-                                      <div
-                                        id="color-button"
-                                        onClick={(e) =>
-                                          this.editSize(
-                                            e,
-                                            this.state.allCart.userId,
-                                            item._id,
                                             'XL',
                                           )
                                         }
